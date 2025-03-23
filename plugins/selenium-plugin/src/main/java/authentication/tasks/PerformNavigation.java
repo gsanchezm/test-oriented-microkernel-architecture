@@ -2,7 +2,7 @@ package authentication.tasks;
 
 import config.PropertyManager;
 import framework.factory.WebDriverFactory;
-import services.ITask;
+import intarfaces.tasks.ITask;
 
 import java.util.Optional;
 import java.util.Properties;

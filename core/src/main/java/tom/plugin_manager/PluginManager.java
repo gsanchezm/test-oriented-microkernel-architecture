@@ -1,10 +1,14 @@
 package tom.plugin_manager;
 
 import config.FrameworkException;
-import config.WebCleanUpClass;
-import config.WebInitializeClass;
-import services.*;
-import utils.PlatformType;
+import intarfaces.platform.IPlatformProvider;
+import intarfaces.plugins.IPlugin;
+import enums.PlatformType;
+import intarfaces.init.ICleanUp;
+import intarfaces.init.IInitialize;
+import intarfaces.tasks.ITask;
+import intarfaces.tasks.ITaskFactory;
+import intarfaces.validations.IValidation;
 
 import java.io.BufferedReader;
 import java.io.File;

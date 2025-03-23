@@ -3,9 +3,7 @@ package config;
 import authentication.tasks.PerformAuthentication;
 import factories.ObjectFactory;
 import framework.factory.WebDriverFactory;
-import services.IInitialize;
-
-import java.util.Properties;
+import intarfaces.init.IInitialize;
 
 public class WebInitializeClass implements IInitialize {
 

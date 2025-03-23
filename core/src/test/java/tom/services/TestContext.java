@@ -1,8 +1,8 @@
 package tom.services;
 
 import tom.plugin_manager.PluginManager;
-import services.IValidation;
-import services.ITask;
+import intarfaces.validations.IValidation;
+import intarfaces.tasks.ITask;
 import java.util.List;
 
 public class TestContext {

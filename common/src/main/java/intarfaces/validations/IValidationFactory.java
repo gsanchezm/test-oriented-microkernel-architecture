@@ -1,4 +1,4 @@
-package services;
+package intarfaces.validations;
 
 public interface IValidationFactory<T extends IValidation<T>> {
     T create();

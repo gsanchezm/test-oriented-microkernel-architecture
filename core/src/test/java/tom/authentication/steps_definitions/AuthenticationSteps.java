@@ -6,17 +6,15 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.qameta.allure.Step;
-import services.IValidation;
-import services.ITask;
+import intarfaces.validations.IValidation;
+import intarfaces.tasks.ITask;
 import tom.authentication.dao.UserCredentials;
 import tom.authentication.runner.AuthenticationTest;
 import tom.services.TestContext;
-import tom.utils.TaskUtils;
+import services.tasks.TaskResolver;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class AuthenticationSteps {
     private final TestContext testContext;
@@ -26,21 +24,21 @@ public class AuthenticationSteps {
     public AuthenticationSteps() {
         // Get the TestContext from TestRunner (Singleton Pattern)
         this.testContext = AuthenticationTest.getTestContext();
-        this.taskMap = TaskUtils.toTaskMap(testContext.getAuthenticationTasks());
+        this.taskMap = TaskResolver.toTaskMap(testContext.getAuthenticationTasks());
         this.loginValidations = testContext.getLoginValidations();
     }
 
     @Step("User navigates to login page")
     @Given("the login page is displayed")
     public void the_login_page_is_displayed() {
-        TaskUtils.getTask(taskMap, PerformNavigation.class).execute();
+        TaskResolver.safelyExecute(taskMap, PerformNavigation.class);
     }
 
     @Step("SauceLab user submit credentials {0} and {1}")
     @When("SauceLab user submit credentials {string} and {string}")
     public void i_submit_credentials(String username, String password) {
         UserCredentials user = new UserCredentials(username, password);
-        TaskUtils.getTask(taskMap, PerformAuthentication.class).execute(user.getUsername(), user.getPassword());
+        TaskResolver.safelyExecute(taskMap, PerformAuthentication.class, user.getUsername(), user.getPassword());
     }
 
     @Step("SauceLab user submit empty credentials")

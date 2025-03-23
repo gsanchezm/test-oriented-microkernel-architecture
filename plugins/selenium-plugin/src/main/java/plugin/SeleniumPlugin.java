@@ -6,8 +6,15 @@ import authentication.tasks.PerformNavigation;
 import config.WebCleanUpClass;
 import config.WebInitializeClass;
 import factories.TaskFactoryHelper;
-import services.*;
-import utils.PlatformType;
+import intarfaces.platform.IPlatformProvider;
+import intarfaces.plugins.IPlugin;
+import enums.PlatformType;
+import intarfaces.init.ICleanUp;
+import intarfaces.init.IInitialize;
+import intarfaces.tasks.ITask;
+import intarfaces.tasks.ITaskFactory;
+import intarfaces.validations.IValidation;
+import intarfaces.validations.IValidationFactory;
 
 import java.util.List;
 

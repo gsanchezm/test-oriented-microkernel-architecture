@@ -1,7 +1,7 @@
 package factories;
 
-import services.IValidation;
-import services.IValidationFactory;
+import intarfaces.validations.IValidation;
+import intarfaces.validations.IValidationFactory;
 
 public class ValidationFactoryHelper {
     public static <T extends IValidation<T>> IValidationFactory<T> of(Class<T> validationClass) {

@@ -5,12 +5,16 @@ import config.FrameworkException;
 import framework.actions.Click;
 import framework.actions.Enter;
 import pages.LoginPage;
-import services.ITask;
+import intarfaces.tasks.ITask;
 
 public class PerformAuthentication implements ITask  {
 
     @Override
     public PerformAuthentication execute(Object... args) {
+        if (args.length == 0 || args[0] == null) {
+            throw new FrameworkException("Expected user credentials data, but got none");
+        }
+
         String username = null;
         String password = null;
 

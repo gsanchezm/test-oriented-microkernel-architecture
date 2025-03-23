@@ -1,4 +1,4 @@
-package utils.data;
+package intarfaces.data;
 
 import java.util.LinkedHashMap;
 import java.util.List;

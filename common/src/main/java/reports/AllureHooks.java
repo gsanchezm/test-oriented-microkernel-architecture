@@ -1,4 +1,4 @@
-package tom.authentication.runner;
+package reports;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

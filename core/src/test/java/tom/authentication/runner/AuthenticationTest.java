@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
-import services.ICleanUp;
-import services.IInitialize;
+import intarfaces.init.ICleanUp;
+import intarfaces.init.IInitialize;
 import io.qameta.allure.Description;
 
-import utils.PlatformType;
+import enums.PlatformType;
 
 @CucumberOptions(
         plugin = {

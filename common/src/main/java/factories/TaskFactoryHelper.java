@@ -1,7 +1,7 @@
 package factories;
 
-import services.ITask;
-import services.ITaskFactory;
+import intarfaces.tasks.ITask;
+import intarfaces.tasks.ITaskFactory;
 
 public class TaskFactoryHelper {
     public static <T extends ITask<T>> ITaskFactory<T> of(Class<T> taskClass) {

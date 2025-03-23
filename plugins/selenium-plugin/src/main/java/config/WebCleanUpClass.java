@@ -2,7 +2,7 @@ package config;
 
 import framework.factory.WebDriverFactory;
 
-import services.ICleanUp;
+import intarfaces.init.ICleanUp;
 
 public class WebCleanUpClass implements ICleanUp {
 
