@@ -458,4 +458,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Allure output
+**/allure-results/
+**/.allure/
+**/target/site/allure-report/
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,intellij,intellij+all,intellij+iml,eclipse,visualstudiocode,windows,netbeans,macos,linux,git

@@ -5,6 +5,7 @@ import authentication.tasks.PerformNavigation;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.qameta.allure.Step;
 import services.IValidation;
 import services.ITask;
 import tom.authentication.dao.UserCredentials;
@@ -29,37 +30,45 @@ public class AuthenticationSteps {
         this.loginValidations = testContext.getLoginValidations();
     }
 
+    @Step("User navigates to login page")
     @Given("the login page is displayed")
     public void the_login_page_is_displayed() {
         TaskUtils.getTask(taskMap, PerformNavigation.class).execute();
     }
 
-    @When("I submit credentials {string} and {string}")
+    @Step("SauceLab user submit credentials {0} and {1}")
+    @When("SauceLab user submit credentials {string} and {string}")
     public void i_submit_credentials(String username, String password) {
         UserCredentials user = new UserCredentials(username, password);
         TaskUtils.getTask(taskMap, PerformAuthentication.class).execute(user.getUsername(), user.getPassword());
     }
 
-    @When("I submit empty credentials")
+    @Step("SauceLab user submit empty credentials")
+    @When("SauceLab user submit empty credentials")
     public void i_submit_empty_credentials() {
     }
 
+    @Step("The system should grant access")
     @Then("the system should grant access")
     public void the_system_should_grant_access_or_show_an_error() {
     }
 
+    @Step("The system should show an error")
     @Then("the system should show an error")
     public void the_system_should_show_an_error() {
     }
 
-    @Given("I am logged in as {string}")
+    @Step("SauceLab user am logged in as {0}")
+    @Given("SauceLab user am logged in as {string}")
     public void i_am_logged_in_as(String username) {
     }
 
-    @When("I log out")
+    @Step("He log out")
+    @When("he log out")
     public void i_log_out() {
     }
 
+    @Step("The system should return to the login page")
     @Then("the system should return to the login page")
     public void the_system_should_return_to_the_login_page() {
     }

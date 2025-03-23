@@ -2,7 +2,7 @@ Feature: Sauce Labs Authentication
 
   Scenario Outline: Valid login
     Given the login page is displayed
-    When I submit credentials "<username>" and "secret_sauce"
+    When SauceLab user submit credentials "<username>" and "secret_sauce"
     Then the system should grant access
 
     Examples:
@@ -11,15 +11,15 @@ Feature: Sauce Labs Authentication
 
   Scenario: Invalid login
     Given the login page is displayed
-    When I submit credentials "error_user" and "secret_sauce"
+    When SauceLab user submit credentials "error_user" and "secret_sauce"
     Then the system should show an error
 
   Scenario: Missing credentials
     Given the login page is displayed
-    When I submit empty credentials
+    When SauceLab user submit empty credentials
     Then the system should show an error
 
   Scenario: Session handling
-    Given I am logged in as "standard_user"
-    When I log out
+    Given SauceLab user am logged in as "standard_user"
+    When he log out
     Then the system should return to the login page

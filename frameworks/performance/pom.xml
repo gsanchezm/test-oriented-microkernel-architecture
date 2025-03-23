@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>performance</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>23</maven.compiler.source>

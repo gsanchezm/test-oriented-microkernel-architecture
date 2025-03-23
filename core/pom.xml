@@ -17,6 +17,9 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <maven.surefire-plugin.version>3.5.2</maven.surefire-plugin.version>
+        <allure-maven.version>2.15.2</allure-maven.version>
+        <allure.version>2.29.1</allure.version>
+        <allure-maven.version>2.15.2</allure-maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cucumber.version>7.21.1</cucumber.version>
         <slf4j.version>2.0.17</slf4j.version>
@@ -44,25 +47,73 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+                <configuration>
+                    <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
+                    <reportDirectory>${project.basedir}/target/site/allure-report</reportDirectory>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
-   <!-- <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.tom</groupId>
-                <artifactId>appium-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.tom</groupId>
-                <artifactId>restassured-plugin</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
+    <profiles>
+        <profile>
+            <id>allure-serve</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.qameta.allure</groupId>
+                        <artifactId>allure-maven</artifactId>
+                        <version>${allure-maven.version}</version>
+                        <executions>
+                            <execution>
+                                <id>serve-report</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>serve</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
+                            <reportDirectory>${project.basedir}/target/site/allure-report</reportDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-        </dependencies>
-    </dependencyManagement>-->
+    <!-- <dependencyManagement>
+         <dependencies>
+             <dependency>
+                 <groupId>com.tom</groupId>
+                 <artifactId>appium-plugin</artifactId>
+                 <version>1.0-SNAPSHOT</version>
+             </dependency>
+             <dependency>
+                 <groupId>com.tom</groupId>
+                 <artifactId>restassured-plugin</artifactId>
+                 <version>1.0-SNAPSHOT</version>
+             </dependency>
+
+         </dependencies>
+     </dependencyManagement>-->
     <dependencies>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.tom</groupId>
             <artifactId>common</artifactId>

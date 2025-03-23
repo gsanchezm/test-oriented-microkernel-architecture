@@ -17,8 +17,6 @@
         <module>frameworks</module>
         <module>plugins</module>
         <module>core</module>
-        <module>frameworks/performance</module>
-        <module>plugins/jmeter-plugin</module>
     </modules>
 
     <dependencyManagement>
@@ -37,6 +35,12 @@
                         <source>23</source>
                         <target>23</target>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>${allure-maven.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -4,6 +4,7 @@
     <listeners>
         <listener class-name="utils.listeners.TestListener"/>
         <listener class-name="utils.listeners.AnnotationTransform"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
     </listeners>
     <test name="Chrome Web Test">
         <parameter name="platform" value="WEB" />

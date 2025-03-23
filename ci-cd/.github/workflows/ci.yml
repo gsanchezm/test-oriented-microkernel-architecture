@@ -15,36 +15,25 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the repository code
-      - name: Check out code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-        # 2. Set up Java
-      - name: Set up JDK 23
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '23'
+          java-version: 23
           distribution: 'temurin'
-          cache: maven
 
-        # 3. Cache Maven dependencies (optional for speed)
-      - name: Cache Maven packages
-        uses: actions/cache@v3
+      - name: Run Tests + Allure Report
+        run: |
+          mvn clean test allure:report -Pallure
+
+      - name: Upload Allure Report as Artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-                    ${{ runner.os }}-maven-
-
-      # 4. Build the project (compile)
-      - name: Build with Maven
-        run: mvn clean compile
-
-        # 5. Run Selenium tests
-      - name: Run Selenium tests
-        run: mvn test
+          name: allure-report
+          path: core/target/site/allure-report/

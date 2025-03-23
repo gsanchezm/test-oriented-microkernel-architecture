@@ -13,10 +13,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import services.ICleanUp;
 import services.IInitialize;
+import io.qameta.allure.Description;
 
 import utils.PlatformType;
 
 @CucumberOptions(
+        plugin = {
+                "pretty",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+        },
         features = "src/test/java/tom/authentication/features",
         glue = "tom.authentication.steps_definitions"
 )
@@ -28,6 +33,7 @@ public class AuthenticationTest extends AbstractTestNGCucumberTests {
 
     @BeforeClass
     @Parameters({"platform", "driver"})
+    @Description("Setup the test environment")
     public void initializeExecution(String platform, String driver) {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
         GlobalExceptionHandler.register();
@@ -57,6 +63,7 @@ public class AuthenticationTest extends AbstractTestNGCucumberTests {
     }
 
     @AfterClass
+    @Description("Clean up the test environment")
     public void cleanUpExecution() {
         testNGCucumberRunner.finish();
         if (cleaner != null) {
