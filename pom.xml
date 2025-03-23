@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tom</groupId>
+    <artifactId>tom-automation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>TOM Automation Parent</name>
+    <description>Parent POM for TOM Automation</description>
+
+    <modules>
+        <module>common</module>
+        <module>frameworks</module>
+        <module>plugins</module>
+        <module>core</module>
+        <module>frameworks/performance</module>
+        <module>plugins/jmeter-plugin</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Define dependencies globally here to avoid duplication in submodules -->
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>23</source>
+                        <target>23</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

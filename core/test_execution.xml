@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel="tests">
+    <listeners>
+        <listener class-name="utils.listeners.TestListener"/>
+        <listener class-name="utils.listeners.AnnotationTransform"/>
+    </listeners>
+    <test name="Chrome Web Test">
+        <parameter name="platform" value="WEB" />
+        <parameter name="driver" value="Chrome" />
+        <classes>
+            <class name="tom.authentication.runner.AuthenticationTest"/>
+        </classes>
+    </test>
+</suite>
