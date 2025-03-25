@@ -1,7 +1,7 @@
 Feature: Sauce Labs Authentication
 
   Scenario Outline: Valid login
-    Given the login page is displayed
+    Given the application is launched
     When SauceLab user submit credentials "<username>" and "secret_sauce"
     Then the system should grant access
 
@@ -10,12 +10,12 @@ Feature: Sauce Labs Authentication
       | standard_user |
 
   Scenario: Invalid login
-    Given the login page is displayed
+    Given the application is launched
     When SauceLab user submit credentials "locked_out_user" and "secret_sauce"
     Then the system should show the error "Epic sadface: Sorry, this user has been locked out."
 
   Scenario: Missing credentials
-    Given the login page is displayed
+    Given the application is launched
     When SauceLab user submit empty credentials
     Then the system should show the error "Epic sadface: Username is required"
 

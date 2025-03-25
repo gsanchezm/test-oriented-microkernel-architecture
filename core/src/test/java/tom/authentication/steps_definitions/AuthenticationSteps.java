@@ -9,32 +9,24 @@ import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import intarfaces.validations.IValidation;
-import intarfaces.tasks.ITask;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
 import tom.authentication.runner.AuthenticationTest;
 import tom.services.TestContext;
 import services.tasks.TaskResolver;
-
-import java.util.Map;
+import tom.utils.SharedSteps;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-public class AuthenticationSteps {
-    private final TestContext testContext;
-    private final Map<Class<?>, ITask<?>> taskMap;
-    private final Map<Class<?>, IValidation<?>> validationMap;
+public class AuthenticationSteps extends SharedSteps {
 
-    public AuthenticationSteps() {
-        // Get the TestContext from TestRunner (Singleton Pattern)
+    public AuthenticationSteps(TestContext testContext) {
+        super(testContext);
         this.testContext = AuthenticationTest.getTestContext();
-        this.taskMap = TaskResolver.toTaskMap(testContext.getAuthenticationTasks());
-        this.validationMap = ValidationResolver.toValidationMap(testContext.getAuthenticationValidations());
     }
 
-    @Given("the login page is displayed")
-    public void the_login_page_is_displayed() {
+    @Given("the application is launched")
+    public void theApplicationIsLaunched() {
         TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
     }
 

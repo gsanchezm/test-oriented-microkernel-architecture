@@ -22,9 +22,8 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
     @Override
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
         return TaskFactoryHelper.loadTasks(List.of(
-                "authentication.tasks"/*,
-                "checkout.tasks",
-                "payment.tasks"*/
+                "authentication.tasks",
+                "inventory.tasks"
         ));
     }
 

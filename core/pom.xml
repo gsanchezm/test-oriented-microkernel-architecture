@@ -58,7 +58,6 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${os.detected.executable}</executable>
                             <arguments>
                                 <argument>${project.basedir}/reports/chaintest/Index.html</argument>
                             </arguments>
@@ -134,6 +133,11 @@
             <artifactId>cucumber-testng</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
