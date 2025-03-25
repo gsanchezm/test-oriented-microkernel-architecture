@@ -2,7 +2,7 @@ package plugin;
 
 
 import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformNavigation;
+import authentication.tasks.PerformUrlNavigation;
 import config.WebCleanUpClass;
 import config.WebInitializeClass;
 import factories.TaskFactoryHelper;
@@ -15,16 +15,17 @@ import intarfaces.tasks.ITask;
 import intarfaces.tasks.ITaskFactory;
 import intarfaces.validations.IValidation;
 import intarfaces.validations.IValidationFactory;
+import utils.BaseLogger;
 
 import java.util.List;
 
-public class SeleniumPlugin implements IPlugin, IPlatformProvider {
+public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProvider {
 
     @Override
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
         return List.of(
                 TaskFactoryHelper.of(PerformAuthentication.class),
-                TaskFactoryHelper.of(PerformNavigation.class)
+                TaskFactoryHelper.of(PerformUrlNavigation.class)
                 // Add more tasks like:
                 // TaskFactoryHelper.of(AnotherTask.class)
         );
@@ -40,7 +41,7 @@ public class SeleniumPlugin implements IPlugin, IPlatformProvider {
 
 
     public void execute() {
-        System.out.println("Executing Selenium Plugin...");
+        logger.info("Executing Selenium Plugin...");
     }
 
     @Override

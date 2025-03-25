@@ -19,6 +19,11 @@
         <module>core</module>
     </modules>
 
+    <properties>
+        <log.path>${project.basedir}/reports/logs</log.path>
+    </properties>
+
+
     <dependencyManagement>
         <dependencies>
             <!-- Define dependencies globally here to avoid duplication in submodules -->
@@ -38,9 +43,23 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>io.qameta.allure</groupId>
-                    <artifactId>allure-maven</artifactId>
-                    <version>${allure-maven.version}</version>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <executions>
+                        <execution>
+                            <id>create-log-directory</id>
+                            <phase>initialize</phase>
+                            <goals>
+                                <goal>mkdir</goal>
+                            </goals>
+                            <configuration>
+                                <directories>
+                                    <directory>${project.basedir}/reports/logs</directory>
+                                </directories>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -1,5 +1,6 @@
 package factories;
 
+import config.FrameworkException;
 import intarfaces.validations.IValidation;
 import intarfaces.validations.IValidationFactory;
 
@@ -11,7 +12,7 @@ public class ValidationFactoryHelper {
                 try {
                     return validationClass.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to instantiate validation: " + validationClass.getName(), e);
+                    throw new FrameworkException("Failed to instantiate validation: " + validationClass.getName(), e);
                 }
             }
 

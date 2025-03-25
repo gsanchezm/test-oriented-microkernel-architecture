@@ -5,38 +5,35 @@ import tom.services.TestContext;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.TestNGCucumberRunner;
-import tom.exceptions.GlobalExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import intarfaces.init.ICleanUp;
 import intarfaces.init.IInitialize;
-import io.qameta.allure.Description;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import enums.PlatformType;
 
 @CucumberOptions(
         plugin = {
                 "pretty",
-                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+                "com.aventstack.chaintest.plugins.ChainTestCucumberListener:"
         },
         features = "src/test/java/tom/authentication/features",
         glue = "tom.authentication.steps_definitions"
 )
 public class AuthenticationTest extends AbstractTestNGCucumberTests {
     TestNGCucumberRunner testNGCucumberRunner;
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationTest.class);
+    private static final Logger logger = LogManager.getLogger(AuthenticationTest.class);
     private ICleanUp cleaner;
     private static TestContext testContext;
 
     @BeforeClass
     @Parameters({"platform", "driver"})
-    @Description("Setup the test environment")
     public void initializeExecution(String platform, String driver) {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
-        GlobalExceptionHandler.register();
         logger.info("TOM Java Test Execution Engine Running...");
         logger.info("Platform Selected: " + platform);
         logger.info("Driver Selected: " + driver);
@@ -63,7 +60,6 @@ public class AuthenticationTest extends AbstractTestNGCucumberTests {
     }
 
     @AfterClass
-    @Description("Clean up the test environment")
     public void cleanUpExecution() {
         testNGCucumberRunner.finish();
         if (cleaner != null) {

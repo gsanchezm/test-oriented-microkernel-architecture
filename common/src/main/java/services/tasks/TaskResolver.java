@@ -1,15 +1,15 @@
 package services.tasks;
 
-import io.qameta.allure.Allure;
-import io.qameta.allure.model.Status;
 import intarfaces.tasks.ITask;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TaskResolver {
+    private static final Logger logger = LogManager.getLogger(TaskResolver.class);
 
     public static Map<Class<?>, ITask<?>> toTaskMap(List<ITask<?>> tasks) {
         return tasks.stream()
@@ -21,17 +21,12 @@ public class TaskResolver {
         return (T) taskMap.get(taskClass);
     }
 
-    public static <T extends ITask<?>> boolean isTaskAvailable(Map<Class<?>, ITask<?>> taskMap, Class<T> taskClass) {
-        return taskMap.containsKey(taskClass);
-    }
-
-    public static <T extends ITask<?>> void safelyExecute(Map<Class<?>, ITask<?>> taskMap, Class<T> taskClass, Object... args) {
-        ITask<?> task = taskMap.get(taskClass);
-        if (task != null) {
-            task.execute(args);
-        } else {
-            Allure.step("Task " + taskClass.getSimpleName() + " not found. Step skipped.", Status.SKIPPED);
-            System.out.printf("⚠️ Task %s not available. Plugin might be disabled.%n", taskClass.getSimpleName());
+    public static <T extends ITask<?>> FluentTaskExecutor<T> of(Map<Class<?>, ITask<?>> taskMap, Class<T> taskClass) {
+        T task = getTask(taskMap, taskClass);
+        if (task == null) {
+            logger.warn("Task not found: {}. It may be due to plugin deactivation.", taskClass.getSimpleName());
+            return new FluentTaskExecutor<>(null); // Will skip execution
         }
+        return new FluentTaskExecutor<>(task);
     }
 }

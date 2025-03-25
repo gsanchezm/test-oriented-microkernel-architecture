@@ -17,6 +17,7 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <selenium.version>4.30.0</selenium.version>
     </properties>
 
     <dependencies>
@@ -28,13 +29,13 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
-            <version>4.29.0</version>
+            <version>${selenium.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
-            <version>4.29.0</version>
+            <version>${selenium.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

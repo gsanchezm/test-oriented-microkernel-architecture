@@ -1,6 +1,5 @@
 package framework.actions;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +15,7 @@ public class Click extends WaitUntil{
     public static void on(WebElement element) {
         Optional.ofNullable(element).ifPresent(el -> {
             try {
+                logger.info("Clicking on element: {}", element.getAccessibleName());
                 elementClickable(el);
             } catch (Exception e) {
                 forceClick(el);
@@ -27,6 +27,7 @@ public class Click extends WaitUntil{
      * Force Click using JavaScript Executor.
      */
     public static void forceClick(WebElement element) {
+        logger.info("Clicking on element: {}", element.getAccessibleName());
         Optional.ofNullable(element).ifPresent(el ->
                 ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el)
         );
@@ -38,6 +39,7 @@ public class Click extends WaitUntil{
     public static void withRetry(WebElement element, int attempts) {
         for (int i = 0; i < attempts; i++) {
             try {
+                logger.info("Clicking on element: {}", element.getAccessibleName());
                 elementClickable(element);
                 return; // Exit loop on success
             } catch (Exception e) {
@@ -52,6 +54,7 @@ public class Click extends WaitUntil{
      * Click after scrolling element into view.
      */
     public static void butScrollFirst(WebElement element) {
+        logger.info("Clicking on element: {}", element.getAccessibleName());
         Optional.ofNullable(element).ifPresent(el -> {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
             on(el); // Perform regular click after scrolling
@@ -62,6 +65,7 @@ public class Click extends WaitUntil{
      * Click using Actions class (simulates real user click).
      */
     public static void actionClick(WebElement element) {
+        logger.info("Clicking on element: {}", element.getAccessibleName());
         Actions actions = new Actions(driver);
         Optional.ofNullable(element).ifPresent(el -> actions.moveToElement(el).click().perform());
     }

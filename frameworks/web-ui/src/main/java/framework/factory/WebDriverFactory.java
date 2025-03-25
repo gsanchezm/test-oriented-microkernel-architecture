@@ -4,11 +4,12 @@ import config.FrameworkException;
 import framework.core.IDriver;
 import org.openqa.selenium.WebDriver;
 import org.reflections.Reflections;
+import utils.BaseLogger;
 
 import java.util.Optional;
 import java.util.Set;
 
-public class WebDriverFactory {
+public class WebDriverFactory extends BaseLogger {
 
     private static final WebDriverFactory INSTANCE = new WebDriverFactory();
     private final ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
@@ -26,7 +27,7 @@ public class WebDriverFactory {
     }
 
     public void setWebDriver(String browser) {
-        System.out.println("🌐 Creating WebDriver: " + browser);
+        logger.info("🌐 Creating WebDriver: " + browser);
         try {
             // Get all available driver implementations
             Set<Class<? extends IDriver>> driverInterfaces = new Reflections(IDriver.class).getSubTypesOf(IDriver.class);

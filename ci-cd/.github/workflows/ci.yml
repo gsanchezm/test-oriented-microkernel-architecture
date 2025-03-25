@@ -1,11 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: TOM CI pipeline
 
 on:
@@ -28,12 +20,18 @@ jobs:
           java-version: 23
           distribution: 'temurin'
 
-      - name: Run Tests + Allure Report
+      - name: Run Tests + ChainTest + Logging
         run: |
-          mvn clean test allure:report -Pallure
+          mvn -B -e clean test -Dproject.root=${{ github.workspace }}
 
-      - name: Upload Allure Report as Artifact
+      - name: Upload ChainTest Report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: core/target/site/allure-report/
+          name: chaintest-report
+          path: core/reports/chaintest/
+
+      - name: Upload Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: core/reports/logs/

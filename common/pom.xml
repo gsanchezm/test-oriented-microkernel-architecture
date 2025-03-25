@@ -17,7 +17,7 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <allure.version>2.29.1</allure.version>
+        <chaintest.version>1.0.11</chaintest.version>
         <cucumber.version>7.21.1</cucumber.version>
         <gson.version>2.12.1</gson.version>
         <log4j-api.version>2.24.3</log4j-api.version>
@@ -30,9 +30,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>${allure.version}</version>
+            <groupId>com.aventstack</groupId>
+            <artifactId>chaintest-cucumber-jvm</artifactId>
+            <version>${chaintest.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.34</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -60,11 +65,6 @@
             <version>${poi-ooxml.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
@@ -72,7 +72,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-testng</artifactId>
-            <version>7.21.1</version>
+            <version>${cucumber.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -82,9 +82,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.21.1</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.4.5-jre</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -9,6 +9,8 @@ import intarfaces.init.IInitialize;
 import intarfaces.tasks.ITask;
 import intarfaces.tasks.ITaskFactory;
 import intarfaces.validations.IValidation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import static config.Constants.RESOURCES_FOLDER;
 
 public class PluginManager {
+    private static final Logger logger = LogManager.getLogger(PluginManager.class);
     private static final String CONFIG_FILE = RESOURCES_FOLDER + "/plugins.properties";
     private static final Map<String, Boolean> PLUGINS = new ConcurrentHashMap<>();
     private static final List<ITask<?>> TASKS = new ArrayList<>();
@@ -33,14 +36,14 @@ public class PluginManager {
      */
     public static void loadPlugins() {
         if (alreadyLoaded) {
-            System.out.println("🔁 Plugins already loaded.");
+            logger.info("🔁 Plugins already loaded.");
             return;
         }
 
         readPluginConfig();
 
         PLUGINS.forEach((pluginName, enabled) -> {
-            System.out.println("🔍 Checking plugin: " + pluginName + " -> " + enabled);
+            logger.info("🔍 Checking plugin: " + pluginName + " -> " + enabled);
             registerPlugin(pluginName);
         });
 
@@ -53,7 +56,7 @@ public class PluginManager {
     private static void readPluginConfig() {
         File file = new File(CONFIG_FILE);
         if (!file.exists()) {
-            System.err.println("⚠️ Config file not found: " + CONFIG_FILE);
+            logger.error("⚠️ Config file not found: " + CONFIG_FILE);
             return;
         }
 
@@ -65,7 +68,7 @@ public class PluginManager {
 
                 String[] parts = line.split("=");
                 if (parts.length != 2) {
-                    System.err.println("❌ Invalid config line: " + line);
+                    logger.error("❌ Invalid config line: " + line);
                     continue;
                 }
 
@@ -73,7 +76,7 @@ public class PluginManager {
                 boolean enabled = Boolean.parseBoolean(parts[1].trim());
 
                 PLUGINS.put(className, enabled);
-                System.out.println("🧩 Plugin config loaded: " + className + " = " + enabled);
+                logger.info("🧩 Plugin config loaded: " + className + " = " + enabled);
             }
         } catch (IOException e) {
             throw new FrameworkException("Error reading config: " + CONFIG_FILE, e);
@@ -87,12 +90,12 @@ public class PluginManager {
      */
     private static void registerPlugin(String className) {
         if (!Boolean.TRUE.equals(PLUGINS.get(className))) {
-            System.out.println("⛔ Skipping plugin (disabled): " + className);
+            logger.info("⛔ Skipping plugin (disabled): " + className);
             return;
         }
 
         try {
-            System.out.println("📦 Attempting to load class: " + className);
+            logger.info("📦 Attempting to load class: " + className);
             Class<?> pluginClass = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
             Object pluginInstance = pluginClass.getDeclaredConstructor().newInstance();
 
@@ -100,66 +103,22 @@ public class PluginManager {
                 PlatformType platform = provider.getPlatformType();
                 INITIALIZERS.putIfAbsent(platform, provider.getInitializer());
                 CLEANERS.putIfAbsent(platform, provider.getCleaner());
-                System.out.println("🔧 Registered initializer and cleaner for: " + platform);
+                logger.info("🔧 Registered initializer and cleaner for: " + platform);
             }
 
             if (pluginInstance instanceof IPlugin plugin) {
                 plugin.getTaskFactories().forEach(ITaskFactory::registerTask);
                 TASKS.addAll(plugin.getTaskFactories().stream().map(ITaskFactory::create).toList());
                 //VALIDATIONS.addAll(plugin.getValidationFactories().stream().map(IValidationFactory::create).toList());
-                System.out.println("✅ Registered tasks and validations from: " + className);
+                logger.info("✅ Registered tasks and validations from: " + className);
             }
 
         } catch (Exception e) {
-            System.err.println("❌ Failed to load plugin: " + className);
+            logger.error("❌ Failed to load plugin: " + className);
             e.printStackTrace();
         }
     }
-
-    /*private static void registerPlugin(String className) {
-        Optional.ofNullable(PLUGINS.get(className))
-                .filter(Boolean::booleanValue) // ✅ Only load enabled plugins
-                .ifPresent(enabled -> {
-                    try {
-                        Class<?> pluginClass = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
-                        Object pluginInstance = pluginClass.getDeclaredConstructor().newInstance();
-
-                        // ✅ Register platform-related initializers and cleaners
-                        if (pluginInstance instanceof IPlatformProvider provider) {
-                            PlatformType platform = provider.getPlatformType();
-                            INITIALIZERS.putIfAbsent(platform, provider.getInitializer());
-                            CLEANERS.putIfAbsent(platform, provider.getCleaner());
-                            System.out.println("🔧 Registered initializer and cleaner for platform: " + platform);
-                        }
-
-                        // ✅ Register tasks in ObjectFactory before creation
-                        if (pluginInstance instanceof IPlugin plugin) {
-                            plugin.getTaskFactories().forEach(ITaskFactory::registerTask);
-
-                            List<? extends ITask<?>> createdTasks = plugin.getTaskFactories()
-                                    .stream()
-                                    .map(ITaskFactory::create) // ✅ llamada al método de instancia, no al estático
-                                    .toList();
-
-                            TASKS.addAll(createdTasks);
-
-                            *//*List<? extends IValidation<?>> createdValidations = plugin.getValidationFactories()
-                                    .stream()
-                                    .map(IValidationFactory::create)
-                                    .toList();
-
-                            VALIDATIONS.addAll(createdValidations);*//*
-
-                            System.out.println("✅ Registered tasks and validations from: " + className);
-                        }
-
-                    } catch (Exception e) {
-                        System.err.println("❌ Failed to load plugin: " + className);
-                        e.printStackTrace();
-                    }
-                });
-    }*/
-
+    
     /**
      * Get all registered tasks from enabled plugins.
      */
@@ -179,7 +138,7 @@ public class PluginManager {
      */
     public static IInitialize getInitializer(PlatformType platform) {
         if (!INITIALIZERS.containsKey(platform)) {
-            System.out.println("🚫 No initializer found for platform: " + platform);
+            logger.info("🚫 No initializer found for platform: " + platform);
         }
         return Optional.ofNullable(INITIALIZERS.get(platform))
                 .orElseThrow(() -> new FrameworkException("No initializer found for platform: " + platform + ". Is the plugin enabled?"));

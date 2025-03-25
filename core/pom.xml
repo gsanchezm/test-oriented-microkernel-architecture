@@ -16,13 +16,9 @@
     <properties>
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
-        <maven.surefire-plugin.version>3.5.2</maven.surefire-plugin.version>
-        <allure-maven.version>2.15.2</allure-maven.version>
-        <allure.version>2.29.1</allure.version>
-        <allure-maven.version>2.15.2</allure-maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.surefire-plugin.version>3.5.2</maven.surefire-plugin.version>
         <cucumber.version>7.21.1</cucumber.version>
-        <slf4j.version>2.0.17</slf4j.version>
         <testng.version>7.11.0</testng.version>
     </properties>
 
@@ -33,6 +29,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire-plugin.version}</version>
                 <configuration>
+                    <systemPropertyVariables>
+                        <log4j.configurationFile>${project.basedir}/../common/src/main/resources/log4j2.properties</log4j.configurationFile>
+                    </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>test_execution.xml</suiteXmlFile>
                     </suiteXmlFiles>
@@ -48,72 +47,72 @@
             </plugin>
 
             <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
-                <configuration>
-                    <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
-                    <reportDirectory>${project.basedir}/target/site/allure-report</reportDirectory>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>open-chaintest-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${os.detected.executable}</executable>
+                            <arguments>
+                                <argument>${project.basedir}/reports/chaintest/Index.html</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
+            <plugin>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>detect</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
-            <id>allure-serve</id>
+            <id>chaintest-open</id>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>io.qameta.allure</groupId>
-                        <artifactId>allure-maven</artifactId>
-                        <version>${allure-maven.version}</version>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
-                                <id>serve-report</id>
+                                <id>open-chaintest-report</id>
                                 <phase>verify</phase>
                                 <goals>
-                                    <goal>serve</goal>
+                                    <goal>exec</goal>
                                 </goals>
+                                <configuration>
+                                    <executable>open</executable>
+                                    <arguments>
+                                        <argument>${project.basedir}/reports/chaintest/Index.html</argument>
+                                    </arguments>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <resultsDirectory>${project.basedir}/allure-results</resultsDirectory>
-                            <reportDirectory>${project.basedir}/target/site/allure-report</reportDirectory>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
 
-    <!-- <dependencyManagement>
-         <dependencies>
-             <dependency>
-                 <groupId>com.tom</groupId>
-                 <artifactId>appium-plugin</artifactId>
-                 <version>1.0-SNAPSHOT</version>
-             </dependency>
-             <dependency>
-                 <groupId>com.tom</groupId>
-                 <artifactId>restassured-plugin</artifactId>
-                 <version>1.0-SNAPSHOT</version>
-             </dependency>
-
-         </dependencies>
-     </dependencyManagement>-->
     <dependencies>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-cucumber7-jvm</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-testng</artifactId>
-            <version>${allure.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.tom</groupId>
             <artifactId>common</artifactId>
@@ -137,17 +136,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

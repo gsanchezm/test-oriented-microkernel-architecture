@@ -1,5 +1,6 @@
 package factories;
 
+import config.FrameworkException;
 import intarfaces.tasks.ITask;
 import intarfaces.tasks.ITaskFactory;
 
@@ -11,7 +12,7 @@ public class TaskFactoryHelper {
                 try {
                     return taskClass.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to instantiate task: " + taskClass.getName(), e);
+                    throw new FrameworkException("Failed to instantiate task: " + taskClass.getName(), e);
                 }
             }
 

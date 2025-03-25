@@ -1,11 +1,10 @@
 package tom.authentication.steps_definitions;
 
 import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformNavigation;
+import authentication.tasks.PerformUrlNavigation;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.qameta.allure.Step;
 import intarfaces.validations.IValidation;
 import intarfaces.tasks.ITask;
 import tom.authentication.dao.UserCredentials;
@@ -28,45 +27,40 @@ public class AuthenticationSteps {
         this.loginValidations = testContext.getLoginValidations();
     }
 
-    @Step("User navigates to login page")
     @Given("the login page is displayed")
     public void the_login_page_is_displayed() {
-        TaskResolver.safelyExecute(taskMap, PerformNavigation.class);
+        TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
     }
 
-    @Step("SauceLab user submit credentials {0} and {1}")
     @When("SauceLab user submit credentials {string} and {string}")
     public void i_submit_credentials(String username, String password) {
         UserCredentials user = new UserCredentials(username, password);
-        TaskResolver.safelyExecute(taskMap, PerformAuthentication.class, user.getUsername(), user.getPassword());
+        TaskResolver.of(taskMap, PerformAuthentication.class)
+                .with(user.getUsername())
+                .with(user.getPassword())
+                .execute();
     }
 
-    @Step("SauceLab user submit empty credentials")
     @When("SauceLab user submit empty credentials")
     public void i_submit_empty_credentials() {
     }
 
-    @Step("The system should grant access")
     @Then("the system should grant access")
     public void the_system_should_grant_access_or_show_an_error() {
     }
 
-    @Step("The system should show an error")
     @Then("the system should show an error")
     public void the_system_should_show_an_error() {
     }
 
-    @Step("SauceLab user am logged in as {0}")
     @Given("SauceLab user am logged in as {string}")
     public void i_am_logged_in_as(String username) {
     }
 
-    @Step("He log out")
     @When("he log out")
     public void i_log_out() {
     }
 
-    @Step("The system should return to the login page")
     @Then("the system should return to the login page")
     public void the_system_should_return_to_the_login_page() {
     }

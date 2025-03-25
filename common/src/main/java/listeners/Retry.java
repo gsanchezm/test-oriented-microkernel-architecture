@@ -3,11 +3,11 @@ package listeners;
 import io.cucumber.testng.PickleWrapper;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+import utils.BaseLogger;
 
 import java.util.Map;
-import java.util.Optional;
 
-public class Retry implements IRetryAnalyzer {
+public class Retry extends BaseLogger implements IRetryAnalyzer {
     private byte retryCount = 0;
     private static final byte MAX_RETRY = 3;
 
@@ -28,7 +28,7 @@ public class Retry implements IRetryAnalyzer {
                     .anyMatch(tag -> tag.equalsIgnoreCase("@retryable"));
 
             if (hasRetryTag && retryCount < MAX_RETRY) {
-                System.out.printf("🔁 Retrying %s (Attempt %d)%n", result.getName(), retryCount + 1);
+                logger.info("🔁 Retrying %s (Attempt %d)%n", result.getName(), retryCount + 1);
                 retryCount++;
                 return true;
             }
