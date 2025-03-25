@@ -3,7 +3,7 @@
 This repository contains the **TOM Automation Framework**, an extensible, modular test automation framework based on the Microkernel Architecture.
 
 ## Features
-- Modular test plugins (UI, API, Performance, Mobile)
+- Modular test plugin (UI, API, Performance, Mobile)
 - Core execution engine (Microkernel-based)
 - CI/CD Integration
 - Self-Healing Mechanism (Planned)
@@ -33,9 +33,9 @@ This repository contains the **TOM Automation Framework**, an extensible, modula
 ## Appium & JMeter Support
 
 ### Mobile Testing (Appium)
-- Java: `plugins/mobile/AppiumTest.java` (Requires Appium Server & Android Emulator)
-- JavaScript: `plugins/mobile/AppiumTest.js` (Uses WebdriverIO for Appium)
+- Java: `plugin/mobile/AppiumTest.java` (Requires Appium Server & Android Emulator)
+- JavaScript: `plugin/mobile/AppiumTest.js` (Uses WebdriverIO for Appium)
 
 ### Performance Testing (JMeter)
-- Java: `plugins/performance/JMeterTest.java` (Integrates JMeter for load testing)
-- JavaScript: `plugins/performance/JMeterTest.js` (Runs JMeter tests via command line)
+- Java: `plugin/performance/JMeterTest.java` (Integrates JMeter for load testing)
+- JavaScript: `plugin/performance/JMeterTest.js` (Runs JMeter tests via command line)

@@ -3,6 +3,7 @@ package tom.authentication.steps_definitions;
 import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformCloseCurrentSession;
 import authentication.tasks.PerformUrlNavigation;
+import authentication.validations.IsAuthErrorMessageDisplayed;
 import authentication.validations.IsUserOnAuthenticationPage;
 import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
@@ -48,15 +49,15 @@ public class AuthenticationSteps {
 
     @When("SauceLab user submit empty credentials")
     public void i_submit_empty_credentials() {
+        TaskResolver.of(taskMap, PerformAuthentication.class)
+                .with("")
+                .with("")
+                .execute();
     }
 
     @Then("the system should grant access")
     public void the_system_should_grant_access_or_show_an_error() {
         then(ValidationResolver.of(validationMap, IsUserOnInventory.class).validate()).isTrue();
-    }
-
-    @Then("the system should show an error")
-    public void the_system_should_show_an_error() {
     }
 
     @When("he log out")
@@ -67,5 +68,11 @@ public class AuthenticationSteps {
     @Then("the system should return to the login page")
     public void the_system_should_return_to_the_login_page() {
         then(ValidationResolver.of(validationMap, IsUserOnAuthenticationPage.class).validate()).isTrue();
+    }
+
+    @Then("the system should show the error {string}")
+    public void theSystemShouldShowTheError(String errorText) {
+        then(ValidationResolver.of(validationMap, IsAuthErrorMessageDisplayed.class).
+                with(errorText).validate()).isTrue();
     }
 }

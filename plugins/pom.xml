@@ -24,7 +24,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Shared dependencies for plugins -->
+            <!-- Shared dependencies for plugin -->
             <dependency>
                 <groupId>com.tom</groupId>
                 <artifactId>common</artifactId>
