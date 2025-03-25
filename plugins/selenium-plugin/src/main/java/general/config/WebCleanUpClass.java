@@ -1,4 +1,4 @@
-package config;
+package general.config;
 
 import framework.factory.WebDriverFactory;
 

@@ -22,7 +22,7 @@ public class ValidationResolver {
         return (V) validationMap.get(validationClass);
     }
 
-    public static <V extends IValidation<?>> FluentValidationExecutor<V> executeValidation(Map<Class<?>, IValidation<?>> validationMap, Class<V> validationClass) {
+    public static <V extends IValidation<?>> FluentValidationExecutor<V> of(Map<Class<?>, IValidation<?>> validationMap, Class<V> validationClass) {
         V validation = getValidation(validationMap, validationClass);
         if (validation == null) {
             logger.warn("Validation not found: {}. It may be due to plugin deactivation.", validationClass.getSimpleName());

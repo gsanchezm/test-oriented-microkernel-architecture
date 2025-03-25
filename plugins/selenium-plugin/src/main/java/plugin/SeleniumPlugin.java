@@ -1,11 +1,10 @@
 package plugin;
 
 
-import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformUrlNavigation;
-import config.WebCleanUpClass;
-import config.WebInitializeClass;
+import general.config.WebCleanUpClass;
+import general.config.WebInitializeClass;
 import factories.TaskFactoryHelper;
+import factories.ValidationFactoryHelper;
 import intarfaces.platform.IPlatformProvider;
 import intarfaces.plugins.IPlugin;
 import enums.PlatformType;
@@ -23,25 +22,19 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
 
     @Override
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
-        return List.of(
-                TaskFactoryHelper.of(PerformAuthentication.class),
-                TaskFactoryHelper.of(PerformUrlNavigation.class)
-                // Add more tasks like:
-                // TaskFactoryHelper.of(AnotherTask.class)
-        );
+        return TaskFactoryHelper.loadTasks(List.of(
+                "authentication.tasks"/*,
+                "checkout.tasks",
+                "payment.tasks"*/
+        ));
     }
 
     @Override
     public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
-        return null;/*List.of(
-                ValidationFactoryHelper.of(LoginValidation.class)
-                // Add more validations as needed
-        );*/
-    }
-
-
-    public void execute() {
-        logger.info("Executing Selenium Plugin...");
+        return ValidationFactoryHelper.loadValidations(List.of(
+                "authentication.validations",
+                "inventory.validations"
+        ));
     }
 
     @Override

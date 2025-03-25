@@ -20,6 +20,6 @@ Feature: Sauce Labs Authentication
     Then the system should show an error
 
   Scenario: Session handling
-    Given SauceLab user am logged in as "standard_user"
+    Given SauceLab user submit credentials "standard_user" and "secret_sauce"
     When he log out
     Then the system should return to the login page

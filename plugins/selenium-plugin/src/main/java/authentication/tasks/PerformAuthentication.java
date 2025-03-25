@@ -4,11 +4,11 @@ import config.FrameworkException;
 
 import framework.actions.Click;
 import framework.actions.Enter;
-import pages.LoginPage;
+import general.pages.LoginPage;
 import intarfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformAuthentication extends BaseLogger implements ITask  {
+public class PerformAuthentication extends BaseLogger implements ITask {
 
     @Override
     public PerformAuthentication execute(Object... args) {

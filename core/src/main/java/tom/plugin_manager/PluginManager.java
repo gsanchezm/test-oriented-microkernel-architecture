@@ -9,6 +9,7 @@ import intarfaces.init.IInitialize;
 import intarfaces.tasks.ITask;
 import intarfaces.tasks.ITaskFactory;
 import intarfaces.validations.IValidation;
+import intarfaces.validations.IValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static config.Constants.RESOURCES_FOLDER;
+import static general.config.Constants.RESOURCES_FOLDER;
 
 public class PluginManager {
     private static final Logger logger = LogManager.getLogger(PluginManager.class);
@@ -109,7 +110,7 @@ public class PluginManager {
             if (pluginInstance instanceof IPlugin plugin) {
                 plugin.getTaskFactories().forEach(ITaskFactory::registerTask);
                 TASKS.addAll(plugin.getTaskFactories().stream().map(ITaskFactory::create).toList());
-                //VALIDATIONS.addAll(plugin.getValidationFactories().stream().map(IValidationFactory::create).toList());
+                VALIDATIONS.addAll(plugin.getValidationFactories().stream().map(IValidationFactory::create).toList());
                 logger.info("✅ Registered tasks and validations from: " + className);
             }
 
@@ -162,9 +163,4 @@ public class PluginManager {
     public static boolean isPlatformEnabled(PlatformType platform) {
         return INITIALIZERS.containsKey(platform) && CLEANERS.containsKey(platform);
     }
-
-    public static boolean isPluginEnabled(String pluginClassName) {
-        return PLUGINS.getOrDefault(pluginClassName, false);
-    }
-
 }

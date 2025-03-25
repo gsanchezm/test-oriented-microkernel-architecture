@@ -1,4 +1,4 @@
-package config;
+package general.config;
 
 import authentication.tasks.PerformAuthentication;
 import factories.ObjectFactory;

@@ -56,7 +56,7 @@ public class AuthenticationTest extends AbstractTestNGCucumberTests {
 
         logger.info("Plugins Loaded: " + PluginManager.getLoadedPlugins());
         logger.info("Total Tasks Registered: " + testContext.getAuthenticationTasks().size());
-        logger.info("Total Validations Registered: " + testContext.getLoginValidations().size());
+        logger.info("Total Validations Registered: " + testContext.getAuthenticationValidations().size());
     }
 
     @AfterClass
