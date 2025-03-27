@@ -6,15 +6,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ValidationResolver {
     private static final Logger logger = LogManager.getLogger(ValidationResolver.class);
 
-    public static Map<Class<?>, IValidation<?>> toValidationMap(List<IValidation<?>> validations) {
-        return validations.stream()
-                .collect(Collectors.toMap(validation -> validation.getClass(), Function.identity()));
+    public static Map<Class<?>, IValidation<?>> toValidationMap(List<IValidation<?>> taskList) {
+        return taskList.stream()
+                .collect(Collectors.toMap(
+                        IValidation::getClass,
+                        task -> task,
+                        (existing, duplicate) -> existing // ← clave: conservar uno solo
+                ));
     }
 
     @SuppressWarnings("unchecked")

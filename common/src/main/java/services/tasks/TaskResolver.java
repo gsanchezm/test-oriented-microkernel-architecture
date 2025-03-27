@@ -11,9 +11,13 @@ import java.util.stream.Collectors;
 public class TaskResolver {
     private static final Logger logger = LogManager.getLogger(TaskResolver.class);
 
-    public static Map<Class<?>, ITask<?>> toTaskMap(List<ITask<?>> tasks) {
-        return tasks.stream()
-                .collect(Collectors.toMap(task -> task.getClass(), Function.identity()));
+    public static Map<Class<?>, ITask<?>> toTaskMap(List<ITask<?>> taskList) {
+        return taskList.stream()
+                .collect(Collectors.toMap(
+                        ITask::getClass,
+                        task -> task,
+                        (existing, duplicate) -> existing
+                ));
     }
 
     @SuppressWarnings("unchecked")

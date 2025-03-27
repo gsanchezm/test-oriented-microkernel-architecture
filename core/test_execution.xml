@@ -14,12 +14,12 @@
         </classes>
     </test>
 
-    <!--<test name="Edge Web Test">
+    <test name="Edge Web Test">
         <parameter name="platform" value="WEB" />
         <parameter name="driver" value="Edge" />
         <classes>
             <class name="tom.authentication.runner.AuthenticationTest"/>
             <class name="tom.inventory.runner.InventoryTest"/>
         </classes>
-    </test>-->
+    </test>
 </suite>
