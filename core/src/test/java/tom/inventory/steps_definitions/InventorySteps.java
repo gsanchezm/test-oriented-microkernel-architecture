@@ -2,13 +2,19 @@ package tom.inventory.steps_definitions;
 
 import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
+import inventory.tasks.PerformAddItemToCart;
+import inventory.validations.AreProductsDisplayed;
+import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
+import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
+
+import static org.assertj.core.api.BDDAssertions.then;
 
 public class InventorySteps extends SharedSteps {
 
@@ -22,7 +28,7 @@ public class InventorySteps extends SharedSteps {
     }
 
     @When("SauceLab user submit credentials {string} and {string}")
-    public void i_submit_credentials(String username, String password) {
+    public void iSubmitCredentials(String username, String password) {
         UserCredentials user = new UserCredentials(username, password);
         TaskResolver.of(taskMap, PerformAuthentication.class)
                 .with(user.getUsername())
@@ -30,19 +36,15 @@ public class InventorySteps extends SharedSteps {
                 .execute();
     }
 
-    @When("the user navigates to the inventory page")
-    public void navigateToInventoryPage() {
-
-    }
-
     @Then("the user should see a list of available products")
     public void verifyProductListVisible() {
+        then(ValidationResolver.of(validationMap, AreProductsDisplayed.class).validate()).isTrue();
 
     }
 
     @When("the user adds the product {string} to the cart")
     public void addProductToCart(String productName) {
-
+        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(productName).execute();
     }
 
     @Then("the cart should reflect the item {string}")
@@ -72,5 +74,6 @@ public class InventorySteps extends SharedSteps {
 
     @Given("the user is on the inventory page")
     public void theUserIsOnTheInventoryPage() {
+        ValidationResolver.of(validationMap, IsUserOnInventory.class).validate();
     }
 }

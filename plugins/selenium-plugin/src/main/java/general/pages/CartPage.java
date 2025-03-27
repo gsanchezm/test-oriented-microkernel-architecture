@@ -2,5 +2,5 @@ package general.pages;
 
 import framework.core.BasePage;
 
-public class inventoryPage extends BasePage {
+public class CartPage extends BasePage {
 }

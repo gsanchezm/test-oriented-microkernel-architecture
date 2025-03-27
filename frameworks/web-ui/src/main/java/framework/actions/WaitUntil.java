@@ -56,7 +56,7 @@ public class WaitUntil {
         WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
         return elements.stream().allMatch(el -> {
             try {
-                logger.info("Verifying All elements are displayed {}: ", el.getAccessibleName());
+                logger.info("Verifying All elements are displayed {}: ", el.getText());
                 wait.until(ExpectedConditions.visibilityOf(el));
                 return true;
             } catch (Exception e) {

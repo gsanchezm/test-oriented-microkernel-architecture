@@ -13,14 +13,7 @@ public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidati
             throw new FrameworkException("Expected error message data, but got none");
         }
 
-        String errorMessage = null;
-
-        if (args.length > 0) errorMessage = (String) args[0];
-
-        // Validate arguments
-        if (errorMessage == null) {
-            throw new FrameworkException("Error message is required!");
-        }
+        String errorMessage = (String) args[0];
 
         // Re-create page object every time to avoid stale references
         LoginPage loginPage = new LoginPage();

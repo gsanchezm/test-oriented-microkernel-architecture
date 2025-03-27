@@ -8,13 +8,25 @@ Feature: Manage product catalog in the inventory page
   Scenario: View list of available products
     Then the user should see a list of available products
 
-  Scenario: Add a product to the cart
-    When the user adds the product "Sauce Labs Backpack" to the cart
-    Then the cart should reflect the item "Sauce Labs Backpack"
+  Scenario Outline: Add a product to the cart
+    When the user adds the product "<Item>" to the cart
+    Then the cart should reflect the item "<Item>"
 
-  Scenario: Verify a product price
-    When the user checks the price of "Sauce Labs Fleece Jacket"
-    Then the displayed price should be "$49.99"
+    Examples:
+      | Item                     |
+      | Sauce Labs Backpack      |
+      | Sauce Labs Fleece Jacket |
+      | Sauce Labs Onesie        |
+
+  Scenario Outline: Verify a product price
+    When the user checks the price of "<Item>"
+    Then the displayed price should be "<Price>"
+
+    Examples:
+      | Item                    | Price  |
+      | Sauce Labs Bike Light   | $9.99  |
+      | Sauce Labs Bolt T-Shirt | $15.99 |
+      | Sauce Labs Onesie       | $7.99  |
 
   Scenario: Sort products by name
     When the user selects the sort option "Name (A to Z)"
