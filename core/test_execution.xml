@@ -4,13 +4,22 @@
     <listeners>
         <listener class-name="listeners.TestListener"/>
         <listener class-name="listeners.AnnotationTransform"/>
-    </listeners>
+   </listeners>
     <test name="Chrome Web Test">
         <parameter name="platform" value="WEB" />
         <parameter name="driver" value="Chrome" />
         <classes>
             <class name="tom.authentication.runner.AuthenticationTest"/>
-            <class name="tom.inventory.runner.InventoryTest"></class>
+            <class name="tom.inventory.runner.InventoryTest"/>
         </classes>
     </test>
+
+    <!--<test name="Edge Web Test">
+        <parameter name="platform" value="WEB" />
+        <parameter name="driver" value="Edge" />
+        <classes>
+            <class name="tom.authentication.runner.AuthenticationTest"/>
+            <class name="tom.inventory.runner.InventoryTest"/>
+        </classes>
+    </test>-->
 </suite>

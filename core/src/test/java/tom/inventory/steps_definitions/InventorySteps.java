@@ -1,11 +1,12 @@
 package tom.inventory.steps_definitions;
 
+import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
-import tom.inventory.runner.InventoryTest;
+import tom.authentication.dao.UserCredentials;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
 
@@ -13,12 +14,20 @@ public class InventorySteps extends SharedSteps {
 
     public InventorySteps(TestContext testContext) {
         super(testContext);
-        this.testContext = InventoryTest.getTestContext();
     }
 
     @Given("the application is launched")
-    public void launchApplication() {
+    public void theApplicationIsLaunched() {
         TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
+    }
+
+    @When("SauceLab user submit credentials {string} and {string}")
+    public void i_submit_credentials(String username, String password) {
+        UserCredentials user = new UserCredentials(username, password);
+        TaskResolver.of(taskMap, PerformAuthentication.class)
+                .with(user.getUsername())
+                .with(user.getPassword())
+                .execute();
     }
 
     @When("the user navigates to the inventory page")

@@ -15,14 +15,16 @@ import tom.services.TestContext;
 
 public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
 
-    TestNGCucumberRunner testNGCucumberRunner;
+    protected TestNGCucumberRunner testNGCucumberRunner;
     protected static final Logger logger = LogManager.getLogger(BaseTestRunner.class);
     protected ICleanUp cleaner;
-    protected static TestContext testContext;
 
     @BeforeClass
     @Parameters({"platform", "driver"})
     public void initializeExecution(String platform, String driver) {
+        String runnerName = this.getClass().getSimpleName();
+        logger.info("🧪 Runner detected: {}", runnerName);
+
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
         logger.info("TOM Java Test Execution Engine Running...");
         logger.info("Platform Selected: {}", platform);
@@ -40,11 +42,11 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
             logger.warn("\u26A0\uFE0F Platform {} is not enabled. Skipping WebDriver initialization.", platformType);
         }
 
-        testContext = new TestContext();
+        TestContext.get();
 
         logger.info("Plugins Loaded: {}", PluginManager.getLoadedPlugins());
-        logger.info("Total Tasks Registered: {}", testContext.getRegisteredTasks().size());
-        logger.info("Total Validations Registered: {}", testContext.getRegisteredValidations().size());
+        logger.info("Total Tasks Registered: {}", TestContext.get().getRegisteredTasks().size());
+        logger.info("Total Validations Registered: {}", TestContext.get().getRegisteredValidations().size());
     }
 
     @AfterClass
@@ -52,9 +54,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
         if (cleaner != null) {
             cleaner.cleanUp();
         }
-    }
 
-    public static TestContext getTestContext() {
-        return testContext;
+        TestContext.clear();
     }
 }

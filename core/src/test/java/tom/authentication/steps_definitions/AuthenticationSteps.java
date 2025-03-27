@@ -11,7 +11,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
-import tom.authentication.runner.AuthenticationTest;
 import tom.services.TestContext;
 import services.tasks.TaskResolver;
 import tom.utils.SharedSteps;
@@ -22,7 +21,6 @@ public class AuthenticationSteps extends SharedSteps {
 
     public AuthenticationSteps(TestContext testContext) {
         super(testContext);
-        this.testContext = AuthenticationTest.getTestContext();
     }
 
     @Given("the application is launched")

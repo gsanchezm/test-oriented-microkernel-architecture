@@ -1,11 +1,23 @@
 package tom.services;
 
-import tom.plugin_manager.PluginManager;
-import intarfaces.validations.IValidation;
 import intarfaces.tasks.ITask;
+import intarfaces.validations.IValidation;
+import tom.plugin_manager.PluginManager;
+
 import java.util.List;
 
 public class TestContext {
+
+    private static final ThreadLocal<TestContext> threadLocalContext =
+            ThreadLocal.withInitial(TestContext::new);
+
+    public static TestContext get() {
+        return threadLocalContext.get();
+    }
+
+    public static void clear() {
+        threadLocalContext.remove();
+    }
 
     private final List<ITask<?>> registeredTasks;
     private final List<IValidation<?>> registeredValidations;
