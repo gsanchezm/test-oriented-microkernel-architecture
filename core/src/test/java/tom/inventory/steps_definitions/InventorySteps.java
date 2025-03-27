@@ -4,6 +4,8 @@ import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
 import inventory.tasks.PerformAddItemToCart;
 import inventory.validations.AreProductsDisplayed;
+import inventory.validations.IsProductAddedToCart;
+import inventory.validations.IsProductInformationDisplayed;
 import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,6 +13,7 @@ import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
+import tom.inventory.dao.ProductInfo;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
 
@@ -29,37 +32,33 @@ public class InventorySteps extends SharedSteps {
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        UserCredentials user = new UserCredentials(username, password);
+        user = new UserCredentials(username, password);
         TaskResolver.of(taskMap, PerformAuthentication.class)
                 .with(user.getUsername())
                 .with(user.getPassword())
                 .execute();
     }
 
+    @Given("he is on the inventory page")
+    public void theUserIsOnTheInventoryPage() {
+        ValidationResolver.of(validationMap, IsUserOnInventory.class).validate();
+    }
+
     @Then("the user should see a list of available products")
     public void verifyProductListVisible() {
         then(ValidationResolver.of(validationMap, AreProductsDisplayed.class).validate()).isTrue();
-
     }
 
     @When("the user adds the product {string} to the cart")
     public void addProductToCart(String productName) {
-        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(productName).execute();
+        productInfo = new ProductInfo(productName,"","");
+        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(productInfo.getTitle()).execute();
     }
 
     @Then("the cart should reflect the item {string}")
     public void verifyItemInCart(String productName) {
-
-    }
-
-    @When("the user checks the price of {string}")
-    public void checkProductPrice(String productName) {
-
-    }
-
-    @Then("the displayed price should be {string}")
-    public void validateDisplayedPrice(String expectedPrice) {
-
+        productInfo = new ProductInfo(productName,"","");
+        then(ValidationResolver.of(validationMap, IsProductAddedToCart.class).with(productInfo.getTitle()).validate()).isTrue();
     }
 
     @When("the user selects the sort option {string}")
@@ -72,8 +71,13 @@ public class InventorySteps extends SharedSteps {
 
     }
 
-    @Given("the user is on the inventory page")
-    public void theUserIsOnTheInventoryPage() {
-        ValidationResolver.of(validationMap, IsUserOnInventory.class).validate();
+    @Then("the displayed {string} price should be {string}")
+    public void theDisplayedPriceShouldBe(String productName, String expectedPrice) {
+        productInfo = new ProductInfo(productName, "", expectedPrice);
+        then(ValidationResolver.of(validationMap, IsProductInformationDisplayed.class).
+                with(productInfo.getTitle()).
+                with(productInfo.getDescription()).
+                with(productInfo.getPrice())
+                .validate()).isTrue();
     }
 }

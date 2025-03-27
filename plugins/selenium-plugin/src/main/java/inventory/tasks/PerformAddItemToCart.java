@@ -19,9 +19,10 @@ public class PerformAddItemToCart extends BaseLogger implements ITask {
 
         ProductsPage productsPage = new ProductsPage();
 
-        productsPage.getInventoryItemList().stream()
+        productsPage.getProductList().stream()
                 .filter(item -> {
                     String title = item.findElement(productsPage.getByTitle()).getText();
+
                     return title.equals(itemInventory);
                 })
                 .forEach(item -> {

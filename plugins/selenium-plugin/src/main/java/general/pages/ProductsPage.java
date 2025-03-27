@@ -7,15 +7,15 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 public class ProductsPage extends BasePage {
-    protected final By InventoryItemList = By.cssSelector("div[data-test='inventory-item']");
+    protected final By ProductList = By.cssSelector("div[data-test='inventory-item']");
     protected final By title = By.cssSelector(".inventory_item_name");
-    protected final By description = By.cssSelector(".inventory_item_desc");
-    protected final By price = By.cssSelector(".inventory_item_price");
+    protected final By description = By.className("inventory_item_desc");
+    protected final By price = By.className("inventory_item_price");
     protected final By addToCartButton = By.cssSelector("button.btn_inventory");
-    protected final By image = By.cssSelector(".inventory_item_img");
+    protected final By image = By.className("inventory_item_img");
 
-    public List<WebElement> getInventoryItemList(){
-        return getDriver().findElements(InventoryItemList);
+    public List<WebElement> getProductList(){
+        return getDriver().findElements(ProductList);
     }
 
     public WebElement getTitle() {
