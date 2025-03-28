@@ -23,7 +23,8 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
         return TaskFactoryHelper.loadTasks(List.of(
                 "authentication.tasks",
-                "inventory.tasks"
+                "inventory.tasks",
+                "checkout.tasks"
         ));
     }
 
@@ -31,7 +32,8 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
     public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
         return ValidationFactoryHelper.loadValidations(List.of(
                 "authentication.validations",
-                "inventory.validations"
+                "inventory.validations",
+                "checkout.validations"
         ));
     }
 

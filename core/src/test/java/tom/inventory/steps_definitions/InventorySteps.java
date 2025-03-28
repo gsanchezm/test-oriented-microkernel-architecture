@@ -3,10 +3,8 @@ package tom.inventory.steps_definitions;
 import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
 import inventory.tasks.PerformAddItemToCart;
-import inventory.validations.AreProductsDisplayed;
-import inventory.validations.IsProductAddedToCart;
-import inventory.validations.IsProductInformationDisplayed;
-import inventory.validations.IsUserOnInventory;
+import inventory.tasks.PerformProductsSort;
+import inventory.validations.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -63,12 +61,13 @@ public class InventorySteps extends SharedSteps {
 
     @When("the user selects the sort option {string}")
     public void sortProducts(String sortOption) {
+        TaskResolver.of(taskMap, PerformProductsSort.class).with(sortOption).execute();
 
     }
 
-    @Then("the products should be sorted accordingly")
-    public void verifySortedOrder() {
-
+    @Then("the products should be sorted accordingly to {string}")
+    public void theProductsShouldBeSortedAccordinglyTo(String sortOption) {
+        then(ValidationResolver.of(validationMap, AreProductsSorted.class).with(sortOption).validate()).isTrue();
     }
 
     @Then("the displayed {string} price should be {string}")

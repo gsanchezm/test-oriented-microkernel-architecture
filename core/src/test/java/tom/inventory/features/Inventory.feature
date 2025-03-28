@@ -10,7 +10,7 @@ Feature: Manage product catalog in the inventory page
 
   Scenario Outline: Add a product to the cart
     When the user adds the product "<Product>" to the cart
-    Then the cart should reflect the item "<product>"
+    Then the cart should reflect the item "<Product>"
 
     Examples:
       | Product                  |
@@ -27,6 +27,13 @@ Feature: Manage product catalog in the inventory page
       | Sauce Labs Bolt T-Shirt | $15.99 |
       | Sauce Labs Onesie       | $7.99  |
 
-  Scenario: Sort products by name
-    When the user selects the sort option "Name (A to Z)"
-    Then the products should be sorted accordingly
+  Scenario Outline: Sort products by name
+    When the user selects the sort option "<Sort>"
+    Then the products should be sorted accordingly to "<Sort>"
+
+    Examples:
+      | Sort                |
+      | Name (A to Z)       |
+      | Name (Z to A)       |
+      | Price (low to high) |
+      | Price (high to low) |

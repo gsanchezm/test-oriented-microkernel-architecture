@@ -13,6 +13,7 @@ public class ProductsPage extends BasePage {
     protected final By price = By.className("inventory_item_price");
     protected final By addToCartButton = By.cssSelector("button.btn_inventory");
     protected final By image = By.className("inventory_item_img");
+    protected final By sortContainer = By.className("product_sort_container");
 
     public List<WebElement> getProductList(){
         return getDriver().findElements(ProductList);
@@ -56,6 +57,10 @@ public class ProductsPage extends BasePage {
 
     public By getByImage() {
         return image;
+    }
+
+    public WebElement getSortContainer(){
+        return getDriver().findElement(sortContainer);
     }
 
 
