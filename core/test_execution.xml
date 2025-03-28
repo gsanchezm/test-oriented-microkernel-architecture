@@ -10,7 +10,8 @@
         <parameter name="driver" value="Chrome" />
         <classes>
 <!--            <class name="tom.authentication.runner.AuthenticationTest"/>-->
-            <class name="tom.inventory.runner.InventoryTest"/>
+<!--            <class name="tom.inventory.runner.InventoryTest"/>-->
+            <class name="tom.checkout.runner.CheckoutTest"/>
         </classes>
     </test>
 
