@@ -1,4 +1,14 @@
 package tom.checkout.runner;
 
-public class CheckoutTest {
+import io.cucumber.testng.CucumberOptions;
+import tom.utils.BaseTestRunner;
+
+@CucumberOptions(
+        plugin = {
+                "pretty",
+        },
+        features = "src/test/java/tom/checkout/features",
+        glue = "tom.checkout.steps_definitions"
+)
+public class CheckoutTest extends BaseTestRunner {
 }

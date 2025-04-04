@@ -30,7 +30,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 public class CartSteps extends SharedSteps {
 
     private final List<ProductInfo> selectedProducts = new ArrayList<>();
-    private List<ProductInfo> allProducts;
 
     public CartSteps(TestContext testContext) {
         super(testContext);
@@ -101,7 +100,7 @@ public class CartSteps extends SharedSteps {
 
     // ✅ Safely load products when the test is already running
     private void loadSelectedProducts() {
-        allProducts = JsonDataLoader
+        List<ProductInfo> allProducts = JsonDataLoader
                 .loadFromData("products.json", ProductList.class)
                 .getProducts();
 

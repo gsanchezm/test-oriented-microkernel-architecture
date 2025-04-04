@@ -17,7 +17,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
     protected static final Logger logger = LogManager.getLogger(BaseTestRunner.class);
     protected ICleanUp cleaner;
 
-    @BeforeSuite
+    @BeforeTest
     @Parameters({"platform", "driver"})
     public void initializeExecution(String platform, String driver) {
         String runnerName = this.getClass().getSimpleName();
@@ -32,32 +32,30 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
 
         if (PluginManager.isPlatformEnabled(platformType)) {
             IInitialize initializer = PluginManager.getInitializer(platformType);
-            initializer.initialize(driver);
+            initializer.initialize(driver); // This sets WebDriver into ThreadLocal
             cleaner = PluginManager.getCleaner(platformType);
         } else {
             logger.warn("\u26A0\uFE0F Platform {} is not enabled. Skipping WebDriver initialization.", platformType);
         }
+
+        TestContext.get(); // Sets up per-thread context
 
         logger.info("Plugins Loaded: {}", PluginManager.getLoadedPlugins());
         logger.info("Total Tasks Registered: {}", TestContext.get().getRegisteredTasks().size());
         logger.info("Total Validations Registered: {}", TestContext.get().getRegisteredValidations().size());
     }
 
+
     @BeforeClass
     public void initContextPerClass() {
         testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
-        TestContext.get(); // Still useful per class
     }
 
-    @AfterClass
-    public void cleanUpTestContext() {
-        TestContext.clear();
-    }
-
-    @AfterSuite
-    public void cleanUpExecution(){
+    @AfterTest
+    public void cleanUpExecution() {
         if (cleaner != null) {
-            cleaner.cleanUp();
+            cleaner.cleanUp(); // Quits WebDriver in ThreadLocal
         }
+        TestContext.clear();
     }
 }

@@ -1,4 +1,4 @@
-Feature: Checkout process
+Feature: Cart process
 
   As a Sauce Labs customer
   I want to review my cart and proceed to checkout
