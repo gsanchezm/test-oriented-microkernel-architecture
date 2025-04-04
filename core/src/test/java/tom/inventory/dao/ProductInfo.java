@@ -3,11 +3,16 @@ package tom.inventory.dao;
 import java.util.Objects;
 
 public class ProductInfo {
+    private String image;
     private String title;
     private String description;
     private String price;
 
-    public ProductInfo(String title, String description, String price) {
+    // ✅ Required by Jackson
+    public ProductInfo() {}
+
+    public ProductInfo(String image, String title, String description, String price) {
+        this.image = image;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -37,22 +42,31 @@ public class ProductInfo {
         this.price = price;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProductInfo that = (ProductInfo) o;
-        return Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(price, that.price);
+        return Objects.equals(image, that.image) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, price);
+        return Objects.hash(image, title, description, price);
     }
 
     @Override
     public String toString() {
         return "ProductInfo{" +
-                "title='" + title + '\'' +
+                "image='" + image + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price='" + price + '\'' +
                 '}';

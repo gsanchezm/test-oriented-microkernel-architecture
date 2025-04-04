@@ -10,7 +10,8 @@ public class CartPage extends BasePage {
     private final By cartIcon = By.id("shopping_cart_container");
     private final By cartProductItems = By.cssSelector("div[data-test='inventory-item']");
     private final By quantity = By.className("cart_quantity");
-    protected final By removeButton = By.xpath("//button[contains(text(),'Remove')]");
+    public final By removeButton = By.xpath("//button[contains(text(),'Remove')]");
+    private final By checkoutButton = By.id("checkout");
 
     public WebElement getCarIcon(){
         return getDriver().findElement(cartIcon);
@@ -27,4 +28,6 @@ public class CartPage extends BasePage {
     public WebElement getRemoveButton(){
         return getDriver().findElement(removeButton);
     }
+
+    public WebElement getCheckoutButton(){return getDriver().findElement(checkoutButton);}
 }

@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.Optional;
 
 public class Click extends WaitUntil{
-    private static WebElement elementToClick;
 
     /**
      * Default Click: First tries normal click, falls back to JavaScript click.
@@ -55,6 +54,7 @@ public class Click extends WaitUntil{
      */
     public static void butScrollFirst(WebElement element) {
         logger.info("Clicking on element: {}", element.getAccessibleName());
+        WaitUntil.elementExists(element);
         Optional.ofNullable(element).ifPresent(el -> {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
             on(el); // Perform regular click after scrolling

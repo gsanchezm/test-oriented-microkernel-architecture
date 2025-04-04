@@ -2,9 +2,12 @@ package tom.inventory.steps_definitions;
 
 import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
+import cart.tasks.PerformNavigationToCart;
+import cart.tasks.PerformRemoveProduct;
 import inventory.tasks.PerformAddItemToCart;
 import inventory.tasks.PerformProductsSort;
 import inventory.validations.*;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,6 +18,7 @@ import tom.inventory.dao.ProductInfo;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
 
+import static config.Constants.EMPTY;
 import static org.assertj.core.api.BDDAssertions.then;
 
 public class InventorySteps extends SharedSteps {
@@ -49,13 +53,14 @@ public class InventorySteps extends SharedSteps {
 
     @When("the user adds the product {string} to the cart")
     public void addProductToCart(String productName) {
-        productInfo = new ProductInfo(productName,"","");
+        productInfo = new ProductInfo(EMPTY, productName,EMPTY,EMPTY);
         TaskResolver.of(taskMap, PerformAddItemToCart.class).with(productInfo.getTitle()).execute();
     }
 
     @Then("the cart should reflect the item {string}")
     public void verifyItemInCart(String productName) {
-        productInfo = new ProductInfo(productName,"","");
+        productInfo = new ProductInfo(EMPTY, productName,EMPTY,EMPTY);
+        TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
         then(ValidationResolver.of(validationMap, IsProductAddedToCart.class).with(productInfo.getTitle()).validate()).isTrue();
     }
 
@@ -72,11 +77,19 @@ public class InventorySteps extends SharedSteps {
 
     @Then("the displayed {string} price should be {string}")
     public void theDisplayedPriceShouldBe(String productName, String expectedPrice) {
-        productInfo = new ProductInfo(productName, "", expectedPrice);
+        productInfo = new ProductInfo(EMPTY,productName, EMPTY, expectedPrice);
         then(ValidationResolver.of(validationMap, IsProductInformationDisplayed.class).
                 with(productInfo.getTitle()).
                 with(productInfo.getDescription()).
                 with(productInfo.getPrice())
                 .validate()).isTrue();
+    }
+
+    @And("the {string} must be removed")
+    public void theMustBeRemoved(String productName) {
+        productInfo = new ProductInfo(EMPTY,productName, EMPTY, EMPTY);
+        TaskResolver.of(taskMap, PerformRemoveProduct.class)
+                .with(productInfo.getTitle())
+                .execute();
     }
 }

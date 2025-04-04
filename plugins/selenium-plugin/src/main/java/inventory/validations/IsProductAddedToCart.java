@@ -21,7 +21,6 @@ public class IsProductAddedToCart extends BaseLogger implements IValidation {
 
         CartPage cartPage = new CartPage();
         ProductsPage productsPage = new ProductsPage();
-        Click.on(cartPage.getCarIcon());
 
         WaitUntil.pageLoaded();
         WaitUntil.allElementsExist(cartPage.getCartProductItems());
@@ -33,9 +32,8 @@ public class IsProductAddedToCart extends BaseLogger implements IValidation {
                 .findFirst()
                 .map(cartItem -> {
                     String productTitle = cartItem.findElement(productsPage.getByTitle()).getText();
-                    logger.info("Title: " + productTitle);
+                    logger.info("Title: {}", productTitle);
                     Obtain.text(cartItem.findElement(productsPage.getByTitle()));
-                    Click.on(cartPage.getRemoveButton());
                     return true;
                 })
                 .orElse(false);

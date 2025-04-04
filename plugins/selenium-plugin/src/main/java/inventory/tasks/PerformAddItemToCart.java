@@ -30,7 +30,9 @@ public class PerformAddItemToCart extends BaseLogger implements ITask {
                     logger.info("Title: " + productTitle);
 
                     WebElement addToCartButton = item.findElement(productsPage.getByAddToCartButton());
-                    if (addToCartButton.isDisplayed() && addToCartButton.isEnabled()) {
+                    if (addToCartButton.isDisplayed()
+                            && addToCartButton.isEnabled()
+                    && !addToCartButton.getText().equals("Remove")) {
                         Click.on(addToCartButton);
                     }
                 });

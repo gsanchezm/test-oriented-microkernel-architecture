@@ -22,4 +22,6 @@ public class Constants {
     public static final Path CONFIG_PATH = RESOURCES_FOLDER.resolve("config.properties");
 
     public static final Duration WAIT_TIMEOUT = Duration.ofSeconds(15);
+
+    public static final String EMPTY = "";
 }

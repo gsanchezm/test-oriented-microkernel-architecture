@@ -11,6 +11,7 @@ Feature: Manage product catalog in the inventory page
   Scenario Outline: Add a product to the cart
     When the user adds the product "<Product>" to the cart
     Then the cart should reflect the item "<Product>"
+    And the "<Product>" must be removed
 
     Examples:
       | Product                  |
