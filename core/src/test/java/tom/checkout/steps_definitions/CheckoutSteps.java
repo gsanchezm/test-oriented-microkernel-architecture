@@ -2,7 +2,21 @@ package tom.checkout.steps_definitions;
 
 import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformUrlNavigation;
-import cart.validations.IsProductRemovedFromCart;
+import cart.tasks.PerformCheckout;
+import cart.tasks.PerformNavigationToCart;
+import cart.tasks.PerformRemoveProduct;
+import cart.validations.IsUserOnCart;
+import checkout.tasks.PerformCancelCheckout;
+import checkout.tasks.PerformContinueToStepTwo;
+import checkout.tasks.PerformFillYourInformation;
+import checkout.tasks.PerformFinishCheckout;
+import checkout.validations.IsSummaryInformationDisplayed;
+import checkout.validations.IsUserOnCheckoutStepOne;
+import checkout.validations.IsUserOnCheckoutComplete;
+import checkout.validations.IsUserOnCheckoutStepTwo;
+import inventory.tasks.PerformAddItemToCart;
+import inventory.validations.IsProductAddedToCart;
+import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,18 +24,33 @@ import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
+import tom.checkout.dao.Checkout;
+import tom.inventory.dao.Product;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.BDDAssertions.then;
 
-public class CheckoutSteps extends SharedSteps {
+public class CheckoutSteps extends SharedSteps{
+
+    private final List<Product> selectedProducts = new ArrayList<>();
+
+    private static final List<String> titlesToSelect = List.of(
+            "Sauce Labs Bolt T-Shirt",
+            "Sauce Labs Onesie",
+            "Test.allTheThings() T-Shirt (Red)"
+    );
+
     public CheckoutSteps(TestContext testContext) {
         super(testContext);
     }
 
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
+        loadSelectedProducts();
         TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
     }
 
@@ -34,76 +63,94 @@ public class CheckoutSteps extends SharedSteps {
                 .execute();
     }
 
-    @When("he is on checkout page")
-    public void heIsOnCheckoutPage() {
-    }
-
     @Given("he has items in the cart")
     public void heHasItemsInTheCart() {
+        selectedProducts.forEach(p -> TaskResolver.of(taskMap, PerformAddItemToCart.class)
+                .with(p.getTitle())
+                .execute());
+
+        TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
     }
 
-    @When("he initiates the checkout")
-    public void heInitiatesTheCheckout() {
-    }
-
-    @Then("the checkout step one screen should be displayed")
-    public void theCheckoutStepOneScreenShouldBeDisplayed() {
-    }
-
-    @Given("he is on checkout step one")
+    @When("he is on checkout step one")
     public void heIsOnCheckoutStepOne() {
+        TaskResolver.of(taskMap, PerformCheckout.class).execute();
+        then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepOne.class).validate()).isTrue();
     }
 
     @When("he submits {string}, {string}, and {string}")
     public void heSubmitsPersonalInfo(String firstName, String lastName, String postalCode) {
         // You can now use: firstName, lastName, postalCode
+        Checkout user = new Checkout(firstName,lastName,postalCode);
+        TaskResolver.of(taskMap, PerformFillYourInformation.class)
+                .with(user.getFirstName()).with(user.getLastName()).with(user.getPostalCode())
+                .execute();
+
+        TaskResolver.of(taskMap, PerformContinueToStepTwo.class).execute();
     }
 
-    @Then("the checkout step two screen should be displayed")
-    public void theCheckoutStepTwoScreenShouldBeDisplayed() {
+    @Then("next step is checkout step two")
+    public void nextStepIsCheckoutStepTwo() {
+        then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepTwo.class).validate()).isTrue();
     }
 
     @Given("he is on checkout step two")
     public void heIsOnCheckoutStepTwo() {
+        Checkout user = getCheckoutData("standard_user");
+        TaskResolver.of(taskMap, PerformFillYourInformation.class)
+                .with(user.getFirstName()).with(user.getLastName()).with(user.getPostalCode())
+                .execute();
+
+        TaskResolver.of(taskMap, PerformContinueToStepTwo.class).execute();
+
+        then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepTwo.class).validate()).isTrue();
     }
 
-    @And("the payment method should be {string}")
-    public void thePaymentMethodShouldBe(String arg0, String arg1) {
-    }
-
-    @And("the shipping method should be {string}")
-    public void theShippingMethodShouldBe(String arg0, String arg1) {
-    }
-
-    @And("the item total should be {}")
-    public void theItemTotalShouldBe(String arg0) {
-    }
-
-    @And("the tax should be {}")
-    public void theTaxShouldBe(String arg0) {
-    }
-
-    @And("the final total should be {}")
-    public void theFinalTotalShouldBe(String arg0) {
+    @And("include {string}, {string}, {string}, {string} and {string}")
+    public void includeAnd(String paymentMethod, String shippingMethod, String itemTotal, String tax, String total) {
+        then(ValidationResolver.of(validationMap, IsSummaryInformationDisplayed.class)
+                .with(paymentMethod).with(shippingMethod).with(itemTotal)
+                .with(tax).with(total).validate()).isTrue();
     }
 
     @When("he finishes the checkout")
     public void heFinishesTheCheckout() {
+        TaskResolver.of(taskMap, PerformFinishCheckout.class).execute();
     }
 
-    @Then("the confirmation screen should be displayed")
-    public void theConfirmationScreenShouldBeDisplayed() {
+    @Then("the confirmation should be displayed")
+    public void theConfirmationShouldBeDisplayed() {
+        then(ValidationResolver.of(validationMap, IsUserOnCheckoutComplete.class).validate()).isTrue();
     }
 
     @When("he cancels the checkout")
     public void heCancelsTheCheckout() {
+        TaskResolver.of(taskMap, PerformCancelCheckout.class).execute();
     }
 
-    @Then("the cart screen should be displayed")
-    public void theCartScreenShouldBeDisplayed() {
+    @Then("the cart stage should be displayed")
+    public void theCartStageShouldBeDisplayed() {
+        then(ValidationResolver.of(validationMap, IsUserOnCart.class).validate()).isTrue();
     }
 
-    @Then("it should include {string} priced at <price{int}>")
-    public void itShouldIncludePricedAt(String arg0, String arg1, String arg2) {
+    @Given("he is on the inventory page")
+    public void theUserIsOnTheInventoryPage() {
+        ValidationResolver.of(validationMap, IsUserOnInventory.class).validate();
+    }
+
+    @Then("it should include the products added previously")
+    public void itShouldIncludeTheProductsAddedPreviously() {
+        selectedProducts.forEach(p -> {
+                    then(ValidationResolver.of(validationMap, IsProductAddedToCart.class)
+                            .with(p.getTitle())
+                            .validate())
+                            .isTrue();
+                }
+        );
+    }
+
+    // ✅ Safely load products when the test is already running
+    private void loadSelectedProducts() {
+        selectedProducts.addAll(getProductsByTitles(titlesToSelect));
     }
 }

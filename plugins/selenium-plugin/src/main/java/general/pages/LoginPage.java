@@ -6,10 +6,10 @@ import framework.core.BasePage;
 import org.openqa.selenium.WebElement;
 
 public class LoginPage extends BasePage {
-    protected By usernameInput = By.id("user-name");
-    protected By passwordInput = By.id("password");
-    protected By loginButton = By.name("login-button");
-    protected By errorLabel = By.cssSelector("h3[data-test='error']");
+    protected final By usernameInput = By.id("user-name");
+    protected final By passwordInput = By.id("password");
+    protected final By loginButton = By.name("login-button");
+    protected final By errorLabel = By.cssSelector("h3[data-test='error']");
 
     public WebElement getUsernameInput() {
         return getDriver().findElement(usernameInput);

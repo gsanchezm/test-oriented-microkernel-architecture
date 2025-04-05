@@ -1,22 +1,31 @@
 package tom.utils;
 
-import authentication.tasks.PerformAuthentication;
+import com.fasterxml.jackson.core.type.TypeReference;
 import intarfaces.tasks.ITask;
 import intarfaces.validations.IValidation;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
-import tom.inventory.dao.ProductInfo;
+import tom.checkout.dao.Checkout;
+import tom.inventory.dao.Product;
+import tom.inventory.dao.ProductList;
 import tom.services.TestContext;
+import utils.JsonDataLoader;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class SharedSteps {
     protected final TestContext testContext;
     protected final Map<Class<?>, ITask<?>> taskMap;
     protected final Map<Class<?>, IValidation<?>> validationMap;
     protected UserCredentials user;
-    protected ProductInfo productInfo;
+    protected Product product;
+    protected Checkout checkoutData;
+    private static final String CHECKOUT_DATA_FILE = "data/user.json";
 
     public SharedSteps(TestContext testContext) {
         this.testContext = testContext;
@@ -24,11 +33,49 @@ public class SharedSteps {
         this.validationMap = ValidationResolver.toValidationMap(testContext.getRegisteredValidations());
     }
 
-    public void authenticatedUser(String username, String password){
-        user = new UserCredentials(username, password);
-        TaskResolver.of(taskMap, PerformAuthentication.class)
-                .with(user.getUsername())
-                .with(user.getPassword())
-                .execute();
+    public Checkout getCheckoutData(String userType) {
+        return getCheckoutDataList(userType)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No checkout data found for user type: " + userType));
     }
+
+    public List<Checkout> getCheckoutDataList(String userType) {
+        Map<String, List<Checkout>> dataMap = JsonDataLoader.loadMapList(
+                CHECKOUT_DATA_FILE,
+                new TypeReference<>() {}
+        );
+
+        List<Checkout> users = dataMap.get(userType);
+        if (users == null || users.isEmpty()) {
+            throw new RuntimeException("No checkout data found for user type: " + userType);
+        }
+        return users;
+    }
+
+    public Optional<Checkout> getCheckoutDataByFilter(String userType, Predicate<Checkout> filter) {
+        return getCheckoutDataList(userType)
+                .stream()
+                .filter(filter)
+                .findFirst();
+    }
+
+    public List<Product> getFilteredProducts(Predicate<Product> filter) {
+        List<Product> allProducts = JsonDataLoader
+                .loadFromData("products.json", ProductList.class)
+                .getProducts();
+
+        return allProducts.stream()
+                .filter(filter)
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> getProductsByTitles(List<String> titles) {
+        return getFilteredProducts(product -> titles.contains(product.getTitle()));
+    }
+
+    public List<Product> getProductsBelowPrice(double maxPrice) {
+        return getFilteredProducts(product -> Double.parseDouble(product.getPrice()) < maxPrice);
+    }
+
 }

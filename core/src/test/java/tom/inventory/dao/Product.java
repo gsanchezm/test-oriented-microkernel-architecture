@@ -2,16 +2,16 @@ package tom.inventory.dao;
 
 import java.util.Objects;
 
-public class ProductInfo {
+public class Product {
     private String image;
     private String title;
     private String description;
     private String price;
 
     // ✅ Required by Jackson
-    public ProductInfo() {}
+    public Product() {}
 
-    public ProductInfo(String image, String title, String description, String price) {
+    public Product(String image, String title, String description, String price) {
         this.image = image;
         this.title = title;
         this.description = description;
@@ -53,7 +53,7 @@ public class ProductInfo {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ProductInfo that = (ProductInfo) o;
+        Product that = (Product) o;
         return Objects.equals(image, that.image) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(price, that.price);
     }
 

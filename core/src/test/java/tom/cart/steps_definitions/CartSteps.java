@@ -6,7 +6,7 @@ import cart.tasks.PerformCheckout;
 import cart.tasks.PerformNavigationToCart;
 import cart.tasks.PerformRemoveProduct;
 import cart.validations.IsProductRemovedFromCart;
-import checkout.validations.IsUserOnCheckout;
+import checkout.validations.IsUserOnCheckoutStepOne;
 import inventory.tasks.PerformAddItemToCart;
 import inventory.validations.IsProductAddedToCart;
 import io.cucumber.java.en.Given;
@@ -15,11 +15,9 @@ import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
-import tom.inventory.dao.ProductInfo;
-import tom.inventory.dao.ProductList;
+import tom.inventory.dao.Product;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
-import utils.JsonDataLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 public class CartSteps extends SharedSteps {
 
-    private final List<ProductInfo> selectedProducts = new ArrayList<>();
+    private final List<Product> selectedProducts = new ArrayList<>();
 
     public CartSteps(TestContext testContext) {
         super(testContext);
@@ -94,18 +92,12 @@ public class CartSteps extends SharedSteps {
 
     @Then("the checkout page should be displayed")
     public void theCheckoutPageShouldBeDisplayed() {
-        then(ValidationResolver.of(validationMap, IsUserOnCheckout.class).validate()).isTrue();
+        then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepOne.class).validate()).isTrue();
 
     }
 
     // ✅ Safely load products when the test is already running
     private void loadSelectedProducts() {
-        List<ProductInfo> allProducts = JsonDataLoader
-                .loadFromData("products.json", ProductList.class)
-                .getProducts();
-
-        selectedProducts.addAll(allProducts.stream()
-                .filter(p -> Double.parseDouble(p.getPrice()) < 20.00)
-                .toList());
+        selectedProducts.addAll(getProductsBelowPrice(20.00));
     }
 }

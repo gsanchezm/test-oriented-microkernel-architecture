@@ -3,8 +3,8 @@ package tom.inventory.dao;
 import java.util.List;
 
 public class ProductList {
-    private List<ProductInfo> products;
+    private List<Product> products;
 
-    public List<ProductInfo> getProducts() { return products; }
-    public void setProducts(List<ProductInfo> products) { this.products = products; }
+    public List<Product> getProducts() { return products; }
+    public void setProducts(List<Product> products) { this.products = products; }
 }

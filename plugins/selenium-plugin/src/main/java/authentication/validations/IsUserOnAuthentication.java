@@ -8,7 +8,7 @@ import utils.BaseLogger;
 
 import java.util.List;
 
-public class IsUserOnAuthenticationPage extends BaseLogger implements IValidation {
+public class IsUserOnAuthentication extends BaseLogger implements IValidation {
 
     @Override
     public boolean validate(Object... args) {

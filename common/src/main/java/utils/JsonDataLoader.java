@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class JsonDataLoader {
@@ -30,6 +31,15 @@ public class JsonDataLoader {
             return mapper.readValue(is, typeRef);
         } catch (Exception e) {
             throw new FrameworkException("Failed to load JSON list from classpath: " + resourcePath, e);
+        }
+    }
+
+    // Load JSON into Map<String, List<T>>
+    public static <T> Map<String, List<T>> loadMapList(String resourcePath, TypeReference<Map<String, List<T>>> typeRef) {
+        try (InputStream is = getClassPathStream(resourcePath)) {
+            return mapper.readValue(is, typeRef);
+        } catch (Exception e) {
+            throw new FrameworkException("Failed to load JSON map list from classpath: " + resourcePath, e);
         }
     }
 

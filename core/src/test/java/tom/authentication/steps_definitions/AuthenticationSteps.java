@@ -4,7 +4,7 @@ import authentication.tasks.PerformAuthentication;
 import authentication.tasks.PerformCloseCurrentSession;
 import authentication.tasks.PerformUrlNavigation;
 import authentication.validations.IsAuthErrorMessageDisplayed;
-import authentication.validations.IsUserOnAuthenticationPage;
+import authentication.validations.IsUserOnAuthentication;
 import inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -57,7 +57,7 @@ public class AuthenticationSteps extends SharedSteps {
 
     @Then("the system should return to the login page")
     public void theSystemShouldReturnToTheLoginPage() {
-        then(ValidationResolver.of(validationMap, IsUserOnAuthenticationPage.class).validate()).isTrue();
+        then(ValidationResolver.of(validationMap, IsUserOnAuthentication.class).validate()).isTrue();
     }
 
     @Then("the system should show the error {string}")

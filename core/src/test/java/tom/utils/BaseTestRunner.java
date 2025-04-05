@@ -17,6 +17,11 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
     protected static final Logger logger = LogManager.getLogger(BaseTestRunner.class);
     protected ICleanUp cleaner;
 
+    @BeforeClass
+    public void initContextPerClass() {
+        testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
+    }
+
     @BeforeTest
     @Parameters({"platform", "driver"})
     public void initializeExecution(String platform, String driver) {
@@ -43,12 +48,6 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
         logger.info("Plugins Loaded: {}", PluginManager.getLoadedPlugins());
         logger.info("Total Tasks Registered: {}", TestContext.get().getRegisteredTasks().size());
         logger.info("Total Validations Registered: {}", TestContext.get().getRegisteredValidations().size());
-    }
-
-
-    @BeforeClass
-    public void initContextPerClass() {
-        testNGCucumberRunner = new TestNGCucumberRunner(this.getClass());
     }
 
     @AfterTest
