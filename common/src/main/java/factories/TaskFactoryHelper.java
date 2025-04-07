@@ -1,6 +1,6 @@
 package factories;
 
-import config.FrameworkException;
+import config.TOMException;
 import intarfaces.tasks.ITask;
 import intarfaces.tasks.ITaskFactory;
 import org.reflections.Reflections;
@@ -18,7 +18,7 @@ public class TaskFactoryHelper {
                 try {
                     return taskClass.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
-                    throw new FrameworkException("Failed to create task instance: " + taskClass.getSimpleName(), e);
+                    throw new TOMException("Failed to create task instance: " + taskClass.getSimpleName(), e);
                 }
             }
 

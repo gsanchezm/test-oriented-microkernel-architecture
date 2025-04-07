@@ -8,6 +8,7 @@ import io.cucumber.testng.TestNGCucumberRunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.*;
+import services.tasks.TaskResolver;
 import tom.plugin_manager.PluginManager;
 import tom.services.TestContext;
 
@@ -31,7 +32,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
         logger.info("Platform Selected: {}", platform);
         logger.info("Driver Selected: {}", driver);
 
-        PluginManager.loadPlugins();
+        //PluginManager.loadPlugins();
 
         PlatformType platformType = PlatformType.valueOf(platform.toUpperCase());
 
@@ -56,5 +57,10 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
             cleaner.cleanUp(); // Quits WebDriver in ThreadLocal
         }
         TestContext.clear();
+    }
+
+    @BeforeSuite(alwaysRun = true)
+    public void initPlugins() {
+        PluginManager.loadPlugins();
     }
 }

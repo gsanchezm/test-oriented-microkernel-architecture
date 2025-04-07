@@ -1,6 +1,6 @@
 package authentication.validations;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.actions.Obtain;
 import general.pages.LoginPage;
 import intarfaces.validations.IValidation;
@@ -10,7 +10,7 @@ public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidati
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected error message data, but got none");
+            throw new TOMException("Expected error message data, but got none");
         }
 
         String errorMessage = (String) args[0];

@@ -1,6 +1,5 @@
 package factories;
 
-import config.FrameworkException;
 import intarfaces.validations.IValidation;
 import intarfaces.validations.IValidationFactory;
 import org.reflections.Reflections;

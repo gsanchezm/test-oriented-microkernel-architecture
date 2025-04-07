@@ -1,6 +1,6 @@
 package checkout.tasks;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.actions.Enter;
 import general.pages.CheckoutStepOnePage;
 import intarfaces.tasks.ITask;
@@ -11,7 +11,7 @@ public class PerformFillYourInformation extends BaseLogger implements ITask {
     public ITask execute(Object... args) {
 
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected user credentials data, but got none");
+            throw new TOMException("Expected user credentials data, but got none");
         }
 
         // Parse arguments dynamically

@@ -2,13 +2,12 @@ package config;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.Serial;
 
-public class FrameworkException extends RuntimeException {
+public class TOMException extends RuntimeException {
 
-    private static final Logger logger = LogManager.getLogger(FrameworkException.class);
+    private static final Logger logger = LogManager.getLogger(TOMException.class);
 
     @Serial
     private static final long serialVersionUID = 700L;
@@ -20,7 +19,7 @@ public class FrameworkException extends RuntimeException {
      *
      * @param message Detailed error message.
      */
-    public FrameworkException(String message) {
+    public TOMException(String message) {
         super(message);
         this.errorCode = "UNKNOWN_ERROR"; // Default error code
         logException(message, null);
@@ -32,7 +31,7 @@ public class FrameworkException extends RuntimeException {
      * @param message Detailed error message.
      * @param cause   The root cause of the exception.
      */
-    public FrameworkException(String message, Throwable cause) {
+    public TOMException(String message, Throwable cause) {
         super(message, cause);
         this.errorCode = "UNKNOWN_ERROR"; // Default error code
         logException(message, cause);
@@ -45,7 +44,7 @@ public class FrameworkException extends RuntimeException {
      * @param message   Detailed error message.
      * @param cause     The root cause of the exception.
      */
-    public FrameworkException(String errorCode, String message, Throwable cause) {
+    public TOMException(String errorCode, String message, Throwable cause) {
         super(String.format("[%s] %s", errorCode, message), cause);
         this.errorCode = errorCode;
         logException(message, cause);
@@ -57,7 +56,7 @@ public class FrameworkException extends RuntimeException {
      * @param errorCode Custom error code.
      * @param message   Detailed error message.
      */
-    public FrameworkException(String errorCode, String message) {
+    public TOMException(String errorCode, String message) {
         super(String.format("[%s] %s", errorCode, message));
         this.errorCode = errorCode;
         logException(message, null);

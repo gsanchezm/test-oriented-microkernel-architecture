@@ -1,6 +1,6 @@
 package framework.actions;
 
-import config.FrameworkException;
+import config.TOMException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -16,7 +16,7 @@ public class Selection extends WaitUntil{
             Select select = new Select(el);
             logger.info("{} is selected from dropdown list", el.getAccessibleName());
             if (!trySelect(select, selection)) {
-                throw new FrameworkException("Invalid selection: " + selection);
+                throw new TOMException("Invalid selection: " + selection);
             }
         });
     }

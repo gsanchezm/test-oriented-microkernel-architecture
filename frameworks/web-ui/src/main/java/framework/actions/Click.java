@@ -1,5 +1,6 @@
 package framework.actions;
 
+import framework.factory.WebDriverFactory;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -28,7 +29,7 @@ public class Click extends WaitUntil{
     public static void forceClick(WebElement element) {
         logger.info("Clicking on element: {}", element.getAccessibleName());
         Optional.ofNullable(element).ifPresent(el ->
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", el)
+                ((JavascriptExecutor) WebDriverFactory.getInstance().getWebDriver()).executeScript("arguments[0].click();", el)
         );
     }
 
@@ -56,7 +57,7 @@ public class Click extends WaitUntil{
         logger.info("Clicking on element: {}", element.getAccessibleName());
         WaitUntil.elementExists(element);
         Optional.ofNullable(element).ifPresent(el -> {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", el);
+            ((JavascriptExecutor) WebDriverFactory.getInstance().getWebDriver()).executeScript("arguments[0].scrollIntoView(true);", el);
             on(el); // Perform regular click after scrolling
         });
     }
@@ -66,7 +67,7 @@ public class Click extends WaitUntil{
      */
     public static void actionClick(WebElement element) {
         logger.info("Clicking on element: {}", element.getAccessibleName());
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(WebDriverFactory.getInstance().getWebDriver());
         Optional.ofNullable(element).ifPresent(el -> actions.moveToElement(el).click().perform());
     }
 }

@@ -3,6 +3,7 @@ package tom.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import intarfaces.tasks.ITask;
 import intarfaces.validations.IValidation;
+import io.cucumber.java.After;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
@@ -22,9 +23,9 @@ public class SharedSteps {
     protected final TestContext testContext;
     protected final Map<Class<?>, ITask<?>> taskMap;
     protected final Map<Class<?>, IValidation<?>> validationMap;
-    protected UserCredentials user;
-    protected Product product;
-    protected Checkout checkoutData;
+    protected static final ThreadLocal<UserCredentials> user = new ThreadLocal<>();
+    protected static final ThreadLocal<Product> product = new ThreadLocal<>();
+    protected static final ThreadLocal<Checkout> checkoutData = new ThreadLocal<>();
     private static final String CHECKOUT_DATA_FILE = "data/user.json";
 
     public SharedSteps(TestContext testContext) {
@@ -77,5 +78,4 @@ public class SharedSteps {
     public List<Product> getProductsBelowPrice(double maxPrice) {
         return getFilteredProducts(product -> Double.parseDouble(product.getPrice()) < maxPrice);
     }
-
 }

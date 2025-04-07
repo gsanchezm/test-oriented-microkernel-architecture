@@ -1,7 +1,7 @@
 package factories;
 // Minimal DI Container to help instantiate objects after dependencies are ready
 
-import config.FrameworkException;
+import config.TOMException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class ObjectFactory {
     public static <T> T getInstance(Class<T> clazz) {
         Supplier<?> supplier = registry.get(clazz);
         if (supplier == null) {
-            throw new FrameworkException("No registered supplier for: " + clazz.getName());
+            throw new TOMException("No registered supplier for: " + clazz.getName());
         }
         return clazz.cast(supplier.get());
     }

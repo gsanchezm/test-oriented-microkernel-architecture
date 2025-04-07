@@ -1,7 +1,8 @@
 package cart.tasks;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.actions.Click;
+import framework.actions.WaitUntil;
 import general.pages.CartPage;
 import intarfaces.tasks.ITask;
 import org.openqa.selenium.WebElement;
@@ -11,7 +12,7 @@ public class PerformRemoveProduct extends BaseLogger implements ITask {
     @Override
     public ITask execute(Object... args) {
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected Item message data, but got none");
+            throw new TOMException("Expected Item message data, but got none");
         }
 
         String expectedItemName = (String) args[0];

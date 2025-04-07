@@ -1,7 +1,6 @@
 package inventory.validations;
 
-import config.FrameworkException;
-import framework.actions.Click;
+import config.TOMException;
 import framework.actions.Obtain;
 import framework.actions.WaitUntil;
 import general.pages.CartPage;
@@ -14,7 +13,7 @@ public class IsProductAddedToCart extends BaseLogger implements IValidation {
     public boolean validate(Object... args) {
 
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected Item message data, but got none");
+            throw new TOMException("Expected Item message data, but got none");
         }
 
         String itemInventory = (String) args[0];

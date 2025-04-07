@@ -30,10 +30,10 @@ public class AuthenticationSteps extends SharedSteps {
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        user = new UserCredentials(username, password);
+        user.set(new UserCredentials(username, password));
         TaskResolver.of(taskMap, PerformAuthentication.class)
-                .with(user.getUsername())
-                .with(user.getPassword())
+                .with(user.get().getUsername())
+                .with(user.get().getPassword())
                 .execute();
     }
 

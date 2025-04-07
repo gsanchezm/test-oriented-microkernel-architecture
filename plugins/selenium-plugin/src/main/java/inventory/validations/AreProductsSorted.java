@@ -1,6 +1,6 @@
 package inventory.validations;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.actions.Obtain;
 import general.enums.SortType;
 import general.pages.ProductsPage;
@@ -18,7 +18,7 @@ public class AreProductsSorted extends BaseLogger implements IValidation {
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected sort option, but got none");
+            throw new TOMException("Expected sort option, but got none");
         }
 
         String sortOption = (String) args[0];

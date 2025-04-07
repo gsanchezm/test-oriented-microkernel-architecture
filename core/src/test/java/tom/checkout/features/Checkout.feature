@@ -20,7 +20,8 @@ Feature: Checkout Process
       | Jane      | Smith    | 98765      |
 
   Scenario Outline: Verify order summary details
-    Given he is on checkout step two
+    And the app is on clean status
+    And he is on checkout step two
     Then it should include the products added previously
     And include "<paymentMethod>", "<shippingMethod>", "<itemTotal>", "<tax>" and "<total>"
 
@@ -29,7 +30,7 @@ Feature: Checkout Process
       | SauceCard #31337 | Free Pony Express Delivery! | $39.97    | $3.20 | $43.17 |
 
   Scenario: Complete checkout
-    Given he is on checkout step two
+    And he is on checkout step two
     When he finishes the checkout
     Then the confirmation should be displayed
 
@@ -38,6 +39,6 @@ Feature: Checkout Process
     Then the cart stage should be displayed
 
   Scenario: Cancel from overview
-    Given he is on checkout step two
+    And he is on checkout step two
     When he cancels the checkout
     Then he is on the inventory page

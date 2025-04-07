@@ -1,6 +1,6 @@
 package tom.plugin_manager;
 
-import config.FrameworkException;
+import config.TOMException;
 import intarfaces.platform.IPlatformProvider;
 import intarfaces.plugins.IPlugin;
 import enums.PlatformType;
@@ -36,19 +36,23 @@ public class PluginManager {
      * Load and execute all enabled plugins, and register their tasks & validations.
      */
     public static void loadPlugins() {
-        if (alreadyLoaded) {
-            logger.info("🔁 Plugins already loaded.");
-            return;
+        synchronized (PluginManager.class) {
+            if (alreadyLoaded) {
+                logger.info("🔁 Plugins already loaded.");
+                return;
+            }
+
+            logger.info("🚀 Loading plugins (thread-safe)...");
+            readPluginConfig();
+
+            PLUGINS.forEach((pluginName, enabled) -> {
+                logger.info("🔍 Checking plugin: {} -> {}", pluginName, enabled);
+                registerPlugin(pluginName);
+            });
+
+            alreadyLoaded = true;
         }
 
-        readPluginConfig();
-
-        PLUGINS.forEach((pluginName, enabled) -> {
-            logger.info("🔍 Checking plugin: " + pluginName + " -> " + enabled);
-            registerPlugin(pluginName);
-        });
-
-        alreadyLoaded = true;
     }
 
     /**
@@ -80,7 +84,7 @@ public class PluginManager {
                 logger.info("🧩 Plugin config loaded: " + className + " = " + enabled);
             }
         } catch (IOException e) {
-            throw new FrameworkException("Error reading config: " + CONFIG_FILE, e);
+            throw new TOMException("Error reading config: " + CONFIG_FILE, e);
         }
     }
 
@@ -142,7 +146,7 @@ public class PluginManager {
             logger.info("🚫 No initializer found for platform: " + platform);
         }
         return Optional.ofNullable(INITIALIZERS.get(platform))
-                .orElseThrow(() -> new FrameworkException("No initializer found for platform: " + platform + ". Is the plugin enabled?"));
+                .orElseThrow(() -> new TOMException("No initializer found for platform: " + platform + ". Is the plugin enabled?"));
     }
 
     /**
@@ -150,7 +154,7 @@ public class PluginManager {
      */
     public static ICleanUp getCleaner(PlatformType platform) {
         return Optional.ofNullable(CLEANERS.get(platform))
-                .orElseThrow(() -> new FrameworkException("No cleaner found for platform: " + platform + ". Is the plugin enabled?"));
+                .orElseThrow(() -> new TOMException("No cleaner found for platform: " + platform + ". Is the plugin enabled?"));
     }
 
     /**

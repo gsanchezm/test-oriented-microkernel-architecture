@@ -1,6 +1,6 @@
 package framework.core;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.factory.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
 
@@ -13,7 +13,7 @@ public class BasePage implements IBase {
         if (this.driver == null) {
             this.driver = WebDriverFactory.getInstance().getWebDriver();
             if (this.driver == null) {
-                throw new FrameworkException("WebDriver instance is null! Ensure WebDriver is initialized.");
+                throw new TOMException("WebDriver instance is null! Ensure WebDriver is initialized.");
             }
         }
         return this.driver;
@@ -24,7 +24,7 @@ public class BasePage implements IBase {
         try {
             return pageClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new FrameworkException("Unable to create instance of " + pageClass.getSimpleName(), e);
+            throw new TOMException("Unable to create instance of " + pageClass.getSimpleName(), e);
         }
     }
 }

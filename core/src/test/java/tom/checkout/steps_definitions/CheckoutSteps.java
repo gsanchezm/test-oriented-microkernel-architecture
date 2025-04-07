@@ -1,8 +1,10 @@
 package tom.checkout.steps_definitions;
 
 import authentication.tasks.PerformAuthentication;
+import authentication.tasks.PerformResetAppState;
 import authentication.tasks.PerformUrlNavigation;
 import cart.tasks.PerformCheckout;
+import cart.tasks.PerformContinueShopping;
 import cart.tasks.PerformNavigationToCart;
 import cart.tasks.PerformRemoveProduct;
 import cart.validations.IsUserOnCart;
@@ -26,8 +28,10 @@ import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;
 import tom.checkout.dao.Checkout;
 import tom.inventory.dao.Product;
+import tom.inventory.dao.ProductList;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
+import utils.JsonDataLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 public class CheckoutSteps extends SharedSteps{
 
     private final List<Product> selectedProducts = new ArrayList<>();
+    private final List<Product> allProducts = new ArrayList<>();;
 
     private static final List<String> titlesToSelect = List.of(
             "Sauce Labs Bolt T-Shirt",
@@ -56,20 +61,25 @@ public class CheckoutSteps extends SharedSteps{
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        user = new UserCredentials(username, password);
+        user.set(new UserCredentials(username, password));
         TaskResolver.of(taskMap, PerformAuthentication.class)
-                .with(user.getUsername())
-                .with(user.getPassword())
+                .with(user.get().getUsername())
+                .with(user.get().getPassword())
                 .execute();
     }
 
     @Given("he has items in the cart")
     public void heHasItemsInTheCart() {
-        selectedProducts.forEach(p -> TaskResolver.of(taskMap, PerformAddItemToCart.class)
-                .with(p.getTitle())
-                .execute());
+        addSelectedProductsToCart();
 
         TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
+    }
+
+    @And("the app is on clean status")
+    public void theAppIsOnCleanStatus() {
+        resetAppAndReturnToStore();
+        addSelectedProductsToCart();
+        proceedToCheckout();
     }
 
     @When("he is on checkout step one")
@@ -80,7 +90,6 @@ public class CheckoutSteps extends SharedSteps{
 
     @When("he submits {string}, {string}, and {string}")
     public void heSubmitsPersonalInfo(String firstName, String lastName, String postalCode) {
-        // You can now use: firstName, lastName, postalCode
         Checkout user = new Checkout(firstName,lastName,postalCode);
         TaskResolver.of(taskMap, PerformFillYourInformation.class)
                 .with(user.getFirstName()).with(user.getLastName()).with(user.getPostalCode())
@@ -91,10 +100,11 @@ public class CheckoutSteps extends SharedSteps{
 
     @Then("next step is checkout step two")
     public void nextStepIsCheckoutStepTwo() {
+
         then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepTwo.class).validate()).isTrue();
     }
 
-    @Given("he is on checkout step two")
+    @And("he is on checkout step two")
     public void heIsOnCheckoutStepTwo() {
         Checkout user = getCheckoutData("standard_user");
         TaskResolver.of(taskMap, PerformFillYourInformation.class)
@@ -153,4 +163,24 @@ public class CheckoutSteps extends SharedSteps{
     private void loadSelectedProducts() {
         selectedProducts.addAll(getProductsByTitles(titlesToSelect));
     }
+
+    private void resetAppAndReturnToStore() {
+        TaskResolver.of(taskMap, PerformCancelCheckout.class).execute();
+        TaskResolver.of(taskMap, PerformContinueShopping.class).execute();
+        TaskResolver.of(taskMap, PerformResetAppState.class).execute();
+    }
+
+    private void addSelectedProductsToCart() {
+        selectedProducts.forEach(p ->
+                TaskResolver.of(taskMap, PerformAddItemToCart.class)
+                        .with(p.getTitle())
+                        .execute()
+        );
+    }
+
+    private void proceedToCheckout() {
+        TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
+        TaskResolver.of(taskMap, PerformCheckout.class).execute();
+    }
+
 }

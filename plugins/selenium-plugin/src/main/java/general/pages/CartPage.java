@@ -12,6 +12,7 @@ public class CartPage extends BasePage {
     private final By quantity = By.className("cart_quantity");
     public final By removeButton = By.xpath("//button[contains(text(),'Remove')]");
     private final By checkoutButton = By.id("checkout");
+    private final By continueShoppingButton = By.id("continue-shopping");
 
     public WebElement getCarIcon(){
         return getDriver().findElement(cartIcon);
@@ -30,4 +31,6 @@ public class CartPage extends BasePage {
     }
 
     public WebElement getCheckoutButton(){return getDriver().findElement(checkoutButton);}
+
+    public WebElement getContinueShoppingButton(){return getDriver().findElement(continueShoppingButton);}
 }

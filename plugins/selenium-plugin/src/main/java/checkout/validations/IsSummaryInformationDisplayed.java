@@ -1,6 +1,6 @@
 package checkout.validations;
 
-import config.FrameworkException;
+import config.TOMException;
 import general.pages.CheckoutStepTwoPage;
 import intarfaces.validations.IValidation;
 import utils.BaseLogger;
@@ -13,7 +13,7 @@ public class IsSummaryInformationDisplayed extends BaseLogger implements IValida
     @Override
     public boolean validate(Object... args) {
         if (args.length < 5) {
-            throw new FrameworkException("Expected 5 summary values, but got: " + args.length);
+            throw new TOMException("Expected 5 summary values, but got: " + args.length);
         }
 
         List<String> expectedLines = Arrays.stream(args)

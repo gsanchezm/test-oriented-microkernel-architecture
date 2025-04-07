@@ -2,7 +2,7 @@ package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import config.FrameworkException;
+import config.TOMException;
 
 import java.io.File;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ public class JsonDataLoader {
         try (InputStream is = getClassPathStream(resourcePath)) {
             return mapper.readValue(is, clazz);
         } catch (Exception e) {
-            throw new FrameworkException("Failed to load JSON from classpath: " + resourcePath, e);
+            throw new TOMException("Failed to load JSON from classpath: " + resourcePath, e);
         }
     }
 
@@ -30,7 +30,7 @@ public class JsonDataLoader {
         try (InputStream is = getClassPathStream(resourcePath)) {
             return mapper.readValue(is, typeRef);
         } catch (Exception e) {
-            throw new FrameworkException("Failed to load JSON list from classpath: " + resourcePath, e);
+            throw new TOMException("Failed to load JSON list from classpath: " + resourcePath, e);
         }
     }
 
@@ -39,7 +39,7 @@ public class JsonDataLoader {
         try (InputStream is = getClassPathStream(resourcePath)) {
             return mapper.readValue(is, typeRef);
         } catch (Exception e) {
-            throw new FrameworkException("Failed to load JSON map list from classpath: " + resourcePath, e);
+            throw new TOMException("Failed to load JSON map list from classpath: " + resourcePath, e);
         }
     }
 
@@ -48,7 +48,7 @@ public class JsonDataLoader {
         try {
             return mapper.readValue(new File(filePath), clazz);
         } catch (Exception e) {
-            throw new FrameworkException("Failed to load JSON from file: " + filePath, e);
+            throw new TOMException("Failed to load JSON from file: " + filePath, e);
         }
     }
 
@@ -57,7 +57,7 @@ public class JsonDataLoader {
         try {
             return mapper.readValue(Files.newInputStream(Paths.get(filePath)), typeRef);
         } catch (Exception e) {
-            throw new FrameworkException("Failed to load JSON list from file: " + filePath, e);
+            throw new TOMException("Failed to load JSON list from file: " + filePath, e);
         }
     }
 
@@ -78,7 +78,7 @@ public class JsonDataLoader {
     // Helper method to get classpath resource
     private static InputStream getClassPathStream(String path) throws Exception {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-        if (is == null) throw new FrameworkException("Resource not found: " + path);
+        if (is == null) throw new TOMException("Resource not found: " + path);
         return is;
     }
 }

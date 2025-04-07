@@ -34,10 +34,10 @@ public class InventorySteps extends SharedSteps {
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        user = new UserCredentials(username, password);
+        user.set(new UserCredentials(username, password));
         TaskResolver.of(taskMap, PerformAuthentication.class)
-                .with(user.getUsername())
-                .with(user.getPassword())
+                .with(user.get().getUsername())
+                .with(user.get().getPassword())
                 .execute();
     }
 
@@ -53,15 +53,15 @@ public class InventorySteps extends SharedSteps {
 
     @When("the user adds the product {string} to the cart")
     public void addProductToCart(String productName) {
-        product = new Product(EMPTY, productName,EMPTY,EMPTY);
-        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(product.getTitle()).execute();
+        product.set(new Product(EMPTY, productName,EMPTY,EMPTY));
+        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(product.get().getTitle()).execute();
     }
 
     @Then("the cart should reflect the item {string}")
     public void verifyItemInCart(String productName) {
-        product = new Product(EMPTY, productName,EMPTY,EMPTY);
+        product.set(new Product(EMPTY, productName,EMPTY,EMPTY));
         TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
-        then(ValidationResolver.of(validationMap, IsProductAddedToCart.class).with(product.getTitle()).validate()).isTrue();
+        then(ValidationResolver.of(validationMap, IsProductAddedToCart.class).with(product.get().getTitle()).validate()).isTrue();
     }
 
     @When("the user selects the sort option {string}")
@@ -77,19 +77,19 @@ public class InventorySteps extends SharedSteps {
 
     @Then("the displayed {string} price should be {string}")
     public void theDisplayedPriceShouldBe(String productName, String expectedPrice) {
-        product = new Product(EMPTY,productName, EMPTY, expectedPrice);
+        product.set(new Product(EMPTY,productName, EMPTY, expectedPrice));
         then(ValidationResolver.of(validationMap, IsProductInformationDisplayed.class).
-                with(product.getTitle()).
-                with(product.getDescription()).
-                with(product.getPrice())
+                with(product.get().getTitle()).
+                with(product.get().getDescription()).
+                with(product.get().getPrice())
                 .validate()).isTrue();
     }
 
     @And("the {string} must be removed")
     public void theMustBeRemoved(String productName) {
-        product = new Product(EMPTY,productName, EMPTY, EMPTY);
+        product.set(new Product(EMPTY,productName, EMPTY, EMPTY));
         TaskResolver.of(taskMap, PerformRemoveProduct.class)
-                .with(product.getTitle())
+                .with(product.get().getTitle())
                 .execute();
     }
 }

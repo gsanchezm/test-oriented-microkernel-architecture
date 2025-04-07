@@ -1,18 +1,16 @@
 package inventory.validations;
 
-import config.FrameworkException;
-import framework.actions.Click;
+import config.TOMException;
 import framework.actions.Obtain;
 import general.pages.ProductsPage;
 import intarfaces.validations.IValidation;
-import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 
 public class IsProductInformationDisplayed extends BaseLogger implements IValidation {
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected product info data, but got none");
+            throw new TOMException("Expected product info data, but got none");
         }
 
         // Parse arguments dynamically

@@ -1,6 +1,6 @@
 package framework.factory;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.core.IDriver;
 import org.openqa.selenium.WebDriver;
 import org.reflections.Reflections;
@@ -36,7 +36,7 @@ public class WebDriverFactory extends BaseLogger {
             Class<? extends IDriver> matchedDriver = driverInterfaces.stream()
                     .filter(driver -> driver.getSimpleName().toLowerCase().contains(browser.toLowerCase()))
                     .findFirst()
-                    .orElseThrow(() -> new FrameworkException("No WebDriver found for browser: " + browser));
+                    .orElseThrow(() -> new TOMException("No WebDriver found for browser: " + browser));
 
             // Instantiate the driver dynamically
             IDriver driverInstance = matchedDriver.getDeclaredConstructor().newInstance();
@@ -46,7 +46,7 @@ public class WebDriverFactory extends BaseLogger {
             webDriver.get().manage().window().maximize();
 
         } catch (ReflectiveOperationException e) {
-            throw new FrameworkException("Error initializing WebDriver for browser: " + browser, e);
+            throw new TOMException("Error initializing WebDriver for browser: " + browser, e);
         }
     }
 
@@ -56,7 +56,7 @@ public class WebDriverFactory extends BaseLogger {
             try {
                 driver.quit();
             } catch (Exception e) {
-                throw new FrameworkException("Unable to remove WebDriver | Exception: " + e.getMessage(), e);
+                throw new TOMException("Unable to remove WebDriver | Exception: " + e.getMessage(), e);
             } finally {
                 webDriver.remove();
             }

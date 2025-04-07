@@ -17,7 +17,6 @@ import static config.Constants.WAIT_TIMEOUT;
 
 public class WaitUntil {
     protected static final Logger logger = LogManager.getLogger(WaitUntil.class);
-    protected static final WebDriver driver = WebDriverFactory.getInstance().getWebDriver();
 
     /**
      * Waits until a single element is visible.
@@ -40,7 +39,7 @@ public class WaitUntil {
      * @return true if the element becomes invisible within the timeout, otherwise false
      */
     public static boolean elementNotDisplayed(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT);
         try {
             logger.info("Verifying if element is not displayed: {}", element.getAccessibleName());
             return wait.until(ExpectedConditions.invisibilityOf(element));
@@ -53,7 +52,7 @@ public class WaitUntil {
      * Waits until all elements in a list are visible.
      */
     public static boolean allElementsExist(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT);
         return elements.stream().allMatch(el -> {
             try {
                 logger.info("Verifying All elements are displayed {}: ", el.getText());
@@ -66,7 +65,7 @@ public class WaitUntil {
     }
 
     public static boolean allElementsNotExist(List<WebElement> elements) {
-        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT);
         return elements.stream().allMatch(el -> {
             try {
                 logger.info("Verifying All elements are not displayed: {}", el.getAccessibleName());
@@ -86,7 +85,7 @@ public class WaitUntil {
      * @return true if the text changes before timeout, otherwise false
      */
     public static boolean waitUntilTextChanges(WebElement element, String originalText) {
-        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
+        WebDriverWait wait = new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT);
         try {
             return wait.until(driver1 -> {
                 // Compare current text with original text
@@ -103,7 +102,7 @@ public class WaitUntil {
      * Waits for the page to be fully loaded.
      */
     public static void pageLoaded() {
-        new WebDriverWait(driver, WAIT_TIMEOUT)
+        new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                 .until(driver -> ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
         logger.info("Page Loaded!");
     }
@@ -117,7 +116,7 @@ public class WaitUntil {
     public static boolean urlContains(String text) {
         try {
             logger.info("Verifying if URL contains: {}", text);
-            return new WebDriverWait(driver, WAIT_TIMEOUT)
+            return new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                     .until(ExpectedConditions.urlContains(text));
         } catch (Exception e) {
             return false; // URL did not contain the text within timeout
@@ -126,11 +125,11 @@ public class WaitUntil {
 
     public static boolean textIsPresent(WebElement element, String text) {
         try {
-            return new WebDriverWait(driver, WAIT_TIMEOUT)
+            return new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                     .until(driver1 -> element.getText().equals(text));
         } catch (Exception e) {
             try {
-                return new WebDriverWait(driver, WAIT_TIMEOUT)
+                return new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                         .until(ExpectedConditions.textToBePresentInElement(element, text));
             }catch (Exception ex){
                 return false; // Text did not appear within timeout
@@ -139,7 +138,7 @@ public class WaitUntil {
     }
 
     public static void elementClickable(WebElement element) {
-        new WebDriverWait(driver, WAIT_TIMEOUT)
+        new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                 .until(ExpectedConditions.elementToBeClickable(element));
         element.click();
     }
@@ -149,7 +148,7 @@ public class WaitUntil {
      */
     private static boolean tryWait(WebElement element) {
         try {
-            new WebDriverWait(driver, WAIT_TIMEOUT)
+            new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                     .until(ExpectedConditions.visibilityOf(element));
             return true;
         } catch (Exception ignored) {
@@ -162,7 +161,7 @@ public class WaitUntil {
      */
     private static boolean tryWaitForList(List<WebElement> elements) {
         try {
-            new WebDriverWait(driver, WAIT_TIMEOUT)
+            new WebDriverWait(WebDriverFactory.getInstance().getWebDriver(), WAIT_TIMEOUT)
                     .until(ExpectedConditions.visibilityOfAllElements(elements));
             return true;
         } catch (Exception ignored) {

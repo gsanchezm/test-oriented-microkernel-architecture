@@ -1,6 +1,6 @@
 package inventory.tasks;
 
-import config.FrameworkException;
+import config.TOMException;
 import framework.actions.Selection;
 import general.pages.ProductsPage;
 import intarfaces.tasks.ITask;
@@ -10,7 +10,7 @@ public class PerformProductsSort extends BaseLogger implements ITask {
     @Override
     public ITask execute(Object... args) {
         if (args.length == 0 || args[0] == null) {
-            throw new FrameworkException("Expected sort option, but got none");
+            throw new TOMException("Expected sort option, but got none");
         }
 
         String sort = (String) args[0];
