@@ -3,9 +3,9 @@ package general.config;
 import authentication.tasks.PerformAuthentication;
 import factories.ObjectFactory;
 import framework.factory.WebDriverFactory;
-import intarfaces.init.IInitialize;
+import framework.core.interfaces.IWebInitialize;
 
-public class WebInitializeClass implements IInitialize {
+public class WebInitializeClass implements IWebInitialize {
 
     @Override
     public void initialize(String browser) {

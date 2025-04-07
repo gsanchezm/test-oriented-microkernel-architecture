@@ -2,7 +2,7 @@ package checkout.validations;
 
 import config.TOMException;
 import general.pages.CheckoutStepTwoPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 import java.util.Arrays;

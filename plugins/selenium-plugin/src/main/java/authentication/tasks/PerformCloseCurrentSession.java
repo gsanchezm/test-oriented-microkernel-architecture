@@ -3,7 +3,7 @@ package authentication.tasks;
 import general.enums.MenuItems;
 import framework.actions.Click;
 import framework.actions.WaitUntil;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import general.pages.LeftMenuPage;
 import utils.BaseLogger;
 

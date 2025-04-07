@@ -3,7 +3,7 @@ package inventory.tasks;
 import config.TOMException;
 import framework.actions.Selection;
 import general.pages.ProductsPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformProductsSort extends BaseLogger implements ITask {

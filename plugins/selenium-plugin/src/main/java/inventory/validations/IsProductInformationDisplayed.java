@@ -3,7 +3,7 @@ package inventory.validations;
 import config.TOMException;
 import framework.actions.Obtain;
 import general.pages.ProductsPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsProductInformationDisplayed extends BaseLogger implements IValidation {

@@ -1,7 +1,7 @@
 package cart.validations;
 
 import general.pages.CartPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsProductRemovedFromCart extends BaseLogger implements IValidation {

@@ -1,9 +1,8 @@
 package services.validations;
 
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;

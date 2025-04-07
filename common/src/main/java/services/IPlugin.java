@@ -1,9 +1,9 @@
 package services;
 
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 
 import java.util.List;
 

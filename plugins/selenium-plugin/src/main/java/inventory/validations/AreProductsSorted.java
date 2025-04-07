@@ -4,7 +4,7 @@ import config.TOMException;
 import framework.actions.Obtain;
 import general.enums.SortType;
 import general.pages.ProductsPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 

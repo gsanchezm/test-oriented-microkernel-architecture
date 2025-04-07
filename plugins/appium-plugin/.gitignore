@@ -458,4 +458,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Ignore all APK files
+*.apk
+
+# Ignore all IPA files
+*.ipa
+
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,intellij,intellij+all,intellij+iml,eclipse,visualstudiocode,windows,netbeans,macos,linux,git

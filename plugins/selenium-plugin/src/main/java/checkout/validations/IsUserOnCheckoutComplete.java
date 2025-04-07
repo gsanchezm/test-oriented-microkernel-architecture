@@ -2,7 +2,7 @@ package checkout.validations;
 
 import framework.actions.WaitUntil;
 import general.pages.CheckoutCompletePage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 

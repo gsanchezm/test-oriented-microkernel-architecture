@@ -5,7 +5,7 @@ import framework.actions.Obtain;
 import framework.actions.WaitUntil;
 import general.pages.CartPage;
 import general.pages.ProductsPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsProductAddedToCart extends BaseLogger implements IValidation {

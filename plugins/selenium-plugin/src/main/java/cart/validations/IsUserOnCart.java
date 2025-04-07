@@ -1,7 +1,7 @@
 package cart.validations;
 
 import framework.actions.WaitUntil;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsUserOnCart extends BaseLogger implements IValidation {

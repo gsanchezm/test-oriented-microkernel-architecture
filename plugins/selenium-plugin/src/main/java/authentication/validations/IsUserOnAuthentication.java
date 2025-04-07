@@ -1,7 +1,7 @@
 package authentication.validations;
 
 import framework.actions.WaitUntil;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import org.openqa.selenium.WebElement;
 import general.pages.LoginPage;
 import utils.BaseLogger;

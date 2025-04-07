@@ -4,15 +4,15 @@ import general.config.WebCleanUpClass;
 import general.config.WebInitializeClass;
 import factories.TaskFactoryHelper;
 import factories.ValidationFactoryHelper;
-import intarfaces.platform.IPlatformProvider;
-import intarfaces.plugins.IPlugin;
+import interfaces.platform.IPlatformProvider;
+import interfaces.plugins.IPlugin;
 import enums.PlatformType;
-import intarfaces.init.ICleanUp;
-import intarfaces.init.IInitialize;
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import interfaces.init.ICleanUp;
+import framework.core.interfaces.IWebInitialize;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 import utils.BaseLogger;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
     }
 
     @Override
-    public IInitialize getInitializer() {
+    public IWebInitialize getInitializer() {
         return new WebInitializeClass();
     }
 

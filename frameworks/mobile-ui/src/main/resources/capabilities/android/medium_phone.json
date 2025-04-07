@@ -1,0 +1,14 @@
+{
+  "name": "Pixel 5 - Android 12",
+  "caps": {
+    "platformName": "Android",
+    "platformVersion": "12.0",
+    "deviceName": "Pixel 5",
+    "automationName": "UiAutomator2",
+    "app": "path/to/app.apk",
+    "fastReset": true,
+    "udid": "emulator-5554",
+    "launchTimeout": 50000,
+    "commandTimeout": "12000"
+  }
+}

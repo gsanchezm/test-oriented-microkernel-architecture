@@ -2,7 +2,7 @@ package checkout.tasks;
 
 import framework.actions.Click;
 import general.pages.CheckoutStepTwoPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformFinishCheckout extends BaseLogger implements ITask {

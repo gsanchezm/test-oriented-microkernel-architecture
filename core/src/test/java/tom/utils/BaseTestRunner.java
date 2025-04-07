@@ -1,22 +1,33 @@
 package tom.utils;
 
+import config.TOMException;
 import enums.PlatformType;
-import intarfaces.init.ICleanUp;
-import intarfaces.init.IInitialize;
+import framework.core.MobileInitializerHandler;
+import framework.core.WebInitializerHandler;
+import interfaces.init.ICleanUp;
+import interfaces.init.IInitializeBase;
+import interfaces.platform.IPlatformInitializerHandler;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.TestNGCucumberRunner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.*;
-import services.tasks.TaskResolver;
 import tom.plugin_manager.PluginManager;
 import tom.services.TestContext;
+
+import java.util.List;
 
 public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
 
     protected TestNGCucumberRunner testNGCucumberRunner;
     protected static final Logger logger = LogManager.getLogger(BaseTestRunner.class);
     protected ICleanUp cleaner;
+    private final List<IPlatformInitializerHandler> initializerHandlers = List.of(
+            new WebInitializerHandler(),
+            new MobileInitializerHandler()
+            // add more handlers as needed
+    );
+
 
     @BeforeClass
     public void initContextPerClass() {
@@ -24,21 +35,25 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
     }
 
     @BeforeTest
-    @Parameters({"platform", "driver"})
-    public void initializeExecution(String platform, String driver) {
+    @Parameters({"platform", "platformVariant"})
+    public void initializeExecution(String platform, String platformVariant) {
         String runnerName = this.getClass().getSimpleName();
         logger.info("🧪 Runner detected: {}", runnerName);
         logger.info("TOM Java Test Execution Engine Running...");
         logger.info("Platform Selected: {}", platform);
-        logger.info("Driver Selected: {}", driver);
-
-        //PluginManager.loadPlugins();
+        logger.info("Driver Selected: {}", platformVariant);
 
         PlatformType platformType = PlatformType.valueOf(platform.toUpperCase());
 
         if (PluginManager.isPlatformEnabled(platformType)) {
-            IInitialize initializer = PluginManager.getInitializer(platformType);
-            initializer.initialize(driver); // This sets WebDriver into ThreadLocal
+            IInitializeBase initializer = PluginManager.getInitializer(platformType);
+
+            initializerHandlers.stream()
+                    .filter(handler -> handler.supports(platformType))
+                    .findFirst()
+                    .orElseThrow(() -> new TOMException("No handler found for platform: " + platformType))
+                    .initialize(initializer, platformVariant);
+
             cleaner = PluginManager.getCleaner(platformType);
         } else {
             logger.warn("\u26A0\uFE0F Platform {} is not enabled. Skipping WebDriver initialization.", platformType);

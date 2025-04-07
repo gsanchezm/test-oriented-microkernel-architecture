@@ -2,7 +2,7 @@ package checkout.tasks;
 
 import framework.actions.Click;
 import general.pages.CheckoutStepOnePage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformCancelCheckout extends BaseLogger implements ITask {

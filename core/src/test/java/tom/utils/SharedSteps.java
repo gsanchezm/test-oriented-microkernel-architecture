@@ -1,9 +1,8 @@
 package tom.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import intarfaces.tasks.ITask;
-import intarfaces.validations.IValidation;
-import io.cucumber.java.After;
+import interfaces.tasks.ITask;
+import interfaces.validations.IValidation;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
 import tom.authentication.dao.UserCredentials;

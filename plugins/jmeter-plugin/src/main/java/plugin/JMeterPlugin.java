@@ -1,14 +1,15 @@
 package plugin;
 
 import enums.PlatformType;
-import intarfaces.init.ICleanUp;
-import intarfaces.init.IInitialize;
-import intarfaces.platform.IPlatformProvider;
-import intarfaces.plugins.IPlugin;
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import interfaces.init.ICleanUp;
+import interfaces.init.IInitializeBase;
+import interfaces.init.IWebInitialize;
+import interfaces.platform.IPlatformProvider;
+import interfaces.plugins.IPlugin;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 import utils.BaseLogger;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class JMeterPlugin extends BaseLogger implements IPlugin, IPlatformProvid
     }
 
     @Override
-    public IInitialize getInitializer() {
+    public IInitializeBase getInitializer() {
         return null;
     }
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel="tests">
+    <listeners>
+        <listener class-name="listeners.TestListener"/>
+        <listener class-name="listeners.AnnotationTransform"/>
+   </listeners>
+    <test name="CAndroid Test">
+        <parameter name="platform" value="MOBILE" />
+        <parameter name="platformVariant" value="Android" />
+        <classes>
+            <class name="tom.authentication.runner.AuthenticationTest"/>
+            <!--<class name="tom.inventory.runner.InventoryTest"/>
+            <class name="tom.cart.runner.CartTest"/>
+            <class name="tom.checkout.runner.CheckoutTest"/>-->
+        </classes>
+    </test>
+
+    <!--<test name="iOS Test">
+        <parameter name="platform" value="MOBILE" />
+        <parameter name="platformVariant" value="iOS" />
+        <classes>
+            <class name="tom.authentication.runner.AuthenticationTest"/>
+            <class name="tom.inventory.runner.InventoryTest"/>
+            <class name="tom.cart.runner.CartTest"/>
+            <class name="tom.checkout.runner.CheckoutTest"/>
+        </classes>
+    </test>-->
+</suite>

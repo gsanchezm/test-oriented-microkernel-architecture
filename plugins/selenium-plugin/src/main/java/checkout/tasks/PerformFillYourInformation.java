@@ -3,7 +3,7 @@ package checkout.tasks;
 import config.TOMException;
 import framework.actions.Enter;
 import general.pages.CheckoutStepOnePage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformFillYourInformation extends BaseLogger implements ITask {

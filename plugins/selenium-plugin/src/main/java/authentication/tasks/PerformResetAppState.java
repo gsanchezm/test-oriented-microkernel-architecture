@@ -5,7 +5,7 @@ import framework.actions.Refresh;
 import framework.actions.WaitUntil;
 import general.enums.MenuItems;
 import general.pages.LeftMenuPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformResetAppState extends BaseLogger implements ITask {

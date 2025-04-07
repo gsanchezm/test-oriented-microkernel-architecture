@@ -1,6 +1,7 @@
 package framework.core;
 
 import config.TOMException;
+import framework.core.interfaces.IBase;
 import framework.factory.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
 

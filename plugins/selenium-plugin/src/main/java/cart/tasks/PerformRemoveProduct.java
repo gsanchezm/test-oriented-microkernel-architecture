@@ -2,9 +2,8 @@ package cart.tasks;
 
 import config.TOMException;
 import framework.actions.Click;
-import framework.actions.WaitUntil;
 import general.pages.CartPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 

@@ -1,7 +1,7 @@
 package inventory.validations;
 
 import framework.actions.WaitUntil;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsUserOnInventory extends BaseLogger implements IValidation {

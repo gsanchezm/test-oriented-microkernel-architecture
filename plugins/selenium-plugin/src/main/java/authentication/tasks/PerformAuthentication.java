@@ -5,7 +5,7 @@ import config.TOMException;
 import framework.actions.Click;
 import framework.actions.Enter;
 import general.pages.LoginPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformAuthentication extends BaseLogger implements ITask {

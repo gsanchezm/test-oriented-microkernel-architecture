@@ -1,7 +1,7 @@
 package factories;
 
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;

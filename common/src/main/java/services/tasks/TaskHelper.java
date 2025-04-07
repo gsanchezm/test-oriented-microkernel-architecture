@@ -1,6 +1,6 @@
 package services.tasks;
 
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 
 import java.util.Map;
 

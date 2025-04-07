@@ -1,7 +1,7 @@
 package tom.services;
 
-import intarfaces.tasks.ITask;
-import intarfaces.validations.IValidation;
+import interfaces.tasks.ITask;
+import interfaces.validations.IValidation;
 import tom.plugin_manager.PluginManager;
 
 import java.util.List;

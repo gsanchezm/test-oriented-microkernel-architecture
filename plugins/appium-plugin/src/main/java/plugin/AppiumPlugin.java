@@ -1,41 +1,55 @@
 package plugin;
 
 import enums.PlatformType;
-import intarfaces.init.ICleanUp;
-import intarfaces.init.IInitialize;
-import intarfaces.platform.IPlatformProvider;
-import intarfaces.plugins.IPlugin;
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import factories.TaskFactoryHelper;
+import factories.ValidationFactoryHelper;
+import framework.core.interfaces.IMobileInitialize;
+import general.config.MobileCleanUpClass;
+import general.config.MobileInitializeClass;
+import interfaces.init.ICleanUp;
+import interfaces.platform.IPlatformProvider;
+import interfaces.plugins.IPlugin;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 import utils.BaseLogger;
 
 import java.util.List;
 
 public class AppiumPlugin extends BaseLogger implements IPlugin, IPlatformProvider {
     @Override
+    public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
+        return TaskFactoryHelper.loadTasks(List.of(
+                "authentication.tasks",
+                "inventory.tasks",
+                "cart.tasks",
+                "checkout.tasks"
+        ));
+    }
+
+    @Override
+    public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
+        return ValidationFactoryHelper.loadValidations(List.of(
+                "authentication.validations",
+                "inventory.validations",
+                "cart.validations",
+                "checkout.validations"
+        ));
+    }
+
+    @Override
     public PlatformType getPlatformType() {
         return PlatformType.MOBILE;
     }
 
     @Override
-    public IInitialize getInitializer() {
-        return null;
+    public IMobileInitialize getInitializer() {
+        return new MobileInitializeClass();
     }
 
     @Override
     public ICleanUp getCleaner() {
-        return null;
-    }
-
-    @Override
-    public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
-        return List.of();
-    }
-
-    @Override
-    public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
-        return List.of();
+        return new MobileCleanUpClass();
     }
 }

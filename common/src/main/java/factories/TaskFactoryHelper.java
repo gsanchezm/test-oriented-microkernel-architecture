@@ -1,8 +1,8 @@
 package factories;
 
 import config.TOMException;
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;

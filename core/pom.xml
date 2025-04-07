@@ -33,7 +33,8 @@
                         <log4j.configurationFile>${project.basedir}/../common/src/main/resources/log4j2.properties</log4j.configurationFile>
                     </systemPropertyVariables>
                     <suiteXmlFiles>
-                        <suiteXmlFile>test_execution.xml</suiteXmlFile>
+                        <suiteXmlFile>web_test_execution.xml</suiteXmlFile>
+                        <suiteXmlFile>mobile_test_execution.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
@@ -70,6 +71,11 @@
         <dependency>
             <groupId>com.tom</groupId>
             <artifactId>selenium-plugin</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tom</groupId>
+            <artifactId>appium-plugin</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

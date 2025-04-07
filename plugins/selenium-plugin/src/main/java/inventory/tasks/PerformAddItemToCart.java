@@ -3,7 +3,7 @@ package inventory.tasks;
 import config.TOMException;
 import framework.actions.Click;
 import general.pages.ProductsPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 

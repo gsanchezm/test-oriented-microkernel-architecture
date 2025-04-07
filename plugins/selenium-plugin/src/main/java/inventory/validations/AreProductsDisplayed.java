@@ -2,7 +2,7 @@ package inventory.validations;
 
 import framework.actions.WaitUntil;
 import general.pages.ProductsPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class AreProductsDisplayed extends BaseLogger implements IValidation {

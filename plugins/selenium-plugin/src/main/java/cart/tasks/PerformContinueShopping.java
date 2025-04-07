@@ -2,7 +2,7 @@ package cart.tasks;
 
 import framework.actions.Click;
 import general.pages.CartPage;
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
 public class PerformContinueShopping extends BaseLogger implements ITask {

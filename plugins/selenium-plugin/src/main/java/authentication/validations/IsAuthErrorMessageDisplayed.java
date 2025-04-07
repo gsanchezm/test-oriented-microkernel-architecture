@@ -3,7 +3,7 @@ package authentication.validations;
 import config.TOMException;
 import framework.actions.Obtain;
 import general.pages.LoginPage;
-import intarfaces.validations.IValidation;
+import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidation {

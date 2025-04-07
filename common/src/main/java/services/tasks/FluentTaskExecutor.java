@@ -1,6 +1,6 @@
 package services.tasks;
 
-import intarfaces.tasks.ITask;
+import interfaces.tasks.ITask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

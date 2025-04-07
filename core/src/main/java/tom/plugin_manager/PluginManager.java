@@ -1,15 +1,16 @@
 package tom.plugin_manager;
 
 import config.TOMException;
-import intarfaces.platform.IPlatformProvider;
-import intarfaces.plugins.IPlugin;
+import interfaces.init.IInitializeBase;
+import interfaces.platform.IPlatformProvider;
+import interfaces.plugins.IPlugin;
 import enums.PlatformType;
-import intarfaces.init.ICleanUp;
-import intarfaces.init.IInitialize;
-import intarfaces.tasks.ITask;
-import intarfaces.tasks.ITaskFactory;
-import intarfaces.validations.IValidation;
-import intarfaces.validations.IValidationFactory;
+import interfaces.init.ICleanUp;
+import framework.core.interfaces.IWebInitialize;
+import interfaces.tasks.ITask;
+import interfaces.tasks.ITaskFactory;
+import interfaces.validations.IValidation;
+import interfaces.validations.IValidationFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +29,7 @@ public class PluginManager {
     private static final Map<String, Boolean> PLUGINS = new ConcurrentHashMap<>();
     private static final List<ITask<?>> TASKS = new ArrayList<>();
     private static final List<IValidation<?>> VALIDATIONS = new ArrayList<>();
-    private static final Map<PlatformType, IInitialize> INITIALIZERS = new ConcurrentHashMap<>();
+    private static final Map<PlatformType, IInitializeBase> INITIALIZERS = new ConcurrentHashMap<>();
     private static final Map<PlatformType, ICleanUp> CLEANERS = new ConcurrentHashMap<>();
     private static boolean alreadyLoaded = false;
 
@@ -141,7 +142,7 @@ public class PluginManager {
     /**
      * Returns the appropriate Initializer for a platform.
      */
-    public static IInitialize getInitializer(PlatformType platform) {
+    public static IInitializeBase getInitializer(PlatformType platform) {
         if (!INITIALIZERS.containsKey(platform)) {
             logger.info("🚫 No initializer found for platform: " + platform);
         }

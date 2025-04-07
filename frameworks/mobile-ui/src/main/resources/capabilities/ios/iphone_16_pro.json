@@ -1,0 +1,12 @@
+{
+  "name": "iPhone 16 Pro",
+  "caps": {
+    "platformName": "iOS",
+    "platformVersion": "18.2",
+    "deviceName": "iPhone 16 Pro",
+    "automationName": "XCUITest",
+    "app": "path/to/app.ipa",
+    "launchTimeout": 50000,
+    "commandTimeout": "12000"
+  }
+}
