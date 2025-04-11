@@ -22,20 +22,20 @@ public class SeleniumPlugin extends BaseLogger implements IPlugin, IPlatformProv
     @Override
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
         return TaskFactoryHelper.loadTasks(List.of(
-                "authentication.tasks",
-                "inventory.tasks",
-                "cart.tasks",
-                "checkout.tasks"
+                "web.authentication.tasks",
+                "web.inventory.tasks",
+                "web.cart.tasks",
+                "web.checkout.tasks"
         ));
     }
 
     @Override
     public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
         return ValidationFactoryHelper.loadValidations(List.of(
-                "authentication.validations",
-                "inventory.validations",
-                "cart.validations",
-                "checkout.validations"
+                "web.authentication.validations",
+                "web.inventory.validations",
+                "web.cart.validations",
+                "web.checkout.validations"
         ));
     }
 

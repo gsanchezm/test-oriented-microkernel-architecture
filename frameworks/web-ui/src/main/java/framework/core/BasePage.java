@@ -1,8 +1,8 @@
 package framework.core;
 
 import config.TOMException;
-import framework.core.interfaces.IBase;
 import framework.factory.WebDriverFactory;
+import interfaces.init.IBase;
 import org.openqa.selenium.WebDriver;
 
 public class BasePage implements IBase {

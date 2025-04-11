@@ -1,41 +1,38 @@
 package tom.checkout.steps_definitions;
 
-import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformResetAppState;
-import authentication.tasks.PerformUrlNavigation;
-import cart.tasks.PerformCheckout;
-import cart.tasks.PerformContinueShopping;
-import cart.tasks.PerformNavigationToCart;
-import cart.tasks.PerformRemoveProduct;
-import cart.validations.IsUserOnCart;
-import checkout.tasks.PerformCancelCheckout;
-import checkout.tasks.PerformContinueToStepTwo;
-import checkout.tasks.PerformFillYourInformation;
-import checkout.tasks.PerformFinishCheckout;
-import checkout.validations.IsSummaryInformationDisplayed;
-import checkout.validations.IsUserOnCheckoutStepOne;
-import checkout.validations.IsUserOnCheckoutComplete;
-import checkout.validations.IsUserOnCheckoutStepTwo;
-import inventory.tasks.PerformAddItemToCart;
-import inventory.validations.IsProductAddedToCart;
-import inventory.validations.IsUserOnInventory;
+import mobile.authentication.tasks.PerformAuthentication;
+import mobile.authentication.tasks.PerformResetAppState;
+import mobile.authentication.tasks.PerformOpenSauceApp;
+import mobile.cart.tasks.PerformCheckout;
+import mobile.cart.tasks.PerformContinueShopping;
+import mobile.cart.tasks.PerformNavigationToCart;
+import mobile.cart.validations.IsUserOnCart;
+import mobile.checkout.tasks.PerformCancelCheckout;
+import mobile.checkout.tasks.PerformContinueToStepTwo;
+import mobile.checkout.tasks.PerformFillYourInformation;
+import mobile.checkout.tasks.PerformFinishCheckout;
+import mobile.checkout.validations.IsSummaryInformationDisplayed;
+import mobile.checkout.validations.IsUserOnCheckoutStepOne;
+import mobile.checkout.validations.IsUserOnCheckoutComplete;
+import mobile.checkout.validations.IsUserOnCheckoutStepTwo;
+import mobile.inventory.tasks.PerformAddItemToCart;
+import mobile.inventory.validations.IsProductAddedToCart;
+import mobile.inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
-import tom.authentication.dao.UserCredentials;
-import tom.checkout.dao.Checkout;
+import tom.authentication.dao.UserInformation;
 import tom.inventory.dao.Product;
-import tom.inventory.dao.ProductList;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
-import utils.JsonDataLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static config.Constants.EMPTY;
 import static org.assertj.core.api.BDDAssertions.then;
 
 public class CheckoutSteps extends SharedSteps{
@@ -56,12 +53,13 @@ public class CheckoutSteps extends SharedSteps{
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
         loadSelectedProducts();
-        TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
+        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
     }
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        user.set(new UserCredentials(username, password));
+        UserInformation getUser = getUserData();
+        user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
         TaskResolver.of(taskMap, PerformAuthentication.class)
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
@@ -90,7 +88,7 @@ public class CheckoutSteps extends SharedSteps{
 
     @When("he submits {string}, {string}, and {string}")
     public void heSubmitsPersonalInfo(String firstName, String lastName, String postalCode) {
-        Checkout user = new Checkout(firstName,lastName,postalCode);
+        UserInformation user = new UserInformation(EMPTY, EMPTY, firstName,lastName,postalCode);
         TaskResolver.of(taskMap, PerformFillYourInformation.class)
                 .with(user.getFirstName()).with(user.getLastName()).with(user.getPostalCode())
                 .execute();
@@ -106,7 +104,7 @@ public class CheckoutSteps extends SharedSteps{
 
     @And("he is on checkout step two")
     public void heIsOnCheckoutStepTwo() {
-        Checkout user = getCheckoutData("standard_user");
+        UserInformation user = getUserData();
         TaskResolver.of(taskMap, PerformFillYourInformation.class)
                 .with(user.getFirstName()).with(user.getLastName()).with(user.getPostalCode())
                 .execute();

@@ -1,0 +1,14 @@
+{
+  "usernameInput": {
+    "android": "androidUiAutomator:new UiSelector().resourceId('com.saucelabs.mydemoapp.android:id/nameET')",
+    "ios": "accessibilityId:loginUsername"
+  },
+  "passwordInput": {
+    "android": "androidUiAutomator:com.saucelabs.mydemoapp.android:id/passwordET",
+    "ios": "accessibilityId:loginPassword"
+  },
+  "loginButton": {
+    "android": "accessibilityId:Tap to login with given credentials",
+    "ios": "accessibilityId:loginBtn"
+  }
+}

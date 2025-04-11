@@ -1,20 +1,20 @@
 package tom.cart.steps_definitions;
 
-import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformUrlNavigation;
-import cart.tasks.PerformCheckout;
-import cart.tasks.PerformNavigationToCart;
-import cart.tasks.PerformRemoveProduct;
-import cart.validations.IsProductRemovedFromCart;
-import checkout.validations.IsUserOnCheckoutStepOne;
-import inventory.tasks.PerformAddItemToCart;
-import inventory.validations.IsProductAddedToCart;
+import mobile.authentication.tasks.PerformAuthentication;
+import mobile.authentication.tasks.PerformOpenSauceApp;
+import mobile.cart.tasks.PerformCheckout;
+import mobile.cart.tasks.PerformNavigationToCart;
+import mobile.cart.tasks.PerformRemoveProduct;
+import mobile.cart.validations.IsProductRemovedFromCart;
+import mobile.checkout.validations.IsUserOnCheckoutStepOne;
+import mobile.inventory.tasks.PerformAddItemToCart;
+import mobile.inventory.validations.IsProductAddedToCart;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.tasks.TaskResolver;
 import services.validations.ValidationResolver;
-import tom.authentication.dao.UserCredentials;
+import tom.authentication.dao.UserInformation;
 import tom.inventory.dao.Product;
 import tom.services.TestContext;
 import tom.utils.SharedSteps;
@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static config.Constants.EMPTY;
 import static org.assertj.core.api.BDDAssertions.then;
 
 public class CartSteps extends SharedSteps {
@@ -36,12 +37,13 @@ public class CartSteps extends SharedSteps {
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
         loadSelectedProducts();
-        TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
+        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
     }
 
     @When("SauceLab user submit credentials {string} and {string}")
     public void iSubmitCredentials(String username, String password) {
-        user.set(new UserCredentials(username, password));
+        UserInformation getUser = getUserData();
+        user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
         TaskResolver.of(taskMap, PerformAuthentication.class)
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())

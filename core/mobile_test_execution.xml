@@ -5,7 +5,7 @@
         <listener class-name="listeners.TestListener"/>
         <listener class-name="listeners.AnnotationTransform"/>
    </listeners>
-    <test name="CAndroid Test">
+    <test name="Android Test">
         <parameter name="platform" value="MOBILE" />
         <parameter name="platformVariant" value="Android" />
         <classes>

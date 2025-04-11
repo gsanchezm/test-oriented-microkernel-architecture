@@ -2,8 +2,8 @@ package tom.utils;
 
 import config.TOMException;
 import enums.PlatformType;
-import framework.core.MobileInitializerHandler;
-import framework.core.WebInitializerHandler;
+import general.config.MobileInitializerHandler;
+import general.config.WebInitializerHandler;
 import interfaces.init.ICleanUp;
 import interfaces.init.IInitializeBase;
 import interfaces.platform.IPlatformInitializerHandler;
@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.annotations.*;
 import tom.plugin_manager.PluginManager;
 import tom.services.TestContext;
+import tom.services.TestDataContext;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
     private final List<IPlatformInitializerHandler> initializerHandlers = List.of(
             new WebInitializerHandler(),
             new MobileInitializerHandler()
+            //new ApiInitializerHandler()
+            //new PerformanceInitializerHandler()
             // add more handlers as needed
     );
 
@@ -44,6 +47,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
         logger.info("Driver Selected: {}", platformVariant);
 
         PlatformType platformType = PlatformType.valueOf(platform.toUpperCase());
+        TestDataContext.setPlatform(platform.toLowerCase());
 
         if (PluginManager.isPlatformEnabled(platformType)) {
             IInitializeBase initializer = PluginManager.getInitializer(platformType);
@@ -69,7 +73,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
     @AfterTest
     public void cleanUpExecution() {
         if (cleaner != null) {
-            cleaner.cleanUp(); // Quits WebDriver in ThreadLocal
+            cleaner.cleanUp();
         }
         TestContext.clear();
     }

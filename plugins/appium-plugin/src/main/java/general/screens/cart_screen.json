@@ -1,0 +1,14 @@
+{
+  "usernameInput": {
+    "android": "accessibilityId:login-username",
+    "ios": "accessibilityId:loginUsername"
+  },
+  "passwordInput": {
+    "android": "accessibilityId:login-password",
+    "ios": "accessibilityId:loginPassword"
+  },
+  "loginButton": {
+    "android": "accessibilityId:login-button",
+    "ios": "accessibilityId:loginBtn"
+  }
+}

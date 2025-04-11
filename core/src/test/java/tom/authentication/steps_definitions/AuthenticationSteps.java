@@ -1,20 +1,21 @@
 package tom.authentication.steps_definitions;
 
-import authentication.tasks.PerformAuthentication;
-import authentication.tasks.PerformCloseCurrentSession;
-import authentication.tasks.PerformUrlNavigation;
-import authentication.validations.IsAuthErrorMessageDisplayed;
-import authentication.validations.IsUserOnAuthentication;
-import inventory.validations.IsUserOnInventory;
+import mobile.authentication.tasks.PerformAuthentication;
+import mobile.authentication.tasks.PerformCloseCurrentSession;
+import mobile.authentication.tasks.PerformOpenSauceApp;
+import mobile.authentication.validations.IsAuthErrorMessageDisplayed;
+import mobile.authentication.validations.IsUserOnAuthentication;
+import mobile.inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import services.validations.ValidationResolver;
-import tom.authentication.dao.UserCredentials;
+import tom.authentication.dao.UserInformation;
 import tom.services.TestContext;
 import services.tasks.TaskResolver;
 import tom.utils.SharedSteps;
 
+import static config.Constants.EMPTY;
 import static org.assertj.core.api.BDDAssertions.then;
 
 public class AuthenticationSteps extends SharedSteps {
@@ -25,12 +26,13 @@ public class AuthenticationSteps extends SharedSteps {
 
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
-        TaskResolver.of(taskMap, PerformUrlNavigation.class).execute();
+        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
     }
 
-    @When("SauceLab user submit credentials {string} and {string}")
-    public void iSubmitCredentials(String username, String password) {
-        user.set(new UserCredentials(username, password));
+    @When("SauceLab user submit credentials")
+    public void iSubmitCredentials() {
+        UserInformation getUser = getUserData();
+        user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
         TaskResolver.of(taskMap, PerformAuthentication.class)
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())

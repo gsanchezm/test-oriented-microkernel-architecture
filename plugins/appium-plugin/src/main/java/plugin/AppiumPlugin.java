@@ -21,20 +21,20 @@ public class AppiumPlugin extends BaseLogger implements IPlugin, IPlatformProvid
     @Override
     public List<ITaskFactory<? extends ITask<?>>> getTaskFactories() {
         return TaskFactoryHelper.loadTasks(List.of(
-                "authentication.tasks",
-                "inventory.tasks",
-                "cart.tasks",
-                "checkout.tasks"
+                "mobile.authentication.tasks"/*,
+                "mobile.inventory.tasks",
+                "mobile.cart.tasks",
+                "mobile.checkout.tasks"*/
         ));
     }
 
     @Override
     public List<IValidationFactory<? extends IValidation<?>>> getValidationFactories() {
         return ValidationFactoryHelper.loadValidations(List.of(
-                "authentication.validations",
-                "inventory.validations",
-                "cart.validations",
-                "checkout.validations"
+                "mobile.authentication.validations"/*,
+                "mobile.inventory.validations",
+                "mobile.cart.validations",
+                "mobile.checkout.validations"*/
         ));
     }
 

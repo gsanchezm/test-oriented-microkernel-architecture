@@ -1,0 +1,39 @@
+{
+  "loginButton": {
+    "android": "accessibilityId:login-button",
+    "ios": "accessibilityId:loginBtn"
+  },
+  "usernameField": {
+    "android": "androidUiAutomator:new UiSelector().text(\"Username\")",
+    "ios": "iosClassChain:**/XCUIElementTypeTextField[`label == \"Username\"`]"
+  },
+  "viewTagExample": {
+    "android": "androidViewTag:customTag123",
+    "ios": "iosNsPredicate:label == 'TagExample'"
+  },
+  "dataMatcherExample": {
+    "android": "androidDataMatcher:{\"name\": \"hasEntry\", \"args\": [\"key\", \"value\"]}",
+    "ios": "iosNsPredicate:value == 'DataExample'"
+  },
+  "submitButton": {
+    "android": "id:com.example:id/submitBtn",
+    "ios": "id:submitBtn"
+  },
+  "rememberMeCheckbox": {
+    "android": "className:android.widget.CheckBox",
+    "ios": "className:XCUIElementTypeSwitch"
+  },
+  "titleLabel": {
+    "android": "name:Login Page",
+
+    "ios": "name:Login Page"
+  },
+  "containerXPath": {
+    "android": "xpath://*[@content-desc='main-container']",
+    "ios": "xpath://XCUIElementTypeOther[@name='main-container']"
+  },
+  "supportLink": {
+    "android": "css:a[href*='support']",
+    "ios": "css:a[href*='support']"
+  }
+}

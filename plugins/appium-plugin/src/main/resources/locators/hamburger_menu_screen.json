@@ -1,0 +1,10 @@
+{
+  "hamburgerMenu": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/menuIV",
+    "ios": ""
+  },
+  "menuItems": {
+    "android": "className:android.widget.TextView",
+    "ios": "iosClassChain:**/XCUIElementTypeStaticText"
+  }
+}

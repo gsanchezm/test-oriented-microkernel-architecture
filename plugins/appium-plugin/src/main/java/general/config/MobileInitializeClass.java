@@ -1,7 +1,5 @@
 package general.config;
 
-import authentication.tasks.PerformAuthentication;
-import factories.ObjectFactory;
 import framework.core.AppiumServer;
 import framework.core.interfaces.IMobileInitialize;
 import framework.factory.AppiumDriverFactory;
@@ -9,11 +7,8 @@ import framework.factory.AppiumDriverFactory;
 public class MobileInitializeClass implements IMobileInitialize {
 
     @Override
-    public void initialize(String appNameKey, String deviceKey, AppiumServer server) {
+    public void initialize(String appName, String deviceKey, AppiumServer server, String capabilitiesContent) {
         // Initialize AppiumDriver & Open App
-        AppiumDriverFactory.getInstance().setAppiumDriver(appNameKey, deviceKey, server);
-
-        // Register AppiumDriver-dependent tasks after AppiumDriver is initialized
-        ObjectFactory.register(PerformAuthentication.class, PerformAuthentication::new);
+        AppiumDriverFactory.getInstance().setAppiumDriver(appName, deviceKey, server, capabilitiesContent);
     }
 }

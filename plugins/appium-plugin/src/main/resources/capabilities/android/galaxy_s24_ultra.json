@@ -1,0 +1,19 @@
+{
+  "capabilities": [
+    {
+      "name": "Galaxy S24 Ultra - Android 15",
+      "caps": {
+        "platformName": "Android",
+        "platformVersion": "15",
+        "deviceName": "Galaxy S24 Ultra",
+        "automationName": "UiAutomator2",
+        "app": "",
+        "appWaitActivity":"",
+        "autoGrantPermissions": true,
+        "udid": "emulator-5554",
+        "launchTimeout": 50000,
+        "newCommandTimeout": "12000"
+      }
+    }
+  ]
+}

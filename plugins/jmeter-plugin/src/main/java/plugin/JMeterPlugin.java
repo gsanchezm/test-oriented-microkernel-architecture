@@ -3,7 +3,6 @@ package plugin;
 import enums.PlatformType;
 import interfaces.init.ICleanUp;
 import interfaces.init.IInitializeBase;
-import interfaces.init.IWebInitialize;
 import interfaces.platform.IPlatformProvider;
 import interfaces.plugins.IPlugin;
 import interfaces.tasks.ITask;

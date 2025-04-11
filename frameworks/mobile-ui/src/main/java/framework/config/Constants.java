@@ -13,4 +13,6 @@ public class Constants {
     // Configuration file path
     public static final Path CONFIG_PATH = RESOURCES_FOLDER.resolve("config.properties");
 
+
+
 }
