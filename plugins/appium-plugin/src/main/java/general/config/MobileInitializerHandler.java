@@ -15,14 +15,12 @@ import interfaces.init.IInitializeBase;
 import interfaces.platform.IPlatformInitializerHandler;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
-import strategy.LocatorStrategyRegistry;
+import framework.strategy.LocatorStrategyRegistry;
 import utils.BaseLogger;
 
 import java.io.File;
 import java.util.List;
 import java.util.Properties;
-
-import static general.config.Constants.*;
 
 public class MobileInitializerHandler extends BaseLogger implements IPlatformInitializerHandler {
     private static final Properties APPIUM_CONFIG = PropertyManager.loadProperties( "appium-config.properties");
@@ -71,6 +69,7 @@ public class MobileInitializerHandler extends BaseLogger implements IPlatformIni
             // Loop through each capability file
             for (String capsPath : capabilities) {
                 AppiumServer server = new AppiumServer(APPIUM_IP_ADDRESS, APPIUM_PATH, NODE_PATH, APPIUM_LOGS);
+                server.waitUntilReady();
                 String capabilityName = extractCapabilityName(capsPath);
                 System.out.printf("🔍 Initializing with capability '%s' from file: %s%n", capabilityName, capsPath);
                 mobileInit.initialize(appName, capabilityName, server, capsPath);

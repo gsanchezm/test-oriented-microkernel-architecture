@@ -3,11 +3,8 @@ package framework.core;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import framework.config.JSONDataUtils;
-import framework.factory.AppiumDriverFactory;
-import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import strategy.LocatorStrategyRegistry;
+import framework.strategy.LocatorStrategyRegistry;
 
 import java.util.ArrayList;
 import java.util.List;

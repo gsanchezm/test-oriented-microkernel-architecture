@@ -8,6 +8,8 @@ import general.screens.LoginScreen;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
+import static framework.actions.MobileWaitUntil.retryAction;
+
 public class PerformAuthentication extends BaseLogger implements ITask {
 
     @Override
@@ -31,16 +33,9 @@ public class PerformAuthentication extends BaseLogger implements ITask {
         Tap.onElementWithText(hamburgerMenuScreen.getAllMenuItems(), LoginMenu);
 
         LoginScreen loginScreen = new LoginScreen();
-       /* List<WebElement> items = hamburgerMenuScreen.getAllMenuItems();
 
-        Tap.on(items.stream()
-                .filter(el -> LoginMenu.equalsIgnoreCase(el.getText()))
-                .findFirst()
-                .orElseThrow(() -> new TOMException("❌ Menu item not found: " + LoginMenu))
-        );*/
-
-        Type.text(loginScreen.getUsernameInput(), username);
-        Type.text(loginScreen.getPasswordInput(), password);
+        retryAction(() ->Type.text(loginScreen.getUsernameInput(), username), 2);
+        retryAction(() ->Type.text(loginScreen.getPasswordInput(), password),2);
         Tap.on(loginScreen.getLoginButton());
 
         return this;

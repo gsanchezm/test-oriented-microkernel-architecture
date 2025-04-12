@@ -20,7 +20,7 @@ public class CapabilitiesJsonParser {
     private static final String NAME_KEY = "name";
     private static final String CAPS_ARRAY_KEY = "capabilities";
     private static final String PLATFORM_KEY = "platformName";
-    private static final String APP_KEY = "app";
+    private static final String APP_KEY = "appium:app";
 
     /**
      * Extracts capability map from a JSON file, replaces the app path based on platform + app name.

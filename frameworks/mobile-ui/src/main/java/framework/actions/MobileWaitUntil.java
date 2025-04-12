@@ -1,13 +1,15 @@
 package framework.actions;
 
 import framework.factory.AppiumDriverFactory;
-import io.appium.java_client.AppiumDriver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import static config.Constants.WAIT_TIMEOUT;
 
 public class MobileWaitUntil {
     protected static final Logger logger = LogManager.getLogger(MobileWaitUntil.class);
+    private static final Duration RETRY_WAIT = Duration.ofMillis(300);
 
     public static boolean elementExists(WebElement element) {
         logger.info("Verify if element exists");
@@ -80,4 +83,28 @@ public class MobileWaitUntil {
             return false;
         }
     }
+
+    protected static void waitForRetry(WebDriver driver) {
+        // Dummy wait with timeout and polling to yield control without Thread.sleep
+        new FluentWait<>(driver)
+                .withTimeout(RETRY_WAIT)
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(Exception.class)
+                .until(d -> true); // just wait for the time to pass
+    }
+
+    public static void retryAction(Runnable action, int retries) {
+        int attempts = 0;
+        while (attempts <= retries) {
+            try {
+                action.run();
+                return;
+            } catch (Exception e) {
+                logger.warn("Retryable action failed: {}. Retrying... ({}/{})", e.getMessage(), attempts + 1, retries);
+                attempts++;
+            }
+        }
+        throw new RuntimeException("❌ Action failed after retries");
+    }
+
 }

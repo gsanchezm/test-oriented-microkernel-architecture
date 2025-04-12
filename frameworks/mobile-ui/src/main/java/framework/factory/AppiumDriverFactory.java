@@ -5,8 +5,7 @@ import framework.config.ADBDeviceChecker;
 import framework.core.AppiumServer;
 import framework.config.CapabilitiesJsonParser;
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import strategy.CapabilityStrategyResolver;
+import framework.strategy.CapabilityStrategyResolver;
 import utils.BaseLogger;
 
 import java.util.Map;
@@ -44,7 +43,7 @@ public class AppiumDriverFactory extends BaseLogger {
         // 2. Check that UDID exists via ADB
         // ✅ ADB device check (only for Android)
         if (platformName.equals("android")) {
-            String udid = String.valueOf(capsMap.getOrDefault("udid", ""));
+            String udid = String.valueOf(capsMap.getOrDefault("appium:udid", ""));
             if (udid.isBlank()) {
                 throw new TOMException("❌ 'udid' is required in capabilities for Android.");
             }

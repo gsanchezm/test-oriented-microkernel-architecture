@@ -1,4 +1,4 @@
-package strategy;
+package framework.strategy;
 
 import config.TOMException;
 import framework.core.interfaces.PlatformCapabilityStrategy;

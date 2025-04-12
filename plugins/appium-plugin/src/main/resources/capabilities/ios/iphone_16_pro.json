@@ -4,12 +4,12 @@
       "name": "iPhone 16 Pro",
       "caps": {
         "platformName": "iOS",
-        "platformVersion": "18.2",
-        "deviceName": "iPhone 16 Pro",
-        "automationName": "XCUITest",
-        "app": "",
-        "launchTimeout": 50000,
-        "newCommandTimeout": "12000"
+        "appium:platformVersion": "18.2",
+        "appium:deviceName": "iPhone 16 Pro",
+        "appium:automationName": "XCUITest",
+        "appium:app": "",
+        "appium:launchTimeout": 50000,
+        "appium:newCommandTimeout": "12000"
       }
     }
   ]

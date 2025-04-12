@@ -1,68 +1,55 @@
 package framework.actions;
 
-import config.TOMException;
+import framework.config.RetryHelper;
 import framework.factory.AppiumDriverFactory;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
-import static config.Constants.WAIT_TIMEOUT;
+import static java.util.Collections.singletonList;
 
-public class Tap extends MobileWaitUntil {
+public class Tap {
+
+    private static final int MAX_RETRIES = 3;
+    private static final Duration RETRY_DELAY = Duration.ofMillis(600);
+
     public static void on(WebElement element) {
-        Optional.ofNullable(element).ifPresent(el -> {
-            logger.info("👆 Tapping on element");
-            elementClickable(el);
-
-
-            // W3C touch action tap
-            PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-            Sequence tap = new Sequence(finger, 1)
-                    .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.fromElement(el), 0, 0))
-                    .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                    .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-            AppiumDriverFactory.getInstance().getAppiumDriver().perform(List.of(tap));
+        RetryHelper.retry(MAX_RETRIES, RETRY_DELAY, attempt -> {
+            performTap(element);
+            return null;
         });
     }
 
-    /**
-     * Taps on the first element in the list that matches the given text using WebDriverWait.
-     */
     public static void onElementWithText(List<WebElement> elements, String expectedText) {
-        WebDriverWait wait = new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), WAIT_TIMEOUT);
-        WebElement element = wait.until(visibleElementWithText(elements, expectedText));
+        Optional<WebElement> found = elements.stream()
+                .filter(e -> expectedText.equalsIgnoreCase(e.getText()))
+                .findFirst();
 
-        if (element == null) {
-            throw new TOMException("❌ Menu item not found with text: " + expectedText);
+        if (found.isEmpty()) {
+            throw new RuntimeException("❌ Element not found with text: " + expectedText);
         }
 
-        Tap.on(element);
+        on(found.get());
     }
 
-    private static ExpectedCondition<WebElement> visibleElementWithText(List<WebElement> elements, String expectedText) {
-        return driver -> {
-            for (WebElement el : elements) {
-                try {
-                    String text = el.getText().trim();
-                    if (text.equalsIgnoreCase(expectedText)) {
-                        return el;
-                    }
-                } catch (Exception ignored) {
-                    // Skip stale or detached elements
-                }
-            }
-            return null;
-        };
+    private static void performTap(WebElement element) {
+        var driver = AppiumDriverFactory.getInstance().getAppiumDriver();
+
+        var finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        var tap = new Sequence(finger, 1);
+
+        var rect = element.getRect();
+        int centerX = rect.getX() + rect.getWidth() / 2;
+        int centerY = rect.getY() + rect.getHeight() / 2;
+
+        tap.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerX, centerY));
+        tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(singletonList(tap));
     }
 }

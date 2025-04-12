@@ -1,4 +1,4 @@
-package strategy;
+package framework.strategy;
 
 import framework.core.interfaces.PlatformCapabilityStrategy;
 import io.appium.java_client.AppiumDriver;

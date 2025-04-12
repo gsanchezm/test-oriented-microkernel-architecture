@@ -1,4 +1,4 @@
-package strategy;
+package framework.strategy;
 
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
