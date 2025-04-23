@@ -1,6 +1,7 @@
 package mobile.authentication.tasks;
 
 import config.TOMException;
+import framework.actions.MobileWaitUntil;
 import framework.actions.Tap;
 import framework.actions.Type;
 import general.screens.HamburgerMenuScreen;
@@ -25,12 +26,12 @@ public class PerformAuthentication extends BaseLogger implements ITask {
         String LoginMenu = "Log In";
 
         // Re-create page object every time to avoid stale references
-
         HamburgerMenuScreen hamburgerMenuScreen = new HamburgerMenuScreen();
 
         // Perform login actions
+        MobileWaitUntil.elementExists(hamburgerMenuScreen.getHamburgerMenu());
         Tap.on(hamburgerMenuScreen.getHamburgerMenu());
-        Tap.onElementWithText(hamburgerMenuScreen.getAllMenuItems(), LoginMenu);
+        Tap.onElementWithText(hamburgerMenuScreen::getAllMenuItems, LoginMenu);
 
         LoginScreen loginScreen = new LoginScreen();
 

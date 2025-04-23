@@ -6,6 +6,7 @@ import general.config.MobileTestDataContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class HamburgerMenuScreen extends BaseScreen {
     private final MobileLocatorHelper locatorHelper = new MobileLocatorHelper("hamburger_menu_screen");
@@ -14,12 +15,11 @@ public class HamburgerMenuScreen extends BaseScreen {
         return MobileTestDataContext.getPlatform(); // e.g., "android"
     }
 
-    public WebElement getHamburgerMenu() {
-        return getDriver().findElement(locatorHelper.getLocator("hamburgerMenu", getPlatform()));
+    public Supplier<WebElement> getHamburgerMenu() {
+        return element(locatorHelper.getLocator("hamburgerMenu", getPlatform()));
     }
 
     public List<WebElement> getAllMenuItems() {
-        // ✅ Only one locator for all items
         return getDriver().findElements(locatorHelper.getLocator("menuItems", getPlatform()));
     }
 }

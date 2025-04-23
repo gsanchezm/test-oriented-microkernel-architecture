@@ -1,5 +1,9 @@
 package mobile.authentication.tasks;
 
+import framework.actions.MobileWaitUntil;
+import framework.actions.Tap;
+import general.screens.HamburgerMenuScreen;
+import general.screens.LogOutScreen;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
@@ -7,18 +11,19 @@ public class PerformCloseCurrentSession extends BaseLogger implements ITask {
 
     @Override
     public PerformCloseCurrentSession execute(Object... args) {
-        /*LeftMenuPage leftMenuPage = new LeftMenuPage();
+        String LogOutMenu = "Log Out";
 
-        WaitUntil.pageLoaded();
+        // Re-create page object every time to avoid stale references
+        HamburgerMenuScreen hamburgerMenuScreen = new HamburgerMenuScreen();
 
-        Click.on(leftMenuPage.getBurguerMenu());
+        // Perform LogOut Actions
+        MobileWaitUntil.elementExists(hamburgerMenuScreen.getHamburgerMenu());
+        Tap.on(hamburgerMenuScreen.getHamburgerMenu());
+        Tap.onElementWithText(hamburgerMenuScreen::getAllMenuItems, LogOutMenu);
 
-        WaitUntil.allElementsExist(leftMenuPage.getMenuItemList());
-
-        leftMenuPage.getMenuItemList().stream()
-                .filter(e -> e.getText().equals(MenuItems.LOGOUT.toString()))
-                .findFirst()
-                .ifPresent(Click::on);*/
+        LogOutScreen logOutScreen = new LogOutScreen();
+        MobileWaitUntil.elementExists(logOutScreen.getLogOutLabel());
+        Tap.on(logOutScreen.getLogOutButton());
 
         return this;
     }

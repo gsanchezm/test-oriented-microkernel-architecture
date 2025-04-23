@@ -1,14 +1,14 @@
 {
   "usernameInput": {
     "android": "id:com.saucelabs.mydemoapp.android:id/nameET",
-    "ios": "accessibilityId:loginUsername"
+    "ios": ""
   },
   "passwordInput": {
     "android": "id:com.saucelabs.mydemoapp.android:id/passwordET",
-    "ios": "accessibilityId:loginPassword"
+    "ios": ""
   },
   "loginButton": {
     "android": "accessibilityId:Tap to login with given credentials",
-    "ios": "accessibilityId:loginBtn"
+    "ios": ""
   }
 }

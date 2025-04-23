@@ -1,0 +1,26 @@
+{
+  "logoAndNameImage": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/mTvTitle",
+    "ios": "accessibilityId:loginUsername"
+  },
+  "productsInfo": {
+    "android": "className:android.view.ViewGroup",
+    "ios": "accessibilityId:loginPassword"
+  },
+  "productImage": {
+    "android": "className:android.widget.ImageView",
+    "ios": "accessibilityId:loginBtn"
+  },
+  "productTitle": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/titleTV",
+    "ios": "accessibilityId:loginBtn"
+  },
+  "productPrice": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/priceTV",
+    "ios": "accessibilityId:loginBtn"
+  },
+  "productStars": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/rattingV",
+    "ios": "accessibilityId:loginBtn"
+  }
+}

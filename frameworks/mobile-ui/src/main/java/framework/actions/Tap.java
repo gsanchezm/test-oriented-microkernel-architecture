@@ -9,6 +9,7 @@ import org.openqa.selenium.interactions.Sequence;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static java.util.Collections.singletonList;
 
@@ -17,23 +18,28 @@ public class Tap {
     private static final int MAX_RETRIES = 3;
     private static final Duration RETRY_DELAY = Duration.ofMillis(600);
 
-    public static void on(WebElement element) {
+    public static void on(Supplier<WebElement> elementSupplier) {
         RetryHelper.retry(MAX_RETRIES, RETRY_DELAY, attempt -> {
-            performTap(element);
+            performTap(elementSupplier.get());
             return null;
         });
     }
 
-    public static void onElementWithText(List<WebElement> elements, String expectedText) {
-        Optional<WebElement> found = elements.stream()
-                .filter(e -> expectedText.equalsIgnoreCase(e.getText()))
-                .findFirst();
+    public static void onElementWithText(Supplier<List<WebElement>> elementsSupplier, String expectedText) {
+        RetryHelper.retry(MAX_RETRIES, RETRY_DELAY, attempt -> {
+            List<WebElement> elements = elementsSupplier.get();
 
-        if (found.isEmpty()) {
-            throw new RuntimeException("❌ Element not found with text: " + expectedText);
-        }
+            Optional<WebElement> found = elements.stream()
+                    .filter(e -> expectedText.equalsIgnoreCase(e.getText()))
+                    .findFirst();
 
-        on(found.get());
+            if (found.isEmpty()) {
+                throw new RuntimeException("❌ Element not found with text: " + expectedText);
+            }
+
+            performTap(found.get());
+            return null;
+        });
     }
 
     private static void performTap(WebElement element) {

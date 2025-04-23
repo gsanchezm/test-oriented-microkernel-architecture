@@ -4,6 +4,10 @@ import config.TOMException;
 import framework.factory.AppiumDriverFactory;
 import interfaces.init.IBase;
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.function.Supplier;
 
 public class BaseScreen implements IBase {
 
@@ -17,6 +21,10 @@ public class BaseScreen implements IBase {
             }
         }
         return this.driver;
+    }
+
+    protected Supplier<WebElement> element(By locator) {
+        return () -> getDriver().findElement(locator);
     }
 
     @Override

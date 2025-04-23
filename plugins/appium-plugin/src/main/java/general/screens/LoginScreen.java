@@ -5,6 +5,8 @@ import framework.core.MobileLocatorHelper;
 import general.config.MobileTestDataContext;
 import org.openqa.selenium.WebElement;
 
+import java.util.function.Supplier;
+
 public class LoginScreen extends BaseScreen {
     private final MobileLocatorHelper locatorHelper = new MobileLocatorHelper("login_screen");
 
@@ -12,15 +14,15 @@ public class LoginScreen extends BaseScreen {
         return MobileTestDataContext.getPlatform(); // e.g., "android"
     }
 
-    public WebElement getUsernameInput() {
-        return getDriver().findElement(locatorHelper.getLocator("usernameInput", getPlatform()));
+    public Supplier<WebElement> getUsernameInput() {
+        return element(locatorHelper.getLocator("usernameInput", getPlatform()));
     }
 
-    public WebElement getPasswordInput() {
-        return getDriver().findElement(locatorHelper.getLocator("passwordInput", getPlatform()));
+    public Supplier<WebElement> getPasswordInput() {
+        return element(locatorHelper.getLocator("passwordInput", getPlatform()));
     }
 
-    public WebElement getLoginButton() {
-        return getDriver().findElement(locatorHelper.getLocator("loginButton", getPlatform()));
+    public Supplier<WebElement> getLoginButton() {
+        return element(locatorHelper.getLocator("loginButton", getPlatform()));
     }
 }
