@@ -1,9 +1,9 @@
 Feature: Sauce Labs Authentication
 
-#  Scenario: Valid login
-#    Given the application is launched
-#    When SauceLab user submit credentials
-#    Then the system should grant access
+  Scenario: Valid login
+    Given the application is launched
+    When SauceLab user submit credentials
+    Then the system should grant access
 
 #  Scenario: Invalid login
 #    Given the application is launched
@@ -18,4 +18,4 @@ Feature: Sauce Labs Authentication
   Scenario: Session handling
     Given SauceLab user submit credentials
     When he log out
-    #Then the system should return to the login page
+    Then the system should return to the login page

@@ -3,6 +3,7 @@ package framework.actions;
 import framework.factory.AppiumDriverFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -45,10 +46,11 @@ public class MobileWaitUntil {
         }
     }
 
-    public static boolean elementNotDisplayed(WebElement element) {
+    public static boolean elementNotDisplayed(Supplier<WebElement> supplier) {
         WebDriverWait wait = new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), WAIT_TIMEOUT);
         try {
             logger.info("🔍 Verifying if element is NOT displayed");
+            WebElement element = supplier.get();
             return wait.until(ExpectedConditions.invisibilityOf(element));
         } catch (Exception e) {
             logger.warn("⚠️ Element was expected to be hidden but is still visible or could not be found: {}", e.getMessage());
@@ -56,38 +58,110 @@ public class MobileWaitUntil {
         }
     }
 
-    public static boolean allElementsExist(List<WebElement> elements) {
+    public static boolean allElementsExist(List<Supplier<WebElement>> suppliers) {
         WebDriverWait wait = new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), WAIT_TIMEOUT);
-        return elements.stream().allMatch(el -> {
+
+        for (Supplier<WebElement> supplier : suppliers) {
             try {
-                logger.info("🔍 Checking visibility for element: {}", el.getText());
-                wait.until(ExpectedConditions.visibilityOf(el));
-                return true;
+                boolean isVisible = wait.until(driver -> {
+                    try {
+                        WebElement el = supplier.get();
+                        logger.info("🔍 Checking visibility for element: {}", el.getText());
+                        return el.isDisplayed();
+                    } catch (Exception e) {
+                        logger.warn("⚠️ Element not found or not ready: {}", e.getMessage());
+                        return false;
+                    }
+                });
+
+                if (!isVisible) {
+                    logger.warn("⚠️ Element failed visibility check");
+                    return false;
+                }
+
             } catch (Exception e) {
-                logger.warn("⚠️ Element not visible or missing: {}", e.getMessage());
+                logger.error("❌ Timed out waiting for element: {}", e.getMessage());
                 return false;
             }
-        });
+        }
+
+        return true;
     }
 
-    public static boolean textIsPresent(WebElement element, String text) {
+    public static boolean textIsPresent(Supplier<WebElement> supplier, String expectedText) {
         WebDriverWait wait = new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), WAIT_TIMEOUT);
+
         try {
-            logger.info("🔍 Waiting for element to contain exact text: '{}'", text);
-            return wait.until(driver -> text.equals(element.getText()));
+            logger.info("🔍 Waiting for element to contain exact text: '{}'", expectedText);
+
+            return wait.until(driver -> {
+                try {
+                    WebElement el = supplier.get();
+                    return expectedText.equals(el.getText());
+                } catch (StaleElementReferenceException e) {
+                    logger.warn("⚠️ Stale element while checking exact text. Retrying...");
+                    return false;
+                }
+            });
+
         } catch (Exception e) {
-            logger.warn("⚠️ Exact text not matched. Trying partial match: {}", e.getMessage());
+            logger.warn("⚠️ Exact text not matched: {}. Trying partial match...", e.getMessage());
+
             try {
-                return wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+                return wait.until(driver -> {
+                    try {
+                        WebElement el = supplier.get();
+                        return el.getText().contains(expectedText);
+                    } catch (StaleElementReferenceException ex) {
+                        logger.warn("⚠️ Stale element while checking partial text. Retrying...");
+                        return false;
+                    }
+                });
             } catch (Exception ex) {
-                logger.error("❌ Text '{}' not found in element after timeout: {}", text, ex.getMessage());
+                logger.error("❌ Text '{}' not found in element after timeout: {}", expectedText, ex.getMessage());
                 return false;
             }
         }
     }
 
-    public static void elementClickable(WebElement element) {
+    public static boolean textIsPresent(Supplier<WebElement> supplier, String expectedText, Duration timeout) {
+        WebDriverWait wait = new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), timeout);
+
         try {
+            logger.info("🔍 Waiting for element to contain exact text: '{}'", expectedText);
+            return wait.until(driver -> {
+                try {
+                    WebElement el = supplier.get();
+                    return expectedText.equalsIgnoreCase(el.getText());
+                } catch (StaleElementReferenceException e) {
+                    logger.warn("⚠️ Stale element while checking exact text. Retrying...");
+                    return false;
+                }
+            });
+
+        } catch (Exception e) {
+            logger.warn("⚠️ Exact text not matched: {}. Trying partial match...", e.getMessage());
+
+            try {
+                return wait.until(driver -> {
+                    try {
+                        WebElement el = supplier.get();
+                        return el.getText().contains(expectedText);
+                    } catch (StaleElementReferenceException ex) {
+                        logger.warn("⚠️ Stale element while checking partial text. Retrying...");
+                        return false;
+                    }
+                });
+            } catch (Exception ex) {
+                logger.error("❌ Text '{}' not found in element after timeout: {}", expectedText, ex.getMessage());
+                return false;
+            }
+        }
+    }
+
+    public static void elementClickable(Supplier<WebElement> supplier) {
+        try {
+            WebElement element = supplier.get();
             logger.info("🔍 Waiting for element to be clickable");
             new WebDriverWait(AppiumDriverFactory.getInstance().getAppiumDriver(), WAIT_TIMEOUT)
                     .until(ExpectedConditions.elementToBeClickable(element));
