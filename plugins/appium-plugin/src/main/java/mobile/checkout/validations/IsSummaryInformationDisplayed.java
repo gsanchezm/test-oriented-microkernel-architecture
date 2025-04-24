@@ -1,14 +1,22 @@
 package mobile.checkout.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import general.pages.CheckoutStepTwoPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class IsSummaryInformationDisplayed extends BaseLogger implements IValidation {
+public class IsSummaryInformationDisplayed extends BaseLogger implements IValidation<IsSummaryInformationDisplayed>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
+
     @Override
     public boolean validate(Object... args) {
         if (args.length < 5) {

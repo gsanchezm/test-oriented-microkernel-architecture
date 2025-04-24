@@ -1,13 +1,21 @@
 package mobile.cart.tasks;
 
 import config.TOMException;
+import enums.PlatformType;
 import general.pages.CartPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformRemoveProduct extends BaseLogger implements ITask {
+public class PerformRemoveProduct extends BaseLogger implements ITask<PerformRemoveProduct>, IPlatformSpecific {
+
     @Override
-    public ITask execute(Object... args) {
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
+
+    @Override
+    public PerformRemoveProduct execute(Object... args) {
         if (args.length == 0 || args[0] == null) {
             throw new TOMException("Expected Item message data, but got none");
         }

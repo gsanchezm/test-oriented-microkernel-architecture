@@ -1,15 +1,23 @@
 package web.cart.tasks;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Click;
 import general.pages.CartPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
 
-public class PerformRemoveProduct extends BaseLogger implements ITask {
+public class PerformRemoveProduct extends BaseLogger implements ITask<PerformRemoveProduct>, IPlatformSpecific {
+
     @Override
-    public ITask execute(Object... args) {
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
+    @Override
+    public PerformRemoveProduct execute(Object... args) {
         if (args.length == 0 || args[0] == null) {
             throw new TOMException("Expected Item message data, but got none");
         }

@@ -1,12 +1,20 @@
 package mobile.inventory.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import general.pages.CartPage;
 import general.pages.ProductsPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsProductAddedToCart extends BaseLogger implements IValidation {
+public class IsProductAddedToCart extends BaseLogger implements IValidation<IsProductAddedToCart>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
+
     @Override
     public boolean validate(Object... args) {
 

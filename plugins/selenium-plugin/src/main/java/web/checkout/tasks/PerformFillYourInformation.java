@@ -1,14 +1,22 @@
 package web.checkout.tasks;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Enter;
 import general.pages.CheckoutStepOnePage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformFillYourInformation extends BaseLogger implements ITask {
+public class PerformFillYourInformation extends BaseLogger implements ITask<PerformFillYourInformation>, IPlatformSpecific {
+
     @Override
-    public ITask execute(Object... args) {
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
+    @Override
+    public PerformFillYourInformation execute(Object... args) {
 
         if (args.length == 0 || args[0] == null) {
             throw new TOMException("Expected user credentials data, but got none");

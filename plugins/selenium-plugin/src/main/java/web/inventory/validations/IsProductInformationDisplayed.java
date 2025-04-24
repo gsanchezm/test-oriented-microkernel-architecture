@@ -1,12 +1,20 @@
 package web.inventory.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Obtain;
 import general.pages.ProductsPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsProductInformationDisplayed extends BaseLogger implements IValidation {
+public class IsProductInformationDisplayed extends BaseLogger implements IValidation<IsProductInformationDisplayed>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {

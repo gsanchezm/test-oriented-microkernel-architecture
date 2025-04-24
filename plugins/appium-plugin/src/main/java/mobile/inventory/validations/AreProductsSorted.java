@@ -1,12 +1,20 @@
 package mobile.inventory.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import general.enums.SortType;
 import general.pages.ProductsPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class AreProductsSorted extends BaseLogger implements IValidation {
+public class AreProductsSorted extends BaseLogger implements IValidation<AreProductsSorted>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {

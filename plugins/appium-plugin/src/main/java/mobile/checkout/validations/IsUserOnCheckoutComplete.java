@@ -1,9 +1,17 @@
 package mobile.checkout.validations;
 
+import enums.PlatformType;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsUserOnCheckoutComplete extends BaseLogger implements IValidation {
+public class IsUserOnCheckoutComplete extends BaseLogger implements IValidation<IsUserOnCheckoutComplete> , IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
+
     @Override
     public boolean validate(Object... args) {
         return false;

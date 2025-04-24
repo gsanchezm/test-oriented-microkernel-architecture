@@ -1,14 +1,22 @@
 package web.inventory.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Obtain;
 import framework.actions.WaitUntil;
 import general.pages.CartPage;
 import general.pages.ProductsPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsProductAddedToCart extends BaseLogger implements IValidation {
+public class IsProductAddedToCart extends BaseLogger implements IValidation<IsProductAddedToCart>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
     @Override
     public boolean validate(Object... args) {
 

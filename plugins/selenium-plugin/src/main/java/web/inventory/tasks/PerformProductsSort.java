@@ -1,14 +1,22 @@
 package web.inventory.tasks;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Selection;
 import general.pages.ProductsPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformProductsSort extends BaseLogger implements ITask {
+public class PerformProductsSort extends BaseLogger implements ITask<PerformProductsSort>, IPlatformSpecific {
+
     @Override
-    public ITask execute(Object... args) {
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
+    @Override
+    public PerformProductsSort execute(Object... args) {
         if (args.length == 0 || args[0] == null) {
             throw new TOMException("Expected sort option, but got none");
         }

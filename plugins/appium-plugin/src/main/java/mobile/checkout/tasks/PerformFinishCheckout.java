@@ -1,12 +1,20 @@
 package mobile.checkout.tasks;
 
+import enums.PlatformType;
 import general.pages.CheckoutStepTwoPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformFinishCheckout extends BaseLogger implements ITask {
+public class PerformFinishCheckout extends BaseLogger implements ITask<PerformFinishCheckout>, IPlatformSpecific {
+
     @Override
-    public ITask execute(Object... args) {
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
+    @Override
+    public PerformFinishCheckout execute(Object... args) {
         CheckoutStepTwoPage checkoutStepTwoPage = new CheckoutStepTwoPage();
         //Click.on(checkoutStepTwoPage.getFinishButton());
         return this;
