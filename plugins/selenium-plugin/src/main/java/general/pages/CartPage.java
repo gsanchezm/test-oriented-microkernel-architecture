@@ -11,7 +11,7 @@ public class CartPage extends BasePage {
     private final By cartProductItems = By.cssSelector("div[data-test='inventory-item']");
     private final By quantity = By.className("cart_quantity");
     public final By removeButton = By.xpath("//button[contains(text(),'Remove')]");
-    private final By checkoutButton = By.id("web/checkout");
+    private final By checkoutButton = By.id("checkout");
     private final By continueShoppingButton = By.id("continue-shopping");
 
     public WebElement getCarIcon(){

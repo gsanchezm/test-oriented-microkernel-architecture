@@ -15,6 +15,6 @@ public class IsUserOnCart extends BaseLogger implements IValidation<IsUserOnCart
 
     @Override
     public boolean validate(Object... args) {
-        return WaitUntil.urlContains("web/cart");
+        return WaitUntil.urlContains("cart.html");
     }
 }
