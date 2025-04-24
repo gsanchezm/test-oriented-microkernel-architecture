@@ -6,7 +6,7 @@ Feature: Checkout Process
 
   Background:
     Given the application is launched
-    And SauceLab user submit credentials "standard_user" and "secret_sauce"
+    And SauceLab user submit credentials
     And he has items in the cart
     When he is on checkout step one
 

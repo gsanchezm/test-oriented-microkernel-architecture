@@ -8,6 +8,15 @@
       "postalCode": "23245"
     }
   ],
+  "locked_out_user": [
+    {
+      "username": "locked_out_user",
+      "password": "secret_sauce",
+      "firstName": "",
+      "lastName": "",
+      "postalCode": ""
+    }
+  ],
   "bod": [
     {
       "username": "bod@example.com",
@@ -15,6 +24,15 @@
       "firstName": "SauceLab First Name",
       "lastName": "SauceLab Last Name",
       "postalCode": "23245"
+    }
+  ],
+  "alice": [
+    {
+      "username": "alice@example.com",
+      "password": "10203040",
+      "firstName": "",
+      "lastName": "",
+      "postalCode": ""
     }
   ]
 }

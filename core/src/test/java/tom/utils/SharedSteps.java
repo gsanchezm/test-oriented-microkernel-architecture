@@ -2,15 +2,10 @@ package tom.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import config.TOMException;
-import interfaces.tasks.ITask;
-import interfaces.validations.IValidation;
-import services.tasks.TaskResolver;
-import services.validations.ValidationResolver;
 import tom.authentication.dao.UserInformation;
 import tom.inventory.dao.Product;
 import tom.inventory.dao.ProductList;
 import tom.services.TestContext;
-import tom.services.TestDataContext;
 import utils.JsonDataLoader;
 
 import java.util.List;
@@ -21,24 +16,31 @@ import java.util.stream.Collectors;
 
 public class SharedSteps {
     protected final TestContext testContext;
-    protected final Map<Class<?>, ITask<?>> taskMap;
-    protected final Map<Class<?>, IValidation<?>> validationMap;
     protected static final ThreadLocal<UserInformation> user = new ThreadLocal<>();
     protected static final ThreadLocal<Product> product = new ThreadLocal<>();
     private static final String USER_DATA_FILE = "data/user.json";
 
     public SharedSteps(TestContext testContext) {
         this.testContext = testContext;
-        this.taskMap = TaskResolver.toTaskMap(testContext.getRegisteredTasks());
-        this.validationMap = ValidationResolver.toValidationMap(testContext.getRegisteredValidations());
     }
 
-    public UserInformation getUserData() {
-        return getUserDataList(TestDataContext.getPlatform().equals("web")?
-                "standard_user":"bod")
+    public UserInformation getDefaultUser() {
+        String defaultUserKey = getPlatformKey().equals("web") ? "standard_user" : "bod";
+        return getUserData(defaultUserKey);
+    }
+
+    public UserInformation getLockedUser() {
+        String lockedUserKey = getPlatformKey().equals("web") ? "locked_out_user" : "alice";
+        return getUserData(lockedUserKey);
+    }
+
+
+    public UserInformation getUserData(String userType) {
+        String effectiveUserKey = resolveUserKey(userType);
+        return getUserDataList(effectiveUserKey)
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new TOMException("No checkout data found for user"));
+                .orElseThrow(() -> new TOMException("❌ No data found for user type: " + userType));
     }
 
     public List<UserInformation> getUserDataList(String userType) {
@@ -77,5 +79,29 @@ public class SharedSteps {
 
     public List<Product> getProductsBelowPrice(double maxPrice) {
         return getFilteredProducts(product -> Double.parseDouble(product.getPrice()) < maxPrice);
+    }
+
+    private String resolveUserKey(String userType) {
+        String platform = getPlatformKey();
+
+        // Validate allowed keys for each platform
+        Map<String, List<String>> userMap = Map.of(
+                "web", List.of("standard_user", "locked_out_user"),
+                "mobile", List.of("bod", "alice")
+        );
+
+        if (!userMap.containsKey(platform)) {
+            throw new TOMException("❌ Unsupported platform: " + platform);
+        }
+
+        if (!userMap.get(platform).contains(userType)) {
+            throw new TOMException("❌ User type '" + userType + "' not available for platform: " + platform);
+        }
+
+        return userType;
+    }
+
+    private String getPlatformKey() {
+        return testContext.getCurrentPlatform().name().toLowerCase();
     }
 }

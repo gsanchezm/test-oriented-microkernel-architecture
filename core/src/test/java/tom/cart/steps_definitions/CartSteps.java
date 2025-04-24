@@ -1,14 +1,5 @@
 package tom.cart.steps_definitions;
 
-import mobile.authentication.tasks.PerformAuthentication;
-import mobile.authentication.tasks.PerformOpenSauceApp;
-import mobile.cart.tasks.PerformCheckout;
-import mobile.cart.tasks.PerformNavigationToCart;
-import mobile.cart.tasks.PerformRemoveProduct;
-import mobile.cart.validations.IsProductRemovedFromCart;
-import mobile.checkout.validations.IsUserOnCheckoutStepOne;
-import mobile.inventory.tasks.PerformAddItemToCart;
-import mobile.inventory.validations.IsProductAddedToCart;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -37,14 +28,14 @@ public class CartSteps extends SharedSteps {
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
         loadSelectedProducts();
-        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
+        TaskResolver.of("PerformOpenSauceApp").execute();
     }
 
-    @When("SauceLab user submit credentials {string} and {string}")
-    public void iSubmitCredentials(String username, String password) {
-        UserInformation getUser = getUserData();
+    @When("SauceLab user submit credentials")
+    public void iSubmitCredentials() {
+        UserInformation getUser = getDefaultUser();
         user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
-        TaskResolver.of(taskMap, PerformAuthentication.class)
+        TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
                 .execute();
@@ -52,17 +43,17 @@ public class CartSteps extends SharedSteps {
 
     @When("he has added items to the cart")
     public void heHasAddedItemsToTheCart() throws IOException {
-        selectedProducts.forEach(p -> TaskResolver.of(taskMap, PerformAddItemToCart.class)
+        selectedProducts.forEach(p -> TaskResolver.of("PerformAddItemToCart")
                 .with(p.getTitle())
                 .execute());
 
-        TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
+        TaskResolver.of("PerformNavigationToCart").execute();
     }
 
     @Then("the cart should display all added items with correct title and price")
     public void theCartShouldDisplayAllAddedItemsWithCorrectTitleAndPrice() {
         selectedProducts.forEach(p -> {
-                    then(ValidationResolver.of(validationMap, IsProductAddedToCart.class)
+                    then(ValidationResolver.of("IsProductAddedToCart")
                             .with(p.getTitle())
                             .validate())
                             .isTrue();
@@ -73,7 +64,7 @@ public class CartSteps extends SharedSteps {
     @When("he removes a product")
     public void heRemovesAProduct() {
         selectedProducts.forEach(p -> {
-                    TaskResolver.of(taskMap, PerformRemoveProduct.class)
+                    TaskResolver.of("PerformRemoveProduct")
                             .with(p.getTitle())
                             .execute();
                 }
@@ -82,19 +73,19 @@ public class CartSteps extends SharedSteps {
 
     @Then("the product should no longer appear in the cart")
     public void theProductShouldNoLongerAppearInTheCart() {
-        then(ValidationResolver.of(validationMap, IsProductRemovedFromCart.class)
+        then(ValidationResolver.of("IsProductRemovedFromCart")
                 .validate())
                 .isTrue();
     }
 
     @When("he proceed to checkout")
     public void heProceedToCheckout() {
-        TaskResolver.of(taskMap, PerformCheckout.class).execute();
+        TaskResolver.of("PerformCheckout").execute();
     }
 
     @Then("the checkout page should be displayed")
     public void theCheckoutPageShouldBeDisplayed() {
-        then(ValidationResolver.of(validationMap, IsUserOnCheckoutStepOne.class).validate()).isTrue();
+        then(ValidationResolver.of("IsUserOnCheckoutStepOne").validate()).isTrue();
 
     }
 

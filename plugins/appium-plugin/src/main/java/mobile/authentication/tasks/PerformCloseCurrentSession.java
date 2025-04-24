@@ -1,13 +1,20 @@
 package mobile.authentication.tasks;
 
+import enums.PlatformType;
 import framework.actions.MobileWaitUntil;
 import framework.actions.Tap;
 import general.screens.HamburgerMenuScreen;
 import general.screens.LogOutScreen;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformCloseCurrentSession extends BaseLogger implements ITask {
+public class PerformCloseCurrentSession extends BaseLogger implements ITask<PerformCloseCurrentSession>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
 
     @Override
     public PerformCloseCurrentSession execute(Object... args) {

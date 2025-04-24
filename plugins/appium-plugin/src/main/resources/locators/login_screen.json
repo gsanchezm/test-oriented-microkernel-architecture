@@ -10,5 +10,13 @@
   "loginButton": {
     "android": "accessibilityId:Tap to login with given credentials",
     "ios": ""
+  },
+  "errorLabel": {
+    "android": "androidUiAutomator:new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/nameErrorTV\")",
+    "ios": ""
+  },
+  "lockedUserErrorLabel": {
+    "android": "androidUiAutomator:new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/passwordErrorTV\")",
+    "ios": ""
   }
 }

@@ -1,12 +1,20 @@
 package web.authentication.validations;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.Obtain;
 import general.pages.LoginPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidation {
+public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidation<IsAuthErrorMessageDisplayed>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
+
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {
@@ -18,11 +26,6 @@ public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidati
         // Re-create page object every time to avoid stale references
         LoginPage loginPage = new LoginPage();
 
-        if (Obtain.text(loginPage.getErrorLabel()).equals(errorMessage)){
-            return true;
-        };
-
-        return false;
-
+        return Obtain.text(loginPage.getErrorLabel()).equals(errorMessage);
     }
 }

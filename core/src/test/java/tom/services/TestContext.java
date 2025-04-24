@@ -1,12 +1,14 @@
 package tom.services;
 
+import enums.PlatformType;
+import interfaces.init.ExecutionContextProvider;
 import interfaces.tasks.ITask;
 import interfaces.validations.IValidation;
 import tom.plugin_manager.PluginManager;
 
 import java.util.List;
 
-public class TestContext {
+public class TestContext implements ExecutionContextProvider {
 
     private static final ThreadLocal<TestContext> threadLocalContext =
             ThreadLocal.withInitial(TestContext::new);
@@ -34,5 +36,24 @@ public class TestContext {
 
     public List<IValidation<?>> getRegisteredValidations() {
         return registeredValidations;
+    }
+
+    @Override
+    public List<ITask<?>> getTasks() {
+        return TestContext.get().getRegisteredTasks();
+    }
+
+    @Override
+    public List<IValidation<?>> getValidations() {
+        return TestContext.get().getRegisteredValidations();
+    }
+
+    @Override
+    public PlatformType getCurrentPlatform() {
+        String platform = TestDataContext.getPlatform();
+        if (platform == null) {
+            throw new IllegalStateException("Platform is not set in TestDataContext.");
+        }
+        return PlatformType.valueOf(platform.toUpperCase());
     }
 }

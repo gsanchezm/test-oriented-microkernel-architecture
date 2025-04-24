@@ -1,10 +1,20 @@
 package mobile.authentication.validations;
 
 import config.TOMException;
+import enums.PlatformType;
+import framework.actions.Extract;
+import general.screens.LoginScreen;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.validations.IValidation;
 import utils.BaseLogger;
 
-public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidation {
+public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidation<IsAuthErrorMessageDisplayed>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
+
     @Override
     public boolean validate(Object... args) {
         if (args.length == 0 || args[0] == null) {
@@ -13,14 +23,12 @@ public class IsAuthErrorMessageDisplayed extends BaseLogger implements IValidati
 
         String errorMessage = (String) args[0];
 
-        // Re-create page object every time to avoid stale references
-        /*LoginPage loginPage = new LoginPage();
+        LoginScreen loginScreen = new LoginScreen();
 
-        if (Obtain.text(loginPage.getErrorLabel()).equals(errorMessage)){
-            return true;
-        };*/
-
-        return false;
-
+        try{
+            return errorMessage.contains(Extract.text(loginScreen.getErrorLabel()));
+        }catch (Exception e){
+            return errorMessage.replace(",","").contains(Extract.text(loginScreen.getLockedUserErrorLabel()));
+        }
     }
 }

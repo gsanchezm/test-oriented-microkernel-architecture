@@ -1,21 +1,24 @@
 package mobile.authentication.tasks;
 
 import config.TOMException;
+import enums.PlatformType;
 import framework.actions.MobileWaitUntil;
 import framework.actions.Tap;
 import framework.actions.Type;
 import general.screens.HamburgerMenuScreen;
 import general.screens.LoginScreen;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
-import org.openqa.selenium.WebElement;
 import utils.BaseLogger;
-
-import java.time.Duration;
-import java.util.function.Supplier;
 
 import static framework.actions.MobileWaitUntil.retryAction;
 
-public class PerformAuthentication extends BaseLogger implements ITask {
+public class PerformAuthentication extends BaseLogger implements ITask<PerformAuthentication>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.MOBILE;
+    }
 
     @Override
     public PerformAuthentication execute(Object... args) {

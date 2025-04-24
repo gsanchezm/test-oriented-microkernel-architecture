@@ -25,4 +25,12 @@ public class LoginScreen extends BaseScreen {
     public Supplier<WebElement> getLoginButton() {
         return element(locatorHelper.getLocator("loginButton", getPlatform()));
     }
+
+    public Supplier<WebElement> getErrorLabel() {
+        return element(locatorHelper.getLocator("errorLabel", getPlatform()));
+    }
+
+    public Supplier<WebElement> getLockedUserErrorLabel() {
+        return element(locatorHelper.getLocator("lockedUserErrorLabel", getPlatform()));
+    }
 }

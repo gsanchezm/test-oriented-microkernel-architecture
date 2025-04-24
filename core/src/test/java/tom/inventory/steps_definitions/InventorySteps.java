@@ -1,12 +1,5 @@
 package tom.inventory.steps_definitions;
 
-import mobile.authentication.tasks.PerformAuthentication;
-import mobile.authentication.tasks.PerformOpenSauceApp;
-import mobile.cart.tasks.PerformNavigationToCart;
-import mobile.cart.tasks.PerformRemoveProduct;
-import mobile.inventory.tasks.PerformAddItemToCart;
-import mobile.inventory.tasks.PerformProductsSort;
-import mobile.inventory.validations.IsProductAddedToCart;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -29,14 +22,14 @@ public class InventorySteps extends SharedSteps {
 
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
-        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
+        TaskResolver.of("PerformOpenSauceApp").execute();
     }
 
-    @When("SauceLab user submit credentials {string} and {string}")
-    public void iSubmitCredentials(String username, String password) {
-        UserInformation getUser = getUserData();
+    @When("SauceLab user submit credentials")
+    public void iSubmitCredentials() {
+        UserInformation getUser = getDefaultUser();
         user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
-        TaskResolver.of(taskMap, PerformAuthentication.class)
+        TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
                 .execute();
@@ -44,42 +37,42 @@ public class InventorySteps extends SharedSteps {
 
     @Given("he is on the inventory page")
     public void theUserIsOnTheInventoryPage() {
-        ValidationResolver.of(validationMap, mobile.inventory.validations.IsUserOnInventory.class).validate();
+        ValidationResolver.of("IsUserOnInventory").validate();
     }
 
     @Then("the user should see a list of available products")
     public void verifyProductListVisible() {
-        then(ValidationResolver.of(validationMap, mobile.inventory.validations.AreProductsDisplayed.class).validate()).isTrue();
+        then(ValidationResolver.of("AreProductsDisplayed").validate()).isTrue();
     }
 
     @When("the user adds the product {string} to the cart")
     public void addProductToCart(String productName) {
         product.set(new Product(EMPTY, productName,EMPTY,EMPTY));
-        TaskResolver.of(taskMap, PerformAddItemToCart.class).with(product.get().getTitle()).execute();
+        TaskResolver.of("PerformAddItemToCart").with(product.get().getTitle()).execute();
     }
 
     @Then("the cart should reflect the item {string}")
     public void verifyItemInCart(String productName) {
         product.set(new Product(EMPTY, productName,EMPTY,EMPTY));
-        TaskResolver.of(taskMap, PerformNavigationToCart.class).execute();
-        then(ValidationResolver.of(validationMap, IsProductAddedToCart.class).with(product.get().getTitle()).validate()).isTrue();
+        TaskResolver.of("PerformNavigationToCart").execute();
+        then(ValidationResolver.of("IsProductAddedToCart").with(product.get().getTitle()).validate()).isTrue();
     }
 
     @When("the user selects the sort option {string}")
     public void sortProducts(String sortOption) {
-        TaskResolver.of(taskMap, PerformProductsSort.class).with(sortOption).execute();
+        TaskResolver.of("PerformProductsSort").with(sortOption).execute();
 
     }
 
     @Then("the products should be sorted accordingly to {string}")
     public void theProductsShouldBeSortedAccordinglyTo(String sortOption) {
-        then(ValidationResolver.of(validationMap, mobile.inventory.validations.AreProductsSorted.class).with(sortOption).validate()).isTrue();
+        then(ValidationResolver.of("AreProductsSorted").with(sortOption).validate()).isTrue();
     }
 
     @Then("the displayed {string} price should be {string}")
     public void theDisplayedPriceShouldBe(String productName, String expectedPrice) {
         product.set(new Product(EMPTY,productName, EMPTY, expectedPrice));
-        then(ValidationResolver.of(validationMap, mobile.inventory.validations.IsProductInformationDisplayed.class).
+        then(ValidationResolver.of("IsProductInformationDisplayed").
                 with(product.get().getTitle()).
                 with(product.get().getDescription()).
                 with(product.get().getPrice())
@@ -89,7 +82,7 @@ public class InventorySteps extends SharedSteps {
     @And("the {string} must be removed")
     public void theMustBeRemoved(String productName) {
         product.set(new Product(EMPTY,productName, EMPTY, EMPTY));
-        TaskResolver.of(taskMap, PerformRemoveProduct.class)
+        TaskResolver.of("PerformRemoveProduct")
                 .with(product.get().getTitle())
                 .execute();
     }

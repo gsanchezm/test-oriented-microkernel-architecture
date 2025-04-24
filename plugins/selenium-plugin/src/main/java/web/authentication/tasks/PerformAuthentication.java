@@ -2,13 +2,20 @@ package web.authentication.tasks;
 
 import config.TOMException;
 
+import enums.PlatformType;
 import framework.actions.Click;
 import framework.actions.Enter;
 import general.pages.LoginPage;
+import interfaces.platform.IPlatformSpecific;
 import interfaces.tasks.ITask;
 import utils.BaseLogger;
 
-public class PerformAuthentication extends BaseLogger implements ITask {
+public class PerformAuthentication extends BaseLogger implements ITask<PerformAuthentication>, IPlatformSpecific {
+
+    @Override
+    public PlatformType getPlatform() {
+        return PlatformType.WEB;
+    }
 
     @Override
     public PerformAuthentication execute(Object... args) {

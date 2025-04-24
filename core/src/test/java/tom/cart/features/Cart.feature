@@ -6,7 +6,7 @@ Feature: Cart process
 
   Background:
     Given the application is launched
-    And SauceLab user submit credentials "standard_user" and "secret_sauce"
+    And SauceLab user submit credentials
     When he has added items to the cart
 
   Scenario: View items in the cart

@@ -15,6 +15,7 @@ import org.testng.annotations.*;
 import tom.plugin_manager.PluginManager;
 import tom.services.TestContext;
 import tom.services.TestDataContext;
+import utils.ExecutionContextRegistry;
 
 import java.util.List;
 
@@ -60,10 +61,11 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
 
             cleaner = PluginManager.getCleaner(platformType);
         } else {
-            logger.warn("\u26A0\uFE0F Platform {} is not enabled. Skipping WebDriver initialization.", platformType);
+            logger.warn("\u26A0\uFE0F Platform {} is not enabled. Skipping initialization.", platformType);
         }
 
-        TestContext.get(); // Sets up per-thread context
+        TestContext context = TestContext.get();         // ✅ Correct context instance
+        ExecutionContextRegistry.set(context);           // ✅ Register it once
 
         logger.info("Plugins Loaded: {}", PluginManager.getLoadedPlugins());
         logger.info("Total Tasks Registered: {}", TestContext.get().getRegisteredTasks().size());

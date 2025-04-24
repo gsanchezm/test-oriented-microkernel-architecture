@@ -3,33 +3,26 @@ package services.tasks;
 import interfaces.tasks.ITask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import utils.BaseResolver;
+import utils.ExecutionContextRegistry;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class TaskResolver {
     private static final Logger logger = LogManager.getLogger(TaskResolver.class);
 
-    public static Map<Class<?>, ITask<?>> toTaskMap(List<ITask<?>> taskList) {
-        return taskList.stream()
-                .collect(Collectors.toMap(
-                        ITask::getClass,
-                        task -> task,
-                        (existing, duplicate) -> existing
-                ));
+    public static <T extends ITask<?>> T getTask(Class<T> taskClass) {
+        @SuppressWarnings("unchecked")
+        List<T> tasks = (List<T>) ExecutionContextRegistry.get().getTasks();
+        return BaseResolver.resolve(tasks, taskClass);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends ITask<?>> T getTask(Map<Class<?>, ITask<?>> taskMap, Class<T> taskClass) {
-        return (T) taskMap.get(taskClass);
+    public static <T extends ITask<?>> FluentTaskExecutor<T> of(Class<T> taskClass) {
+        return new FluentTaskExecutor<>(getTask(taskClass));
     }
 
-    public static <T extends ITask<?>> FluentTaskExecutor<T> of(Map<Class<?>, ITask<?>> taskMap, Class<T> taskClass) {
-        T task = getTask(taskMap, taskClass);
-        if (task == null) {
-            logger.warn("Task not found: {}. It may be due to plugin deactivation.", taskClass.getSimpleName());
-            return new FluentTaskExecutor<>(null); // Will skip execution
-        }
+    public static FluentTaskExecutor<?> of(String simpleClassName) {
+        ITask<?> task = BaseResolver.resolveByName(ExecutionContextRegistry.get().getTasks(), simpleClassName);
         return new FluentTaskExecutor<>(task);
     }
 }

@@ -1,11 +1,5 @@
 package tom.authentication.steps_definitions;
 
-import mobile.authentication.tasks.PerformAuthentication;
-import mobile.authentication.tasks.PerformCloseCurrentSession;
-import mobile.authentication.tasks.PerformOpenSauceApp;
-import mobile.authentication.validations.IsAuthErrorMessageDisplayed;
-import mobile.authentication.validations.IsUserOnAuthentication;
-import mobile.inventory.validations.IsUserOnInventory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -26,14 +20,14 @@ public class AuthenticationSteps extends SharedSteps {
 
     @Given("the application is launched")
     public void theApplicationIsLaunched() {
-        TaskResolver.of(taskMap, PerformOpenSauceApp.class).execute();
+        TaskResolver.of("PerformOpenSauceApp").execute();
     }
 
     @When("SauceLab user submit credentials")
     public void iSubmitCredentials() {
-        UserInformation getUser = getUserData();
+        UserInformation getUser = getDefaultUser();
         user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
-        TaskResolver.of(taskMap, PerformAuthentication.class)
+        TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
                 .execute();
@@ -41,30 +35,40 @@ public class AuthenticationSteps extends SharedSteps {
 
     @When("SauceLab user submit empty credentials")
     public void iSubmitEmptyCredentials() {
-        TaskResolver.of(taskMap, PerformAuthentication.class)
-                .with("")
-                .with("")
+        TaskResolver.of("PerformAuthentication")
+                .with(EMPTY)
+                .with(EMPTY)
+                .execute();
+    }
+
+    @When("SauceLab user submit locked credentials")
+    public void saucelabUserSubmitLockedCredentials() {
+        UserInformation getUser = getLockedUser();
+        user.set(new UserInformation(getUser.getUsername(), getUser.getPassword(), EMPTY, EMPTY, EMPTY));
+        TaskResolver.of("PerformAuthentication")
+                .with(user.get().getUsername())
+                .with(user.get().getPassword())
                 .execute();
     }
 
     @Then("the system should grant access")
     public void theSystemShouldGrantAccessOrShowAnError() {
-        then(ValidationResolver.of(validationMap, IsUserOnInventory.class).validate()).isTrue();
+        then(ValidationResolver.of("IsUserOnInventory").validate()).isTrue();
     }
 
     @When("he log out")
     public void iLogOut() {
-        TaskResolver.of(taskMap, PerformCloseCurrentSession.class).execute();
+        TaskResolver.of("PerformCloseCurrentSession").execute();
     }
 
     @Then("the system should return to the login page")
     public void theSystemShouldReturnToTheLoginPage() {
-        then(ValidationResolver.of(validationMap, IsUserOnAuthentication.class).validate()).isTrue();
+        then(ValidationResolver.of("IsUserOnAuthentication").validate()).isTrue();
     }
 
     @Then("the system should show the error {string}")
     public void theSystemShouldShowTheError(String errorText) {
-        then(ValidationResolver.of(validationMap, IsAuthErrorMessageDisplayed.class).
+        then(ValidationResolver.of("IsAuthErrorMessageDisplayed").
                 with(errorText).validate()).isTrue();
     }
 }
