@@ -17,8 +17,7 @@
         "appium:appWaitDuration": 60000,
         "appium:adbExecTimeout": 60000,
         "appWaitForLaunch": true,
-        "autoLaunch": true,
-        "appium:noReset": false
+        "autoLaunch": true
       }
     }
   ]

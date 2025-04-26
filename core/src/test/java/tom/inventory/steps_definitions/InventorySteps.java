@@ -9,6 +9,7 @@ import services.validations.ValidationResolver;
 import tom.authentication.dao.UserInformation;
 import tom.inventory.dao.Product;
 import tom.services.TestContext;
+import tom.services.TestDataContext;
 import tom.utils.SharedSteps;
 
 import static config.Constants.EMPTY;
@@ -32,6 +33,7 @@ public class InventorySteps extends SharedSteps {
         TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
+                .with(TestDataContext.getPlatformVariant())
                 .execute();
     }
 

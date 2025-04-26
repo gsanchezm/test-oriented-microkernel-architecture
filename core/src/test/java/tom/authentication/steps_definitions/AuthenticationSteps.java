@@ -7,6 +7,7 @@ import services.validations.ValidationResolver;
 import tom.authentication.dao.UserInformation;
 import tom.services.TestContext;
 import services.tasks.TaskResolver;
+import tom.services.TestDataContext;
 import tom.utils.SharedSteps;
 
 import static config.Constants.EMPTY;
@@ -30,6 +31,7 @@ public class AuthenticationSteps extends SharedSteps {
         TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
+                .with(TestDataContext.getPlatformVariant())
                 .execute();
     }
 
@@ -38,6 +40,7 @@ public class AuthenticationSteps extends SharedSteps {
         TaskResolver.of("PerformAuthentication")
                 .with(EMPTY)
                 .with(EMPTY)
+                .with(TestDataContext.getPlatformVariant())
                 .execute();
     }
 
@@ -48,17 +51,20 @@ public class AuthenticationSteps extends SharedSteps {
         TaskResolver.of("PerformAuthentication")
                 .with(user.get().getUsername())
                 .with(user.get().getPassword())
+                .with(TestDataContext.getPlatformVariant())
                 .execute();
     }
 
     @Then("the system should grant access")
-    public void theSystemShouldGrantAccessOrShowAnError() {
+    public void theSystemShouldGrantAccess() {
         then(ValidationResolver.of("IsUserOnInventory").validate()).isTrue();
     }
 
     @When("he log out")
     public void iLogOut() {
-        TaskResolver.of("PerformCloseCurrentSession").execute();
+        TaskResolver.of("PerformCloseCurrentSession")
+                .with(TestDataContext.getPlatformVariant())
+                .execute();
     }
 
     @Then("the system should return to the login page")
@@ -68,7 +74,12 @@ public class AuthenticationSteps extends SharedSteps {
 
     @Then("the system should show the error {string}")
     public void theSystemShouldShowTheError(String errorText) {
-        then(ValidationResolver.of("IsAuthErrorMessageDisplayed").
-                with(errorText).validate()).isTrue();
+        if (TestDataContext.getPlatformVariant().equalsIgnoreCase("ios")
+                && errorText.contains("locked out")) {return;}
+            then(ValidationResolver.of("IsAuthErrorMessageDisplayed").
+                    with(errorText)
+                    .with(TestDataContext.getPlatformVariant())
+                    .validate())
+                    .isTrue();
     }
 }

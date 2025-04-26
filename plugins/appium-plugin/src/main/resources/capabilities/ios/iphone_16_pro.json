@@ -9,7 +9,9 @@
         "appium:automationName": "XCUITest",
         "appium:app": "",
         "appium:launchTimeout": 50000,
-        "appium:newCommandTimeout": "12000"
+        "appium:newCommandTimeout": 12000,
+        "appWaitForLaunch": true,
+        "autoLaunch": true
       }
     }
   ]

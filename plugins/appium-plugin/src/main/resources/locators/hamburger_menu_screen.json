@@ -1,10 +1,10 @@
 {
   "hamburgerMenu": {
     "android": "id:com.saucelabs.mydemoapp.android:id/menuIV",
-    "ios": ""
+    "ios": "accessibilityId:More-tab-item"
   },
   "menuItems": {
     "android": "className:android.widget.TextView",
-    "ios": "iosClassChain:**/XCUIElementTypeStaticText"
+    "ios": "className:XCUIElementTypeOther"
   }
 }

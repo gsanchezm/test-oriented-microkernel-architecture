@@ -49,6 +49,7 @@ public abstract class BaseTestRunner extends AbstractTestNGCucumberTests {
 
         PlatformType platformType = PlatformType.valueOf(platform.toUpperCase());
         TestDataContext.setPlatform(platform.toLowerCase());
+        TestDataContext.setPlatformVariant(platformVariant.toLowerCase());
 
         if (PluginManager.isPlatformEnabled(platformType)) {
             IInitializeBase initializer = PluginManager.getInitializer(platformType);

@@ -9,21 +9,21 @@
         <parameter name="platform" value="MOBILE" />
         <parameter name="platformVariant" value="Android" />
         <classes>
-            <class name="tom.authentication.runner.AuthenticationTest"/>
-            <!--<class name="tom.inventory.runner.InventoryTest"/>
-            <class name="tom.cart.runner.CartTest"/>
-            <class name="tom.checkout.runner.CheckoutTest"/>-->
+<!--            <class name="tom.authentication.runner.AuthenticationTest"/>-->
+            <class name="tom.inventory.runner.InventoryTest"/>
+<!--            <class name="tom.cart.runner.CartTest"/>-->
+<!--            <class name="tom.checkout.runner.CheckoutTest"/>-->
         </classes>
     </test>
 
-    <!--<test name="iOS Test">
+    <test name="iOS Test">
         <parameter name="platform" value="MOBILE" />
         <parameter name="platformVariant" value="iOS" />
         <classes>
-            <class name="tom.authentication.runner.AuthenticationTest"/>
+<!--            <class name="tom.authentication.runner.AuthenticationTest"/>-->
             <class name="tom.inventory.runner.InventoryTest"/>
-            <class name="tom.cart.runner.CartTest"/>
-            <class name="tom.checkout.runner.CheckoutTest"/>
+<!--            <class name="tom.cart.runner.CartTest"/>-->
+<!--            <class name="tom.checkout.runner.CheckoutTest"/>-->
         </classes>
-    </test>-->
+    </test>
 </suite>

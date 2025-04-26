@@ -1,14 +1,11 @@
 {
   "logOutLabel": {
-    "android": "id:com.saucelabs.mydemoapp.android:id/alertTitle",
-    "ios": ""
+    "android": "id:com.saucelabs.mydemoapp.android:id/alertTitle"
   },
   "cancelButton": {
-    "android": "id:android:id/button2",
-    "ios": ""
+    "android": "id:android:id/button2"
   },
   "logOutButton": {
-    "android": "id:android:id/button1",
-    "ios": ""
+    "android": "id:android:id/button1"
   }
 }

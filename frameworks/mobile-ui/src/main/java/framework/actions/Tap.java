@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 import static java.util.Collections.singletonList;
 
-public class Tap {
+public class Tap extends MobileWaitUntil{
 
     private static final int MAX_RETRIES = 3;
     private static final Duration RETRY_DELAY = Duration.ofMillis(600);
@@ -30,7 +30,10 @@ public class Tap {
             List<WebElement> elements = elementsSupplier.get();
 
             Optional<WebElement> found = elements.stream()
-                    .filter(e -> expectedText.equalsIgnoreCase(e.getText()))
+                    .filter(e -> {
+                        String text = MobileTextHelper.getVisibleText(e);
+                        return text != null && text.toLowerCase().contains(expectedText.toLowerCase());
+                    })
                     .findFirst();
 
             if (found.isEmpty()) {

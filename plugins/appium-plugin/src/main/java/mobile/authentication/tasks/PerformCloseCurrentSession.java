@@ -18,7 +18,13 @@ public class PerformCloseCurrentSession extends BaseLogger implements ITask<Perf
 
     @Override
     public PerformCloseCurrentSession execute(Object... args) {
-        String LogOutMenu = "Log Out";
+
+        String platformVariant = args.length > 0 && args[0] != null
+                ? args[0].toString().toLowerCase()
+                : "android"; // default fallback
+
+        String LOGOUT_MENU = "Log Out";
+        String LOGIN_MENU = "Login";
 
         // Re-create page object every time to avoid stale references
         HamburgerMenuScreen hamburgerMenuScreen = new HamburgerMenuScreen();
@@ -26,7 +32,13 @@ public class PerformCloseCurrentSession extends BaseLogger implements ITask<Perf
         // Perform LogOut Actions
         MobileWaitUntil.elementExists(hamburgerMenuScreen.getHamburgerMenu());
         Tap.on(hamburgerMenuScreen.getHamburgerMenu());
-        Tap.onElementWithText(hamburgerMenuScreen::getAllMenuItems, LogOutMenu);
+
+        if(platformVariant.equalsIgnoreCase("ios")){
+            Tap.onElementWithText(hamburgerMenuScreen::getAllMenuItems, LOGIN_MENU);
+            return this;
+        }
+
+        Tap.onElementWithText(hamburgerMenuScreen::getAllMenuItems, LOGOUT_MENU);
 
         LogOutScreen logOutScreen = new LogOutScreen();
         MobileWaitUntil.elementExists(logOutScreen.getLogOutLabel());

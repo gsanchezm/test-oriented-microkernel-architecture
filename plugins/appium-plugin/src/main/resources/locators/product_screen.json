@@ -1,7 +1,7 @@
 {
   "logoAndNameImage": {
     "android": "id:com.saucelabs.mydemoapp.android:id/mTvTitle",
-    "ios": "accessibilityId:loginUsername"
+    "ios": "accessibilityId:AppTitle Icons"
   },
   "productsInfo": {
     "android": "className:android.view.ViewGroup",

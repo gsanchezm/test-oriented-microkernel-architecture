@@ -1,22 +1,24 @@
 {
   "usernameInput": {
     "android": "id:com.saucelabs.mydemoapp.android:id/nameET",
-    "ios": ""
+    "ios": "iosNsPredicate:type == \"XCUIElementTypeTextField\""
   },
   "passwordInput": {
     "android": "id:com.saucelabs.mydemoapp.android:id/passwordET",
-    "ios": ""
+    "ios": "iosNsPredicate:type == \"XCUIElementTypeSecureTextField\""
   },
   "loginButton": {
     "android": "accessibilityId:Tap to login with given credentials",
-    "ios": ""
+    "ios": "iosClassChain:**/XCUIElementTypeButton[`name == \"Login\"`]"
   },
   "errorLabel": {
     "android": "androidUiAutomator:new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/nameErrorTV\")",
-    "ios": ""
+    "ios": "iosClassChain:**/XCUIElementTypeStaticText[`name == \"Username is required\"`]"
   },
   "lockedUserErrorLabel": {
-    "android": "androidUiAutomator:new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/passwordErrorTV\")",
-    "ios": ""
+    "android": "androidUiAutomator:new UiSelector().resourceId(\"com.saucelabs.mydemoapp.android:id/passwordErrorTV\")"
+  },
+  "okButton": {
+    "ios": "name:OK"
   }
 }
