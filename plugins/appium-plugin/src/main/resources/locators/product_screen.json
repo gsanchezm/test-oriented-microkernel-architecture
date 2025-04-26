@@ -1,26 +1,29 @@
 {
-  "logoAndNameImage": {
-    "android": "id:com.saucelabs.mydemoapp.android:id/mTvTitle",
-    "ios": "accessibilityId:AppTitle Icons"
-  },
-  "productsInfo": {
-    "android": "className:android.view.ViewGroup",
-    "ios": "accessibilityId:loginPassword"
-  },
-  "productImage": {
-    "android": "className:android.widget.ImageView",
-    "ios": "accessibilityId:loginBtn"
-  },
-  "productTitle": {
-    "android": "id:com.saucelabs.mydemoapp.android:id/titleTV",
-    "ios": "accessibilityId:loginBtn"
+  "productColors": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/colorIV",
+    "ios": "className:XCUIElementTypeButton"
   },
   "productPrice": {
     "android": "id:com.saucelabs.mydemoapp.android:id/priceTV",
-    "ios": "accessibilityId:loginBtn"
+    "ios": "name:Price"
   },
-  "productStars": {
-    "android": "id:com.saucelabs.mydemoapp.android:id/rattingV",
-    "ios": "accessibilityId:loginBtn"
+  "productAmount": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/noTV",
+    "ios": "name:Amount"
+  },
+  "addToCartButton": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/cartBt",
+    "ios": "accessibilityId:AddToCart"
+  },
+  "productHighlights": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/productHeightLightsTV",
+    "ios": "name:Product Highlights"
+  },
+  "productHighlightLabel": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/descTV",
+    "ios": "className:XCUIElementTypeTextView"
+  },
+  "backButton": {
+    "ios": "accessibilityId:BackButton Icons"
   }
 }

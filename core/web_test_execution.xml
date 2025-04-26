@@ -5,7 +5,7 @@
         <listener class-name="listeners.TestListener"/>
         <listener class-name="listeners.AnnotationTransform"/>
    </listeners>
-    <test name="Chrome Web Test">
+    <!--<test name="Chrome Web Test">
         <parameter name="platform" value="WEB" />
         <parameter name="platformVariant" value="Chrome" />
         <classes>
@@ -19,6 +19,17 @@
     <test name="Edge Web Test">
         <parameter name="platform" value="WEB" />
         <parameter name="platformVariant" value="Edge" />
+        <classes>
+            <class name="tom.authentication.runner.AuthenticationTest"/>
+            <class name="tom.inventory.runner.InventoryTest"/>
+            <class name="tom.cart.runner.CartTest"/>
+            <class name="tom.checkout.runner.CheckoutTest"/>
+        </classes>
+    </test>-->
+
+    <test name="Safari Responsive Web Test">
+        <parameter name="platform" value="WEB" />
+        <parameter name="platformVariant" value="Safari_Responsive" />
         <classes>
             <class name="tom.authentication.runner.AuthenticationTest"/>
             <class name="tom.inventory.runner.InventoryTest"/>

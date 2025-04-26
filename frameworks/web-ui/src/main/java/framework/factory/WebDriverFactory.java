@@ -2,6 +2,7 @@ package framework.factory;
 
 import config.TOMException;
 import framework.core.IDriver;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.reflections.Reflections;
 import utils.BaseLogger;
@@ -29,12 +30,14 @@ public class WebDriverFactory extends BaseLogger {
     public void setWebDriver(String browser) {
         logger.info("🌐 Creating WebDriver: " + browser);
         try {
+            String normalizedBrowser = browser.toLowerCase().replace("_responsive", "").replace(" responsive", "").trim();
+
             // Get all available driver implementations
             Set<Class<? extends IDriver>> driverInterfaces = new Reflections(IDriver.class).getSubTypesOf(IDriver.class);
 
             // Find the matching driver class
             Class<? extends IDriver> matchedDriver = driverInterfaces.stream()
-                    .filter(driver -> driver.getSimpleName().toLowerCase().contains(browser.toLowerCase()))
+                    .filter(driver -> driver.getSimpleName().toLowerCase().contains(normalizedBrowser))
                     .findFirst()
                     .orElseThrow(() -> new TOMException("No WebDriver found for browser: " + browser));
 
@@ -42,14 +45,21 @@ public class WebDriverFactory extends BaseLogger {
             IDriver driverInstance = matchedDriver.getDeclaredConstructor().newInstance();
             webDriver.set(driverInstance.createDriver());
 
+            // It's close to iPhone X, Galaxy S21, Pixel 5
+            if(browser.toLowerCase().contains("responsive")){
+                logger.info("📱 Responsive mode detected: setting window size to 375x812");
+                webDriver.get().manage().window().setSize(new Dimension(375, 812));
+                return;
+            }
+
             // Maximize browser window
             webDriver.get().manage().window().maximize();
+            logger.info("🖥️ Window maximized successfully");
 
         } catch (ReflectiveOperationException e) {
             throw new TOMException("Error initializing WebDriver for browser: " + browser, e);
         }
     }
-
 
     public void removeWebDriver() {
         Optional.ofNullable(webDriver.get()).ifPresent(driver -> {

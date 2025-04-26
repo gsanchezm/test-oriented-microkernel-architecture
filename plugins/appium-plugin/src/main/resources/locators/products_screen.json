@@ -1,0 +1,34 @@
+{
+  "logoAndNameImage": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/mTvTitle",
+    "ios": "accessibilityId:AppTitle Icons"
+  },
+  "productList": {
+    "android": "className:android.view.ViewGroup",
+    "ios": "className:XCUIElementTypeCell"
+  },
+  "productImage": {
+    "android": "className:android.widget.ImageView",
+    "ios": "className:XCUIElementTypeImage"
+  },
+  "productTitle": {
+    "android": "accessibilityId:Product Title",
+    "ios": "name:Product Name"
+  },
+  "productPrice": {
+    "android": "accessibilityId:Product Price",
+    "ios": "name:Product Price"
+  },
+  "productStarsSelected": {
+    "android": "className: android.widget.ImageView" ,
+    "ios": "name:StarSelected Icons"
+  },
+  "productStarsUnselected": {
+    "android": "",
+    "ios": "name:StarUnSelected Icons"
+  },
+  "sortContainer": {
+    "android": "id:com.saucelabs.mydemoapp.android:id/sortIV",
+    "ios": "iosClassChain:**/XCUIElementTypeButton[`name == \"Button\"`]"
+  }
+}

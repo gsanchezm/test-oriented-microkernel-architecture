@@ -21,7 +21,7 @@
         <parameter name="platformVariant" value="iOS" />
         <classes>
 <!--            <class name="tom.authentication.runner.AuthenticationTest"/>-->
-            <class name="tom.inventory.runner.InventoryTest"/>
+<!--            <class name="tom.inventory.runner.InventoryTest"/>-->
 <!--            <class name="tom.cart.runner.CartTest"/>-->
 <!--            <class name="tom.checkout.runner.CheckoutTest"/>-->
         </classes>
